@@ -1,0 +1,50 @@
+﻿@* Generator: MvcView *@
+@using Locust.WebExtensions;
+@{
+    ViewBag.PageTitle = "Page";
+    ViewBag.Css = true;
+    ViewBag.Js = true;
+}
+
+<h2>Using @ViewBag.CacheName</h2>
+<div class="container">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="txtKey">Key</label>
+            <input type="text" class="form-control" name="txtKey" id="txtKey" placeholder="">
+        </div>
+
+        <div class="form-group">
+            <label for="txtLifeLength">Life Length</label>
+            <input type="number" class="form-control" id="txtLifeLength" name="txtLifeLength" placeholder="in seconds e.g. 600">
+        </div>
+
+        <div class="form-group">
+            <label for="txtDependentKey">Dependent Key</label>
+            <input type="text" class="form-control" name="txtDependentKey" id="txtDependentKey" placeholder="">
+        </div>
+    </form>
+    <br />
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="txtValue">Value</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="txtValue" name="txtValue"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="text-center">
+        <button class="btn btn-default" id="btnAdd">Add</button>
+        <button class="btn btn-default" id="btnRemove">Remove</button>
+        <button class="btn btn-default" id="btnContains">Contains</button>
+        <button class="btn btn-default" id="btnGet">Get</button>
+        <button class="btn btn-default" id="btnTryGet" title="try to get cached item based on another cached item">TryGet</button>
+        <button class="btn btn-default" id="btnGetItem" title="Get cached item and its related setting">Get Item</button>
+        <button class="btn btn-default" id="btnClean" title="Clean cache (remove dead and expired items)">Clean</button>
+        <button class="btn btn-default" id="btnClear" title="Clear cache (remove all items)">Clear</button>
+        <button class="btn btn-default" id="btnCount" title="Get the number of items in the cache">Count</button>
+        <button class="btn btn-default" id="btnReset">Reset</button>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.Id" id="PageId" />
+<div id="divMessage"></div>

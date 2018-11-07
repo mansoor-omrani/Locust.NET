@@ -1,0 +1,50 @@
+﻿@* Generator: MvcView *@
+@using Locust.ConnectionString
+@using Locust.ConnectionString.Json
+@using Locust.WebExtensions;
+@using Newtonsoft.Json
+
+@{
+    ViewBag.PageTitle = "DbConnection";
+    ViewBag.Css = true;
+    ViewBag.Js = true;
+
+    var jsonConStrProvider = JsonConnectionStringProvider.Create();
+    var appConfigConStrProvider = new AppConfigConnectionStringProvider();
+    var inMemoryConStrProvider = Utils.CreateInMemoryConnectionStringProvider();
+}
+<h3>Manual Check</h3>
+<div class="form-inline" id="frm-manual-check">
+    <div class="form-group">
+        <label for="dataSource">Data Source</label>
+        <input type="text" class="form-control cnnstr-item" name="dataSource" id="dataSource" placeholder="Data Source" size="10">
+    </div>
+
+    <div class="form-group">
+        <label for="initialCatalog">Initial Catalog</label>
+        <input type="text" class="form-control cnnstr-item" name="initialCatalog" id="initialCatalog" placeholder="Initial Catalog" size="10">
+    </div>
+
+    <div class="form-group">
+        <label for="integratedSecurity">Integrated Security</label>
+        <input type="text" class="form-control cnnstr-item" name="integratedSecurity" id="integratedSecurity" placeholder="Integrated Security" size="10">
+    </div>
+
+    <div class="form-group">
+        <label for="userId">User Id</label>
+        <input type="text" class="form-control cnnstr-item" name="userId" id="userId" placeholder="User Id" size="10">
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="text" class="form-control cnnstr-item" name="password" id="password" placeholder="Password" size="10">
+    </div>
+
+    <button class="btn btn-default btn-sm btn-manual-check">Check</button>
+    <div id="manual-check-icon" style="display:inline"></div>
+</div>
+
+@Html.Partial("Provider", jsonConStrProvider)
+@Html.Partial("Provider", appConfigConStrProvider)
+@Html.Partial("Provider", inMemoryConStrProvider)
+

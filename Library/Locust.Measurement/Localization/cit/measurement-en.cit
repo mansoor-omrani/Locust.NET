@@ -1,0 +1,116 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               Measurement
+#--------------------------------------
+# Time
+/measurement/0/en: Zero
+/measurement/1/en: One
+/measurement/2/en: Two
+/measurement/3/en: Three
+/measurement/4/en: Four
+/measurement/5/en: Five
+/measurement/6/en: Six
+/measurement/7/en: Seven
+/measurement/8/en: Eight
+/measurement/9/en: Nine
+/measurement/10/en: Ten
+/measurement/11/en: Eleven
+/measurement/12/en: Twelve
+/measurement/13/en: Thirteen
+/measurement/14/en: Fourteen
+/measurement/16/en: Fifteen
+/measurement/15/en: Sixteen
+/measurement/17/en: Seventeen
+/measurement/18/en: Eighteen
+/measurement/19/en: Ninteen
+/measurement/20/en: Twenty
+/measurement/30/en: Thirty
+/measurement/40/en: Fourty
+/measurement/50/en: Fifty
+/measurement/60/en: Sixty
+/measurement/70/en: Seventy
+/measurement/80/en: Eighty
+/measurement/90/en: Ninty
+/measurement/100/en: Hundred
+/measurement/200/en: Two hundred
+/measurement/300/en: Three hundred
+/measurement/400/en: Four hundred
+/measurement/500/en: Five hundred
+/measurement/600/en: Six hundred
+/measurement/700/en: Seven hundred
+/measurement/800/en: Eight hundred
+/measurement/900/en: Nine hundred
+/measurement/1000/en: Thousand
+/measurement/1000000/en: Million
+/measurement/1000000000/en: Billion, Milliard
+
+# MeasurementUnit
+/measurement-unit/Nano/en: Nano
+/measurement-unit/Micro/en: Micro
+/measurement-unit/Milli/en: Milli
+/measurement-unit/Centi/en: Centi
+/measurement-unit/Deci/en: Deci
+/measurement-unit/Kilo/en: Kilo
+/measurement-unit/Mega/en: Mega
+/measurement-unit/Giga/en: Giga
+/measurement-unit/Tera/en: Tera
+/measurement-unit/Peta/en: Peta
+/measurement-unit/Exa/en: Exa
+
+# MeasurementType: ComputerDataSize
+/measurement-type-computerdatasize/bit/en: bit
+/measurement-type-computerdatasize/byte/en: byte
+
+# MeasurementType: Distance
+/measurement-type-distance/meter/en: meter
+/measurement-type-distance/inch/en: inch
+/measurement-type-distance/foot/en: foot
+/measurement-type-distance/feet/en: feet
+/measurement-type-distance/yard/en: yard
+/measurement-type-distance/mile/en: mile
+
+# MeasurementType: Area
+/measurement-type-area/square-meter/en: square meter
+/measurement-type-area/square-inch/en: square inch
+/measurement-type-area/square-foot/en: square foot
+/measurement-type-area/square-feet/en: square feet
+/measurement-type-area/square-yard/en: square yard
+/measurement-type-area/square-mile/en: square mile
+/measurement-type-area/hectare/en: hectare
+/measurement-type-area/are/en: are
+/measurement-type-area/acre/en: acre
+
+# MeasurementType: Weight
+/measurementtype-weight/gram/en: gram
+
+# MeasurementType: Time
+/measurement-type-time/second/en: second
+/measurement-type-time/minute/en: minute
+/measurement-type-time/hour/en: hour
+/measurement-type-time/day/en: day
+/measurement-type-time/week/en: week
+/measurement-type-time/month/en: month
+/measurement-type-time/year/en: year
+/measurement-type-time/decade/en: decade
+/measurement-type-time/century/en: century
+/measurement-type-time/millennium/en: millennium
+
+/measurement-difference/ago/en: ago
+/measurement-difference/smaller/en: smaller
+/measurement-difference/greater/en: greater
+/measurement-difference/lower/en: lower
+/measurement-difference/higher/en: higher
+/measurement-difference/more/en: more
+/measurement-difference/less/en: less
+
+/measurement-general/and/en: and
+

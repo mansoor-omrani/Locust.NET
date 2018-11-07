@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Locust.Shetab.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Locust_ShetabPayment_ir_shaparak_pec_EShopService" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://pec.shaparak.ir/pecvipgateway/eshopservice.asmx</Value>
+    </Setting>
+    <Setting Name="Locust_Shetab_ir_shaparak_pec_EShopService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://pec.shaparak.ir/pecvipgateway/eshopservice.asmx</Value>
+    </Setting>
+    <Setting Name="Locust_Shetab_ir_shaparak_sep_PaymentIFBinding" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://sep.shaparak.ir/payments/referencepayment.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

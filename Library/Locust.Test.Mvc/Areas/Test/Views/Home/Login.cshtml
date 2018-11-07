@@ -1,0 +1,32 @@
+﻿@* Generator: MvcView *@
+@model Locust.Test.Models.LoginViewModel
+@{
+    ViewBag.PageTitle = "Login";
+    Layout = "~/Areas/Test/Views/Shared/_NotAuthenticatedLayout.cshtml";
+    var returnUrl = "?returnurl=" + ViewData["returnurl"]?.ToString() ?? "";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+            @if (ViewData["Message"] != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Message</div>
+            }
+            <form class="form-horizontal" action="@Localize("/test/home/login" + returnUrl)" method="post">
+                <div class="form-group">
+                    <label for="username" class="control-label">UserName</label>
+                    <input type="text" class="form-control" name="username" id="username" value="@Model.UserName" />
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="control-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="password" />
+                </div>
+
+                <button type="submit" class="btn btn-default btn-md">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+

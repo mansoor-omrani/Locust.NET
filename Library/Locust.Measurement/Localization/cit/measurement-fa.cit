@@ -1,0 +1,114 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               Numbers
+#--------------------------------------
+/measurement/0/fa: صفر
+/measurement/1/fa: یک, يک
+/measurement/2/fa: دو
+/measurement/3/fa: سه
+/measurement/4/fa: چهار
+/measurement/6/fa: شش
+/measurement/5/fa: پنج
+/measurement/7/fa: هفت
+/measurement/8/fa: هشت
+/measurement/9/fa: نه
+/measurement/10/fa: ده
+/measurement/11/fa: یازده
+/measurement/12/fa: دوازده
+/measurement/13/fa: سیزده
+/measurement/14/fa: چهارده
+/measurement/16/fa: پانزده
+/measurement/15/fa: شانزده
+/measurement/17/fa: هفده
+/measurement/18/fa: هجده
+/measurement/19/fa: نوزده
+/measurement/20/fa: بیست
+/measurement/30/fa: سی
+/measurement/40/fa: چهل
+/measurement/50/fa: پنجاه
+/measurement/60/fa: شصت
+/measurement/70/fa: هفتاد
+/measurement/80/fa: هشتاد
+/measurement/90/fa: نود
+/measurement/100/fa: صد
+/measurement/200/fa: دویست
+/measurement/300/fa: سیصد
+/measurement/400/fa: چهارصد
+/measurement/500/fa: پانصد
+/measurement/600/fa: ششصد
+/measurement/700/fa: هفتصد
+/measurement/800/fa: هشتصد
+/measurement/900/fa: نهصد
+/measurement/1000/fa: هزار
+/measurement/1000000/fa: میلیون
+/measurement/1000000000/fa: میلیارد, بیلیون
+
+# MeasurementUnit
+/measurement-unit/Nano/fa: نانو
+/measurement-unit/Micro/fa: میکرو
+/measurement-unit/Milli/fa: میلی
+/measurement-unit/Centi/fa: سانتی
+/measurement-unit/Deci/fa: دسی
+/measurement-unit/Kilo/fa: کیلو
+/measurement-unit/Mega/fa: مگا
+/measurement-unit/Giga/fa: گیگا
+/measurement-unit/Tera/fa: ترا
+/measurement-unit/Peta/fa: پتا
+/measurement-unit/Exa/fa: اگزا
+
+# MeasurementType: ComputerDataSize
+/measurement-type-computerdatasize/bit/fa: بیت
+/measurement-type-computerdatasize/byte/fa: بایت
+
+# MeasurementType: Distance
+/measurement-type-distance/meter/fa: متر
+/measurement-type-distance/inch/fa: اینچ
+/measurement-type-distance/foot/fa: فوت
+/measurement-type-distance/feet/fa: فوت
+/measurement-type-distance/yard/fa: یارد
+/measurement-type-distance/mile/fa: مایل
+
+# MeasurementType: Area
+/measurement-type-area/square-meter/fa: متر مربع
+/measurement-type-area/square-inch/fa: اینچ مربع
+/measurement-type-area/square-foot/fa: فوت مربع
+/measurement-type-area/square-feet/fa: فوت مربع
+/measurement-type-area/square-yard/fa: یارد مربع
+/measurement-type-area/square-mile/fa: مایل مربع
+/measurement-type-area/hectare/fa: هکتار
+/measurement-type-area/are/fa: آر
+/measurement-type-area/acre/fa: اکر
+
+# MeasurementType: Weight
+/measurementtype-weight/gram/fa: گرم
+
+# MeasurementType: Time
+/measurement-type-time/second/fa: ثانیه
+/measurement-type-time/minute/fa: دقیقه
+/measurement-type-time/hour/fa: ساعت
+/measurement-type-time/day/fa: روز
+/measurement-type-time/week/fa: هفته
+/measurement-type-time/month/fa: ماه
+/measurement-type-time/year/fa: سال
+/measurement-type-time/decade/fa: دهه
+/measurement-type-time/century/fa: قرن
+/measurement-type-time/millennium/fa: هزاره
+
+/measurement-difference/ago/fa: پیش
+/measurement-difference/smaller/fa: کوچکتر
+/measurement-difference/greater/fa: بزرگتر
+/measurement-difference/lower/fa: پایین‌تر
+/measurement-difference/higher/fa: بالاتر
+/measurement-difference/more/fa: بیشتر
+/measurement-difference/less/fa: کمتر
+
+/measurement-general/and/fa: و

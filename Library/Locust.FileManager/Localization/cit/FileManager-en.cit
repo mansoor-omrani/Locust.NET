@@ -1,0 +1,100 @@
+﻿/FileManager/ForbiddenPath/en: Access to to {path} is forbidden.
+
+/FileManagerCreateDir/Success/en: Directory {path} was created succesfully.
+/FileManagerCreateDir/Failed/en: Creating {path} directory failed.
+/FileManagerCreateDir/AlreadyExists/en: Directory {path} already exists.
+
+/FileManagerDeleteDir/Success/en: Directory {path} was deleted succesfully.
+/FileManagerDeleteDir/Failed/en: Deleting directory {path} failed.
+/FileManagerDeleteDir/HasSubDirs/en: Directory {path} is not empty. There are some sub-directories in it.
+/FileManagerDeleteDir/HasFiles/en: Directory {path} is not empty. There are some files in it.
+/FileManagerDeleteDir/NotExists/en: Directory {path} does not exist.
+/FileManagerDeleteDir/Forbidden/en: You cannot delete {path} directory.
+
+/FileManagerDeleteFile/Success/en: File {path} was deleted succesfully.
+/FileManagerDeleteFile/Failed/en: Deleting file {path} failed.
+/FileManagerDeleteFile/NotExists/en: File {path} does not exist.
+
+/FileManagerDeleteFiles/Success/en: All file(s) were deleted successfully.
+/FileManagerDeleteFiles/Failed/en: Deleting file(s) failed.
+/FileManagerDeleteFiles/NoPaths/en: No file is given to be deleted.
+/FileManagerDeleteFiles/Errored/en: None of the files deleted.
+/FileManagerDeleteFiles/PartialSuccess/en: {successCount} files were deleted. Deleting the rest {failedCount} files failed.
+
+/FileManagerDirExists/Success/en: Directory {path} exists.
+/FileManagerDirExists/Failed/en: Checking the existence of directory {path} failed.
+/FileManagerDirExists/NotExists/en: Directory {path} does not exist.
+
+/FileManagerDirInfo/Success/en: Information for directory {path} retrieved successfully.
+/FileManagerDirInfo/Failed/en: Getting the information for directory {path} failed.
+/FileManagerDirInfo/NotExists/en: Directory {path} does not exist.
+
+/FileManagerDirSize/Success/en: The total size of directory {path} calculated successfully.
+/FileManagerDirSize/Failed/en: Calculating the size of directory {path} failed.
+/FileManagerDirSize/NotExists/en: Directory {path} does not exist.
+
+/FileManagerFileExists/Success/en: File {path} exists.
+/FileManagerFileExists/Failed/en: Checking the existence of file {path} failed.
+/FileManagerFileExists/NotExists/en: File {path} does not exist.
+
+/FileManagerFileInfo/Success/en: Information for the file {path} was retrieved successfully.
+/FileManagerFileInfo/Failed/en: Retrieving the information for file {path} failed.
+/FileManagerFileInfo/NotExists/en: File {path} does not exist.
+
+/FileManagerFileInfos/Success/en: Information for the requested files was retrieved successfully.
+/FileManagerFileInfos/Failed/en: Retrieving the information for requested files failed.
+/FileManagerFileInfos/PathNotFound/en: Requested path {path} not found.
+
+/FileManagerGetFile/Success/en: File {path} was fetched successfully.
+/FileManagerGetFile/Failed/en: Reading the content of file {path} failed.
+/FileManagerGetFile/NotExists/en: File {path} does not exist.
+/FileManagerGetFile/Cancelled/en: Reading the content of file {path} was cancelled.
+
+/FileManagerGetFiles/Success/en: List of files in {path} was retrieved successfully.
+/FileManagerGetFiles/Failed/en: Reading list of files in {path} failed.
+/FileManagerGetFiles/PathNotFound/en: Path {path} was not found.
+
+/FileManagerGetSubDirectories/Success/en: List of sub-directories in {path} was retrieved successfully.
+/FileManagerGetSubDirectories/Failed/en: Reading the list of sub-directories in {path} failed.
+/FileManagerGetSubDirectories/NotExists/en: Path {path} was not found.
+
+/FileManagerMoveDir/Success/en: Directory {path} was moved to {newpath} successfully.
+/FileManagerMoveDir/Failed/en: Moving directory {path} to {newpath} failed.
+/FileManagerMoveDir/Forbidden/en: You cannot move root directory {path} to somewhere else.
+/FileManagerMoveDir/TargetExists/en: Target {newpath} already exists.
+/FileManagerMoveDir/NotExists/en: Directory {path} does not exist.
+
+/FileManagerMoveFile/Success/en: File {path} was moved to {newpath} successfully.
+/FileManagerMoveFile/Failed/en: Moving file {path} to {newpath} failed.
+/FileManagerMoveFile/TargetExists/en: Target {newpath} already exists.
+/FileManagerMoveFile/NotExists/en: File {path} does not exist.
+
+/FileManagerRenameDir/Success/en: Directory {path} was renamed to {newname} successfully.
+/FileManagerRenameDir/Failed/en: Renaming directory {path} to {newname} failed.
+/FileManagerRenameDir/Forbidden/en: You cannot rename root directory {path}.
+/FileManagerRenameDir/NotDir/en: Source {path} is not a directory.
+/FileManagerRenameDir/NoNewName/en: No new name is specified to rename {path} directory.
+/FileManagerRenameDir/NewNameExists/en: Cannot rename {path} directory since target {newname} already exists.
+/FileManagerRenameDir/NotExists/en: Directory {path} was not found.
+
+/FileManagerRenameFile/Success/en: File {path} was renamed to {newname} successfully.
+/FileManagerRenameFile/Failed/en: Renaming file {path} to {newname} failed.
+/FileManagerRenameFile/NotFile/en: Source {path} is not a file.
+/FileManagerRenameFile/NoNewName/en: No new name is specified to rename {path}.
+/FileManagerRenameFile/NewNameExists/en: Cannot rename {path} file since target {newname} already exists.
+/FileManagerRenameFile/NotExists/en: File {path} was not found.
+
+/FileManagerSaveFile/Success/en: File {filename} was saved in {path} successfully.
+/FileManagerSaveFile/Failed/en: Saving file {filename} in {path} failed.
+/FileManagerSaveFile/NoFileName/en: No filename is specified to save given data.
+/FileManagerSaveFile/Denied/en: Saving this type of file is not allowed.
+/FileManagerSaveFile/AlreadyExists/en: There is already a file named {filename} in {path}.
+/FileManagerSaveFile/DirExists/en: Cannot save the file. Directory {path} does not exist.
+/FileManagerSaveFile/QuotaExceeded/en: Cannot save the file. Quota exceeded.
+/FileManagerSaveFile/Cancelled/en: Saving file {filename} in {path} was cancelled.
+
+/FileManagerSaveFiles/Success/en: All file(s) were saved successfully.
+/FileManagerSaveFiles/Failed/en: Saving file(s) failed.
+/FileManagerSaveFiles/Errored/en: Saving none of the files was successfull.
+/FileManagerSaveFiles/NoFiles/en: No file is given to be saved.
+/FileManagerSaveFiles/PartialSuccess/en: {successCount} files were saved. Saving the rest {failedCount} files failed.

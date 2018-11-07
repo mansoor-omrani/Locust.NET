@@ -1,0 +1,100 @@
+﻿/FileManager/ForbiddenPath/fa: دسترسی به مسیر {path} غیر مجاز است.
+
+/FileManagerCreateDir/Success/fa: دایرکتوری {path} با موفقیت ایجاد شد.
+/FileManagerCreateDir/Failed/fa: ایجاد دایرکتوری {path} با شکست مواجه شد.
+/FileManagerCreateDir/AlreadyExists/fa: دایرکتوری {path} قبلا وجود دارد.
+
+/FileManagerDeleteDir/Success/fa: دایرکتوری {path} با موفقیت حذف شد.
+/FileManagerDeleteDir/Failed/fa: حذف دایرکتوری {path} با شکست مواجه شد.
+/FileManagerDeleteDir/HasSubDirs/fa: دایرکتوری {path} خالی نیست. تعدادی زیر شاخه در آن وجود دارد.
+/FileManagerDeleteDir/HasFiles/fa: دایرکتوری {path} حالی نیست. تعدادی فایل در آن وجود دارد.
+/FileManagerDeleteDir/NotExists/fa: دایرکتوری {path} وجود ندارد.
+/FileManagerDeleteDir/Forbidden/fa: شما نمی‌توانید دایرکتوری ریشه {path} را حذف کنید.
+
+/FileManagerDeleteFile/Success/fa: فایل {path} با موفقیت حذف شد.
+/FileManagerDeleteFile/Failed/fa: حذف فایل {path} با شکست مواجه شد.
+/FileManagerDeleteFile/NotExists/fa: فایلی به نام {path} وجود ندارد.
+
+/FileManagerDeleteFiles/Success/fa: تمام فایل(ها) با موفقیت حذف شدند.
+/FileManagerDeleteFiles/Failed/fa: حذف فایل(ها) با شکست مواجه شد.
+/FileManagerDeleteFiles/NoPaths/fa: فایلی برای حذف مشخص نشده است.
+/FileManagerDeleteFiles/Errored/fa: حذف هیچکدام فایل‌ها موفق نبود.
+/FileManagerDeleteFiles/PartialSuccess/fa: {successCount} فایل حذف شد. حذف {failedCount} فایل باقیمانده با شکست مواجه شد.
+
+/FileManagerDirExists/Success/fa: دایرکتوری {path} وجود دارد.
+/FileManagerDirExists/Failed/fa: بررسی وجود داشتن دایرکتوری {path} با شکست مواجه شد.
+/FileManagerDirExists/NotExists/fa: دایرکتوری {path} وجود ندارد.
+
+/FileManagerDirInfo/Success/fa: اطلاعات دایرکتوری {path} با موفقیت بازیابی شد.
+/FileManagerDirInfo/Failed/fa: بازیابی اطلاعات دایرکتوری {path} با شکست مواجه شد.
+/FileManagerDirInfo/NotExists/fa: دایرکتوری {path} وجود ندارد.
+
+/FileManagerDirSize/Success/fa: حجم دایرکتوری {path} با موفقیت محاسبه شد.
+/FileManagerDirSize/Failed/fa: محاسبه حجم دایرکتوری {path} با شکست مواجه شد.
+/FileManagerDirSize/NotExists/fa: دایرکتوری {path} وجود ندارد.
+
+/FileManagerFileExists/Success/fa: فایل {path} exists.
+/FileManagerFileExists/Failed/fa: بررسی وجود داشتن فایل {path} با شکست مواجه شد.
+/FileManagerFileExists/NotExists/fa: فایل {path} وجود ندارد.
+
+/FileManagerFileInfo/Success/fa: مشخصات فایل {path} با موفقیت بازیابی شد.
+/FileManagerFileInfo/Failed/fa: بازیابی مشخصات فایل {path} با شکست مواجه شد.
+/FileManagerFileInfo/NotExists/fa: فایل {path} وجود ندارد.
+
+/FileManagerFileInfos/Success/fa: مشخصات فایل‌های درخواست شده با موفقیت بازیابی شد.
+/FileManagerFileInfos/Failed/fa: بازیابی لیست فایل‌های درخواست شده با شکست مواجه شد.
+/FileManagerFileInfos/PathNotFound/fa: مسیر {path} پیدا نشد.
+
+/FileManagerGetFile/Success/fa: محتویات فایل {path} با موفقیت بازیابی شد.
+/FileManagerGetFile/Failed/fa: خواندن محتویات فایل {path} با شکست مواجه شد.
+/FileManagerGetFile/NotExists/fa: فایل {path} وجود ندارد.
+/FileManagerGetFile/Cancelled/fa: عملیات خواندن محتویات فایل {path} لغو شد.
+
+/FileManagerGetFiles/Success/fa: لیست فایل‌های مسیر {path} با موفقیت بازیابی شد.
+/FileManagerGetFiles/Failed/fa: بازیابی لیست فایل‌های مسیر {path} با شکست مواجه شد.
+/FileManagerGetFiles/PathNotFound/fa: مسیر {path} پیدا نشد.
+
+/FileManagerGetSubDirectories/Success/fa: لیست زیر شاخه‌های مسیر {path} با موفقیت بازیابی شد.
+/FileManagerGetSubDirectories/Failed/fa: بازیابی لیست زیر شاخه‌های مسیر {path} با شکست مواجه شد.
+/FileManagerGetSubDirectories/NotExists/fa: مسیر {path} پیدا نشد.
+
+/FileManagerMoveDir/Success/fa: دایرکتوری {path} با موفقیت به {newpath} جابجا شد.
+/FileManagerMoveDir/Failed/fa: انتقال دایرکتوری {path} به {newpath} با شکست مواجه شد.
+/FileManagerMoveDir/Forbidden/fa: شما نمی‌توانید دایرکتوری ریشه‌ی {path} را به جای دیگری جابجا کنید.
+/FileManagerMoveDir/TargetExists/fa: مقصد مشخص شده {newpath} قبلا وجود دارد.
+/FileManagerMoveDir/NotExists/fa: دایرکتوری {path} وجود ندارد.
+
+/FileManagerMoveFile/Success/fa: فایل {path} با موفقیت به {newpath} منتقل شد.
+/FileManagerMoveFile/Failed/fa: انتقال فایل {path} به {newpath} با شکست مواجه شد.
+/FileManagerMoveFile/TargetExists/fa: مقصد {newpath} قبلا وجود دارد.
+/FileManagerMoveFile/NotExists/fa: فایل {path} وجود ندارد.
+
+/FileManagerRenameDir/Success/fa: نام دایرکتوری {path} با موفقیت به {newname} تغییر داده شد.
+/FileManagerRenameDir/Failed/fa: تغییر دادن نام دایرکتوری {path} به {newname} با شکست مواجه شد.
+/FileManagerRenameDir/Forbidden/fa: شما نمی‌توانید نام دایرکتوری ریشه‌ی {path} را تغییر بدهید.
+/FileManagerRenameDir/NotDir/fa: مبدا مشخص شده {path} دایرکتوری نیست.
+/FileManagerRenameDir/NoNewName/fa: نام جدیدی برای تغییر دادن نام دایرکتوری {path} مشخص نشده است.
+/FileManagerRenameDir/NewNameExists/fa: قبلا دایرکتوری یا فایلی در مقصد {newpath} وجود دارد. نمی‌توان نام دایرکتوری {path} را تغییر داد.
+/FileManagerRenameDir/NotExists/fa: دایرکتوری {path} پیدا نشد.
+
+/FileManagerRenameFile/Success/fa: نام فایل {path} با موفقیت به {newname} تغییر داده شد.
+/FileManagerRenameFile/Failed/fa: تغییر دادن نام فایل {path} به {newname} با شکست مواجه شد.
+/FileManagerRenameFile/NotFile/fa: مبدا مشخص شده {path} یک فایل نیست.
+/FileManagerRenameFile/NoNewName/fa: نام جدیدی برای تغییر دادن نام فایل {path} مشخص نشده است.
+/FileManagerRenameFile/NewNameExists/fa: قبلا دایرکتوری یا فایلی در مقصد {newpath} وجود دارد. نمی‌توان نام فایل {path} را تغییر داد.
+/FileManagerRenameFile/NotExists/fa: فایل {path} پیدا نشد.
+
+/FileManagerSaveFile/Success/fa: فایل {filename} با موفقیت در مسیر {path} ذخیره شد.
+/FileManagerSaveFile/Failed/fa: ذخیره‌سازی فایل {filename} در {path} با شکست مواجه شد.
+/FileManagerSaveFile/NoFileName/fa: نام فایلی برای ذخیره‌سازی اطلاعات داده شده مشخص نشده است.
+/FileManagerSaveFile/Denied/fa: ذخیره‌سازی این نوع فایل مجاز نیست.
+/FileManagerSaveFile/AlreadyExists/fa: قبلا فایلی به نام {filename} در مسیر {path} وجود دارد.
+/FileManagerSaveFile/DirExists/fa: قبلا یک دایرکتوری در مسیر {path} وجود دارد.
+/FileManagerSaveFile/QuotaExceeded/fa: فضای مجاز پر شده، امکان ذخیره‌سازی فایل ارسالی میسر نیست.
+/FileManagerSaveFile/Cancelled/fa: عملیات ذخیره‌سازی فایل {filename} در {path} لغو شد.
+
+/FileManagerSaveFiles/Success/fa: تمام فایل(ها) با موفقیت ذخیره شدند.
+/FileManagerSaveFiles/Failed/fa: ذخیره‌سازی فایل(ها) با شکست مواجه شد.
+/FileManagerSaveFiles/Errored/fa: هیچکدام فایل‌ها ذخیره نشد.
+/FileManagerSaveFiles/NoFiles/fa: فایلی برای ذخیره‌سازی داده نشده است.
+/FileManagerSaveFiles/PartialSuccess/fa: {successCount} فایل با موفقیت ذخیره شد. ذخیره‌سازی {failedCount} فایل باقیمانده موفق نبود.

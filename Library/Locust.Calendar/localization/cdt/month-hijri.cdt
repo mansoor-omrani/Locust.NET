@@ -1,0 +1,58 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Month
+#--------------------------------------
+#	month names in hijri Culture
+/month/1/hijri/fa: محرم
+/month/2/hijri/fa: صفر
+/month/3/hijri/fa: ربیع الاول
+/month/4/hijri/fa: ربیع الثنانی
+/month/5/hijri/fa: جمادی الاول
+/month/6/hijri/fa: جمادی الثنانی
+/month/7/hijri/fa: رجب
+/month/8/hijri/fa: شعبان
+/month/9/hijri/fa: رمضان
+/month/10/hijri/fa: شوال
+/month/11/hijri/fa: ذی القعدة
+/month/12/hijri/fa: ذی الحجة
+
+/month/1/hijri/en: Moharram
+/month/2/hijri/en: Safar
+/month/3/hijri/en: Rabi'ol-avval
+/month/4/hijri/en: Rabo'o-althani
+/month/5/hijri/en: Jamadi-o-alavval
+/month/6/hijri/en: Jamadi-althani
+/month/7/hijri/en: Rajab
+/month/8/hijri/en: Sha'aban
+/month/9/hijri/en: Ramezan
+/month/10/hijri/en: Shavvaal
+/month/11/hijri/en: Zelgha'ade
+/month/12/hijri/en: Zelhadje
+
+#	short month names in hijri Culture
+/shortmonth/1/hijri/fa: مح
+/shortmonth/2/hijri/fa: صف
+/shortmonth/3/hijri/fa: ر.ا.
+/shortmonth/4/hijri/fa: ر.ث.
+/shortmonth/5/hijri/fa: ج.ا.
+/shortmonth/6/hijri/fa: ج.ث.
+/shortmonth/7/hijri/fa: رج.
+/shortmonth/8/hijri/fa: شع.
+/shortmonth/9/hijri/fa: رم.
+/shortmonth/10/hijri/fa: شو.
+/shortmonth/11/hijri/fa: ذ.ق.
+/shortmonth/12/hijri/fa: ذ.ح.
+
+/shortmonth/1/hijri/en: Moh
+/shortmonth/2/hijri/en: Saf
+/shortmonth/3/hijri/en: Ra
+/shortmonth/4/hijri/en: Rth
+/shortmonth/5/hijri/en: Ja
+/shortmonth/6/hijri/en: Jth
+/shortmonth/7/hijri/en: Raj
+/shortmonth/8/hijri/en: Sha
+/shortmonth/9/hijri/en: Ram
+/shortmonth/10/hijri/en: Shav
+/shortmonth/11/hijri/en: Zgh
+/shortmonth/12/hijri/en: Zh

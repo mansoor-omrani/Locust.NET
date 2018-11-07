@@ -1,0 +1,13 @@
+﻿@* Generator: MvcView *@
+@model List<string>
+
+<ul>
+    <li><a href="#">/</a></li>
+@if (Model != null)
+{
+    foreach (var dir in Model)
+    {
+    <li><a href="#">@dir</a></li>
+    }
+}
+</ul>

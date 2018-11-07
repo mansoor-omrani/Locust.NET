@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Logging</RootNamespace>
+    <AssemblyName>Locust.Logging</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseExceptionLogger.cs" />
+    <Compile Include="BaseLogger.cs" />
+    <Compile Include="ConsoleExceptionLogger.cs" />
+    <Compile Include="ConsoleLogger.cs" />
+    <Compile Include="DebugExceptionLogger.cs" />
+    <Compile Include="DebugLogger.cs" />
+    <Compile Include="DefaultMemoryLogger.cs" />
+    <Compile Include="DynamicLogger.cs" />
+    <Compile Include="FileLogger.cs" />
+    <Compile Include="IExceptionLogger.cs" />
+    <Compile Include="ILogger.cs" />
+    <Compile Include="IMemoryLogger.cs" />
+    <Compile Include="MemoryExceptionLogger.cs" />
+    <Compile Include="NullExceptionLogger.cs" />
+    <Compile Include="NullLogger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringLogger.cs" />
+    <Compile Include="TraceLogger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Locust.AppPath\Locust.AppPath.csproj">
+      <Project>{2B5A6741-635A-406D-8AF9-FD74FF54B1D4}</Project>
+      <Name>Locust.AppPath</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Configuration\Locust.Configuration.csproj">
+      <Project>{7F777775-FE16-45C0-9689-FE7FCB8918FD}</Project>
+      <Name>Locust.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
+      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
+      <Name>Locust.Extensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

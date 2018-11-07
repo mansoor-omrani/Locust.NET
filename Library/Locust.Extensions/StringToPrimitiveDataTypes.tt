@@ -1,0 +1,35 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ output extension=".cs" #>
+
+<# var types = new Dictionary<string, string> {
+ { "Byte", "System.Byte" }, { "SByte", "System.SByte" }, { "Int64", "System.Int64" }, { "Int32", "System.Int32" }, { "Int16", "System.Int16" }, 
+ { "UInt64", "System.UInt64" }, { "UInt32", "System.UInt32" }, { "UInt16", "System.UInt16" }, { "Short", "short" }, { "UShort", "ushort" }, 
+ { "Long", "long" }, { "ULong", "ulong" }, { "Int", "int" }, { "UInt", "uint" }, { "Single", "System.Single" }, { "Double", "System.Double" },
+ { "DateTime", "System.DateTime" }, { "Boolean", "System.Boolean" }
+};
+#>
+using System;
+using Locust.Base;
+using Locust.Conversion;
+
+namespace Locust.Extensions
+{
+	public static partial class StringExtensions
+	{
+    <# foreach (var item in types)
+       {
+		   var type = item.Key;
+		   var systemType = item.Value;
+	#>
+		public static <#=systemType#> To<#=type#>(this string s, <#=systemType#> @default = default(<#=@systemType#>))
+		{
+			return SafeClrConvert.To<#=type#>(s, @default);
+		} 
+     <# } #>
+	}
+}

@@ -1,0 +1,125 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\Newtonsoft.Json.dll" #>
+<#@ import namespace="System.Dynamic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+<#@ import namespace="Newtonsoft.Json.Linq" #>
+<#@ output extension=".cs" #>
+<#
+	var serviceProvider = this.Host as IServiceProvider;
+	var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
+	var solutionDir = dte.Solution.FileName;
+	var path = Path.GetDirectoryName(solutionDir) + "\\Locust\\Library\\Locust.AspNet.Identity";
+	var configContent = System.IO.File.ReadAllText(path + "\\config.json");
+
+	dynamic config = JsonConvert.DeserializeObject(configContent);
+	dynamic user = null;
+	dynamic role = null;
+
+	var customizeModelProperties = config["CustomizeModelProperties"];
+
+	if (customizeModelProperties != null)
+	{
+		user = customizeModelProperties["User"];
+		role = customizeModelProperties["Role"];
+	}
+#>
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using Locust.AspNet.Identity.Service;
+
+namespace Locust.AspNet.Identity.Models
+{
+    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    public class ApplicationUser : IdentityUser<<#=config.UserPkType#>, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim> 
+    {
+	<#
+	if (user != null)
+	{
+		if (user is JObject)
+        {
+			foreach (JToken token in ((JObject)user).Children())
+			{
+				if (token is JProperty)
+				{
+					var prop = token as JProperty;
+				#>
+		public virtual <#=prop.Value#> <#=prop.Name#> { get; set; }
+				<#
+				}
+			}
+        }
+		else
+        {
+			if (user is JValue)
+            {
+				foreach (var line in user.Value.ToString().Split(new string[]{ "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                { #>
+		<#=line#>
+                <# }
+            }
+			else
+            {
+				WriteLine("//" + user.GetType().Name);
+            }
+        }
+	}
+	#>
+		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser, <#=config.UserPkType#>> manager)
+        {
+            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
+            var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+            // Add custom user claims here
+            return userIdentity;
+        }
+    }
+	public class ApplicationUserRole : IdentityUserRole<<#=config.UserPkType#>>
+	{
+	<#
+	if (role != null)
+	{
+		foreach (JToken token in ((JObject)role).Children())
+		{
+			if (token is JProperty)
+			{
+				var prop = token as JProperty;
+				#>
+		public virtual <#=prop.Value#> <#=prop.Name#> { get; set; }
+				<#
+			}
+		}
+	}
+	#>
+	} 
+	public class ApplicationUserClaim : IdentityUserClaim<<#=config.UserPkType#>> { } 
+	public class ApplicationUserLogin : IdentityUserLogin<<#=config.UserPkType#>> { } 
+
+	public class ApplicationRole : IdentityRole<<#=config.UserPkType#>, ApplicationUserRole> 
+	{ 
+		public ApplicationRole() { } 
+		public ApplicationRole(string name) { Name = name; } 
+	} 
+
+	public class ApplicationUserStore : UserStore<ApplicationUser, ApplicationRole, <#=config.UserPkType#>, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim> 
+	{ 
+		public ApplicationUserStore(ApplicationDbContext context): base(context) 
+		{ } 
+	} 
+
+	public class ApplicationRoleStore : RoleStore<ApplicationRole, <#=config.UserPkType#>, ApplicationUserRole> 
+	{ 
+		public ApplicationRoleStore(ApplicationDbContext context) : base(context) 
+		{ } 
+	} 
+}

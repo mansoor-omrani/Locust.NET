@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E2CF5C26-4FC0-4FE6-B25A-60B915F5B2ED}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Shetab</RootNamespace>
+    <AssemblyName>Locust.Shetab</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ayandeh\AyandehBankConfig.cs" />
+    <Compile Include="Ayandeh\AyandehBankTranStatus.cs" />
+    <Compile Include="Ayandeh\AyandehPaymentProvider.cs" />
+    <Compile Include="BaseShetabPaymentProvider.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="DynamicPaymentProviderFactory.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="IPaymentManager.cs" />
+    <Compile Include="IPaymentProvider.cs" />
+    <Compile Include="IPaymentProviderFactory.cs" />
+    <Compile Include="Mellat\MellatBankConfig.cs" />
+    <Compile Include="Mellat\MellatBankTranStatus.cs" />
+    <Compile Include="Models\PaymentManagerConfig.cs" />
+    <Compile Include="Models\PaymentStep.cs" />
+    <Compile Include="Models\ReversalRequest.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\BeginPaymentRequest.cs" />
+    <Compile Include="Parsian\ParsianBankConfig.cs" />
+    <Compile Include="Parsian\ParsianBankTranStatus.cs" />
+    <Compile Include="Parsian\ParsianPaymentProvider.cs" />
+    <Compile Include="PaymentManager.cs" />
+    <Compile Include="PaymentProviderFactory.cs" />
+    <Compile Include="Models\PaymentManagerReversalResponse.cs" />
+    <Compile Include="Models\PaymentManagerBeginPaymentResponse.cs" />
+    <Compile Include="Models\PaymentManagerEndPaymentResponse.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Saman\SamanBankConfig.cs" />
+    <Compile Include="Saman\SamanBankTranStatus.cs" />
+    <Compile Include="Saman\SamanPaymentProvider.cs" />
+    <Compile Include="SaveReversalResult.cs" />
+    <Compile Include="ShetabBankConfig.cs" />
+    <Compile Include="ShetabPaymentManagerExtensions.cs" />
+    <Compile Include="ShetabPaymentProviderExtensions.cs" />
+    <Compile Include="Models\PaymentProviderReversalResponse.cs" />
+    <Compile Include="Models\PaymentProviderBeginPaymentResponse.cs" />
+    <Compile Include="Models\PaymentProviderEndPaymentResponse.cs" />
+    <Compile Include="Web References\ir.shaparak.pec\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\ir.shaparak.sep\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ir.shaparak.pec\eshopservice.wsdl" />
+    <None Include="Web References\ir.shaparak.pec\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ir.shaparak.sep\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\ir.shaparak.sep\referencepayment.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://pec.shaparak.ir/pecvipgateway/eshopservice.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ir.shaparak.pec\</RelPath>
+      <UpdateFromURL>https://pec.shaparak.ir/pecvipgateway/eshopservice.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Locust_Shetab_ir_shaparak_pec_EShopService</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="https://sep.shaparak.ir/payments/referencepayment.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\ir.shaparak.sep\</RelPath>
+      <UpdateFromURL>https://sep.shaparak.ir/payments/referencepayment.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Locust_Shetab_ir_shaparak_sep_PaymentIFBinding</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\ir.shaparak.pec\eshopservice.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Date\Locust.Date.csproj">
+      <Project>{9B5F295E-BF3F-4C5A-A5AD-8DF3A36EBA0D}</Project>
+      <Name>Locust.Date</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
+      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
+      <Name>Locust.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Logging\Locust.Logging.csproj">
+      <Project>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Service\Locust.Service.csproj">
+      <Project>{E40A0CC9-4224-452D-B2AB-C62FF9B0F9C8}</Project>
+      <Name>Locust.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.WebExtensions\Locust.WebExtensions.csproj">
+      <Project>{93f9f9f9-b603-428f-adde-62c6dd6d8815}</Project>
+      <Name>Locust.WebExtensions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\ir.shaparak.sep\referencepayment.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="install.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

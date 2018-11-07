@@ -1,0 +1,36 @@
+﻿@using System.Web.Mvc
+@using Locust.Web.Mvc.Bootstrap3.Models
+@model BootstrapModal
+<div class="modal fade @Model.Class" id="@Model.Id" tabindex="-1" role="dialog" aria-labelledby="@Model.Id-label">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @if (!Model.HideHeader)
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="@Model.Id-label">@Model.HeaderText</h4>
+                </div>
+            }
+            <div class="modal-body">
+                @if (!string.IsNullOrEmpty(Model.BodyTemplateName))
+                {
+                    @Html.Partial(Model.BodyTemplateName, Model.BodyTemplateModel);
+                }
+                else
+                {
+                    @Model.BodyText
+                    @Html.Raw(Model.Body)
+                }
+            </div>
+            @if (!Model.HideFooter)
+            {
+                <div class="modal-footer">
+                @foreach (var btn in Model.Buttons)
+                {
+                    @Html.Partial("Bootstrap.Button", btn)
+                }
+                </div>
+            }
+        </div>
+    </div>
+</div>

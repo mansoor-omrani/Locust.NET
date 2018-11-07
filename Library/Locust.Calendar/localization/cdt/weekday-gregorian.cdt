@@ -1,0 +1,38 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Day of Week
+#--------------------------------------
+#	names of days in a week in English Culture
+/weekday/6/gregorian/fa: شنبه
+/weekday/0/gregorian/fa: یکشنبه, يکشنبه
+/weekday/1/gregorian/fa: دوشنبه
+/weekday/2/gregorian/fa: سه‌شنبه, سه شنبه
+/weekday/3/gregorian/fa: چهارشنبه
+/weekday/4/gregorian/fa: پنج‌شنبه, پنج شنبه
+/weekday/5/gregorian/fa: جمعه
+
+/weekday/6/gregorian/en: Saturday
+/weekday/0/gregorian/en: Sunday
+/weekday/1/gregorian/en: Monday
+/weekday/2/gregorian/en: Tuesday
+/weekday/3/gregorian/en: Wednesday
+/weekday/4/gregorian/en: Thursday
+/weekday/5/gregorian/en: Friday
+
+#	short names of days in a week in English Culture
+/shortweekday/6/gregorian/fa: ش
+/shortweekday/0/gregorian/fa: ی
+/shortweekday/1/gregorian/fa: د
+/shortweekday/2/gregorian/fa: س
+/shortweekday/3/gregorian/fa: چ
+/shortweekday/4/gregorian/fa: پ
+/shortweekday/5/gregorian/fa: ج
+
+/shortweekday/6/gregorian/en: Sat
+/shortweekday/0/gregorian/en: Sun
+/shortweekday/1/gregorian/en: Mon
+/shortweekday/2/gregorian/en: Tue
+/shortweekday/3/gregorian/en: Wed
+/shortweekday/4/gregorian/en: Thu
+/shortweekday/5/gregorian/en: Fri

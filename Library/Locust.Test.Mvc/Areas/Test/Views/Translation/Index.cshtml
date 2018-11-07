@@ -1,0 +1,30 @@
+﻿@* Generator: MvcView *@
+@{
+    ViewBag.PageTitle = "Translation";
+    ViewBag.Js = true;
+
+    var items = (Dictionary<string, string[]>)ViewBag.Items;
+}
+
+<h2>Items</h2>
+<h3>Current Translator: @ViewBag.TranslatorType</h3>
+<center><button class="btn btn-primary" id="btnLoad">Load</button></center>
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in items)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@(item.Value?.Join(","))</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

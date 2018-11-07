@@ -1,0 +1,53 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               Numbers
+#--------------------------------------
+/number/0/fa: صفر
+/number/1/fa: یک, يک
+/number/2/fa: دو
+/number/3/fa: سه
+/number/4/fa: چهار
+/number/6/fa: شش
+/number/5/fa: پنج
+/number/7/fa: هفت
+/number/8/fa: هشت
+/number/9/fa: نه
+/number/10/fa: ده
+/number/11/fa: یازده
+/number/12/fa: دوازده
+/number/13/fa: سیزده
+/number/14/fa: چهارده
+/number/16/fa: پانزده
+/number/15/fa: شانزده
+/number/17/fa: هفده
+/number/18/fa: هجده
+/number/19/fa: نوزده
+/number/20/fa: بیست
+/number/30/fa: سی
+/number/40/fa: چهل
+/number/50/fa: پنجاه
+/number/60/fa: شصت
+/number/70/fa: هفتاد
+/number/80/fa: هشتاد
+/number/90/fa: نود
+/number/100/fa: صد
+/number/200/fa: دویست
+/number/300/fa: سیصد
+/number/400/fa: چهارصد
+/number/500/fa: پانصد
+/number/600/fa: ششصد
+/number/700/fa: هفتصد
+/number/800/fa: هشتصد
+/number/900/fa: نهصد
+/number/1000/fa: هزار
+/number/1000000/fa: میلیون
+/number/1000000000/fa: میلیارد, بیلیون

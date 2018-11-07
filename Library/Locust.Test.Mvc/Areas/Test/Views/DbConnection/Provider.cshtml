@@ -1,0 +1,28 @@
+﻿@* Generator: MvcView *@
+@model Locust.ConnectionString.IConnectionStringProvider
+<hr/>
+<h2>Provider: @Model.GetType().Name</h2>
+<h3>ActiveConnection: @Model.ActiveConnection</h3>
+<h4>Current: @Model.Current</h4>
+<table class="table table-striped" id="@Model.GetType().Name.Replace("ConnectionStringProvider", "")">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>ConnectionString</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+                <td><button class="btn btn-default btn-sm btn-check">Check</button></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+﻿/CKManager-Files-List/Success/en: List of files was retrieved succesfully.
+/CKManager-Files-List/Failed/en: There was a problem while retrieving the list of files of {path} from the server.
+/CKManager-Files-List/PathNotFound/en: Path {path} does not exists on the server.
+
+/CKManager-Files-Upload/Success/en: File {filename} was uploaded to {path} successfully.
+/CKManager-Files-Upload/Failed/en: Saving {filename} into {path} path failed. Contact administrator.
+/CKManager-Files-Upload/NoFile/en: No file was received by the server.
+/CKManager-Files-Upload/NoFileName/en: No filename is specified for the uploaded data.
+/CKManager-Files-Upload/Denied/en: This type of file cannot be saved on the server.
+/CKManager-Files-Upload/AlreadyExists/en: File {filename} already exists on the server.
+
+/CKManager/btnDeleteFiles/en: Delete
+/CKManager/btnRenameFile/en: Rename
+/CKManager/btnUpload/en: Upload
+/CKManager/btnManageFolders/en: Manage Folders
+/CKManager/btnOk/en: Ok
+/CKManager/btnReturn/en: Return
+/CKManager/btnYes/en: Yes
+/CKManager/btnCancel/en: Cancel
+/CKManager/txtDisplayType/en: Display Type
+/CKManager/optDisplayTypeList/en: List
+/CKManager/optDisplayTypeTable/en: Table
+/CKManager/optDisplayTypeThumbanil/en: Thumbanil
+/CKManager/txtSortBy/en: Sort by
+/CKManager/optSortByName/en: Name
+/CKManager/optSortByExtension/en: Extension
+/CKManager/optSortBySize/en: Size
+/CKManager/optSortByCreationTime/en: Creation Time
+/CKManager/txtSortDirAscending/en: Ascending
+/CKManager/txtSortDirDescending/en: Descending
+/CKManager/txtSearch/en: Search
+/CKManager/titleFiles/en: Files
+/CKManager/titleFolders/en: Folders
+/CKManager/titleDeleteFiles/en: Delete Files
+/CKManager/titleRenameFile/en: Rename File
+/CKManager/titleFileSelector/en: File Selector
+/CKManager/msgServerOrInternetProblem/en: Server or Connection problem. Try again later
+/CKManager/msgDeleteFileConfirm/en: Are you sure to delete {n} file(s)?
+/CKManager/msgDeleteFileProblem/en: Cannot delete file(s) now due to internet connection or server problem.
+/CKManager/msgDeleteFileNoSelection/en: Please select one or more files.
+/CKManager/msgRenameFile/en: Enter new name
+/CKManager/msgRenameFileProblem/en: Cannot rename file now due to internet connection or server problem.
+/CKManager/msgPleaseSelectAFile/en: Please select a file.
+/CKManager/msgNoFileUploaded/en: No file is uploaded.
+/CKManager/msgCsrfUploadDetected/en: A CSRF attack detected. Upload aborted.
+
+

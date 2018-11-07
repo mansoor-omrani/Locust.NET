@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{915D5ED5-5021-4810-82F4-255FA989734A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.FileManager.CKEditor</RootNamespace>
+    <AssemblyName>Locust.FileManager.CKEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RazorGenerator.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\RazorGenerator.Mvc.2.4.9\lib\net40\RazorGenerator.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.Mvc.5.2.6\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.Razor.3.2.6\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\Microsoft.AspNet.WebPages.3.2.6\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\WebActivatorEx.2.0.3\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RazorGeneratorMvcStart.cs" />
+    <Compile Include="Areas\CKManager\CKManagerAreaRegistration.cs" />
+    <Compile Include="Areas\CKManager\Controllers\CKManagerBaseController.cs" />
+    <Compile Include="Areas\CKManager\Controllers\FilesController.cs" />
+    <Compile Include="Areas\CKManager\Controllers\FoldersController.cs" />
+    <Compile Include="Areas\CKManager\Controllers\ImagesController.cs" />
+    <Compile Include="Areas\CKManager\Views\Files\Folders.generated.cs">
+      <DependentUpon>Folders.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\CKManager\Views\Files\Index.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Index.cshtml</DependentUpon>
+    </Compile>
+    <Compile Include="Areas\CKManager\Views\Shared\_Layout.generated.cs">
+      <DependentUpon>_Layout.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Areas\CKManager\Views\_ViewStart.generated.cs">
+      <DependentUpon>_ViewStart.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Localization\cit\ckmanager-en.cit" />
+    <EmbeddedResource Include="css\ckmanager\files\index.css" />
+    <None Include="app.config" />
+    <Content Include="Areas\CKManager\Views\web.config" />
+    <None Include="Areas\CKManager\Views\Files\Folders.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Folders.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\CKManager\Views\Files\Index.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Index.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\CKManager\Views\Shared\_Layout.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_Layout.generated.cs</LastGenOutput>
+    </None>
+    <None Include="Areas\CKManager\Views\_ViewStart.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>_ViewStart.generated.cs</LastGenOutput>
+    </None>
+    <EmbeddedResource Include="js\ckmanager\files\index.js" />
+    <EmbeddedResource Include="Localization\cit\ckmanager-fa.cit" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
+      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
+      <Name>Locust.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.FileManager.Client\Locust.FileManager.Client.csproj">
+      <Project>{8b4db46f-0305-425a-924c-1f75aaf2dc89}</Project>
+      <Name>Locust.FileManager.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.FileManager\Locust.FileManager.csproj">
+      <Project>{26f42b02-8ba9-48af-9bd0-c82ac6974e32}</Project>
+      <Name>Locust.FileManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Language\Locust.Language.csproj">
+      <Project>{C23EB959-8681-453B-A208-B5A283EB6E8F}</Project>
+      <Name>Locust.Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Logging\Locust.Logging.csproj">
+      <Project>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Mime\Locust.Mime.csproj">
+      <Project>{33BD24D6-6365-4E06-BED3-3A77741D72E0}</Project>
+      <Name>Locust.Mime</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.MvcAttributes\Locust.MvcAttributes.csproj">
+      <Project>{476ef4e6-638c-4999-a62f-0c69e62f90c4}</Project>
+      <Name>Locust.MvcAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Notification\Locust.Notification.csproj">
+      <Project>{C5FD908E-3AF9-4B27-8B4F-4987F6B8EA86}</Project>
+      <Name>Locust.Notification</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414F68-3640-4ED7-A48F-5877101CB3AD}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Service\Locust.Service.csproj">
+      <Project>{e40a0cc9-4224-452d-b2ab-c62ff9b0f9c8}</Project>
+      <Name>Locust.Service</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Translation\Locust.Translation.csproj">
+      <Project>{00F56929-2189-4234-A912-A2C14FA17DA2}</Project>
+      <Name>Locust.Translation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.WebExtensions\Locust.WebExtensions.csproj">
+      <Project>{93f9f9f9-b603-428f-adde-62c6dd6d8815}</Project>
+      <Name>Locust.WebExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.WebTools\Locust.WebTools.csproj">
+      <Project>{5A65DB80-A515-4DCB-831A-7B13D4175054}</Project>
+      <Name>Locust.WebTools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\CKManager\Views\Dirs\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

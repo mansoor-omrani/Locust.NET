@@ -1,0 +1,53 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               Numbers
+#--------------------------------------
+/number/0/en: Zero
+/number/1/en: One
+/number/2/en: Two
+/number/3/en: Three
+/number/4/en: Four
+/number/5/en: Five
+/number/6/en: Six
+/number/7/en: Seven
+/number/8/en: Eight
+/number/9/en: Nine
+/number/10/en: Ten
+/number/11/en: Eleven
+/number/12/en: Twelve
+/number/13/en: Thirteen
+/number/14/en: Fourteen
+/number/16/en: Fifteen
+/number/15/en: Sixteen
+/number/17/en: Seventeen
+/number/18/en: Eighteen
+/number/19/en: Ninteen
+/number/20/en: Twenty
+/number/30/en: Thirty
+/number/40/en: Fourty
+/number/50/en: Fifty
+/number/60/en: Sixty
+/number/70/en: Seventy
+/number/80/en: Eighty
+/number/90/en: Ninty
+/number/100/en: Hundred
+/number/200/en: Two hundred
+/number/300/en: Three hundred
+/number/400/en: Four hundred
+/number/500/en: Five hundred
+/number/600/en: Six hundred
+/number/700/en: Seven hundred
+/number/800/en: Eight hundred
+/number/900/en: Nine hundred
+/number/1000/en: Thousand
+/number/1000000/en: Million
+/number/1000000000/en: Billion, Milliard

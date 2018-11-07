@@ -1,0 +1,48 @@
+﻿@using Locust.Web.Mvc.Bootstrap3.Models
+@model BootstrapButton
+@{
+    var Class = "btn btn-" + Model.ButtonClass;
+    var buttonSize = Model.Size == null ? "" : " btn-" + Model.Size;
+    var blockButton = Model.BlockButton ? " btn-block" : "";
+    var buttonClass = string.IsNullOrEmpty(Model.Class) ? "" : " " + Model.Class;
+    var isActive = Model.IsActive ? " active" : "";
+    Class += buttonSize + buttonClass + blockButton + isActive;
+
+    var disabled = Model.Disabled ? " disabled=\"disabled\"" : "";
+    var attrs = "";
+    foreach (var item in Model.Attributes)
+    {
+        attrs += $" {HttpUtility.HtmlEncode(item.Key)}=\"{ HttpUtility.HtmlEncode(item.Value)}\"";
+    }
+}
+
+@switch (Model.RenderType)
+{
+    case RenderType.button:
+        if (!string.IsNullOrEmpty(Model.BodyPartialName))
+        {
+            <button id="@Model.Id" class="@Class" type="@Model.Type" @disabled @attrs>
+                @Html.Partial(Model.BodyPartialName, Model.BodyPartialModel)
+            </button>
+        }
+        else
+        {
+            <button id="@Model.Id" class="@Class" type="@Model.Type" @disabled @attrs>@Model.Text</button>
+        }
+        break;
+    case RenderType.input:
+        <input id="@Model.Id" class="@Class" type="@Model.Type" value="@Model.Text" @disabled @attrs />
+        break;
+    case RenderType.anchor:
+        if (!string.IsNullOrEmpty(Model.BodyPartialName))
+        {
+            <a id="@Model.Id" href="@Model.Link" class="@Class" role="@Model.Type" @disabled @attrs>
+                @Html.Partial(Model.BodyPartialName, Model.BodyPartialModel)
+            </a>
+        }
+        else
+        {
+            <a id="@Model.Id" href="@Model.Link" class="@Class" role="@Model.Type" @disabled @attrs>@Model.Text</a>
+        }
+        break;
+}

@@ -1,0 +1,52 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               nth-numbers
+#--------------------------------------
+/nth-num/1/fa: اول, یکم
+/nth-num/2/fa: دوم
+/nth-num/3/fa: سوم
+/nth-num/4/fa: چهارم
+/nth-num/5/fa: پنجم
+/nth-num/6/fa: ششم
+/nth-num/7/fa: هفتم
+/nth-num/8/fa: هشتم
+/nth-num/9/fa: نهم
+/nth-num/10/fa: دهم
+/nth-num/11/fa: یازدهم
+/nth-num/12/fa: دوازدهم
+/nth-num/13/fa: سیزدهم
+/nth-num/14/fa: چهاردهم
+/nth-num/15/fa: پانزدهم
+/nth-num/16/fa: شانزدهم
+/nth-num/17/fa: هفدهم
+/nth-num/18/fa: هجدهم
+/nth-num/19/fa: نوزدهم
+/nth-num/20/fa: بیستم
+/nth-num/30/fa: سی‌‍ام
+/nth-num/40/fa: چهلم
+/nth-num/50/fa: پنجاهم
+/nth-num/60/fa: شصتم
+/nth-num/70/fa: هفتادم
+/nth-num/80/fa: هشتادم
+/nth-num/90/fa: نودم
+/nth-num/100/fa: صدم
+/nth-num/200/fa: دویستم
+/nth-num/300/fa: سیصدم
+/nth-num/400/fa: چهارصدم
+/nth-num/500/fa: پانصدم
+/nth-num/600/fa: ششصدم
+/nth-num/700/fa: هفتصدم
+/nth-num/800/fa: هشتصدم
+/nth-num/900/fa: نهصدم
+/nth-num/1000/fa: هزارم
+/nth-num/1000000/fa: میلیونم
+/nth-num/1000000000/fa: میلیاردم

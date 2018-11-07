@@ -1,0 +1,33 @@
+﻿@* Generator: MvcView *@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.PageTitle</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    @RenderSection("header", required: false)
+    @if ((ViewData["Css"]?.ToString().ToLower() ?? "") == "true")
+    {
+        var cssHash = ((ViewData["CssCashBusting"]?.ToString().ToLower() ?? "true") == "true") ? ("?" + new Random().Next(99999).ToString()) : "";
+
+        <link rel="stylesheet" type="text/css" href="/css/test/@ViewContext.RouteData.Values["controller"]/@(ViewContext.RouteData.Values["action"]).css@(cssHash)" />
+    }
+</head>
+<body>
+    <br />
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script ssrc="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    @RenderSection("footer", required: false)
+    @if ((ViewData["Js"]?.ToString().ToLower() ?? "") == "true")
+    {
+        var jsHash = ((ViewData["JsCashBusting"]?.ToString().ToLower() ?? "true") == "true") ? ("?" + new Random().Next(99999).ToString()) : "";
+
+        <script type="text/javascript" src="/js/test/@ViewContext.RouteData.Values["controller"]/@(ViewContext.RouteData.Values["action"]).js@(jsHash)"></script>
+    }
+</body>
+</html>

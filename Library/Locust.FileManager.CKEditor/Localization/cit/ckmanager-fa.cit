@@ -1,0 +1,45 @@
+﻿/CKManager-Files-List/Success/fa: لیست فایل‌های مسیر {path} با موفقیت بازیابی شد.
+/CKManager-Files-List/Failed/fa: بازیابی لیست فایل‌های مسیر {path} موفقیت‌آمیز نبود.
+/CKManager-Files-List/PathNotFound/fa: مسیر {path} در سرور وجود ندارد.
+
+/CKManager-Files-Upload/Success/fa: فایل {filename} با موفقیت در مسیر {path} آپلود شد.
+/CKManager-Files-Upload/Failed/fa: ذخیره‌سازی فایل {filename} در مسیر {path} با شکست مواجه شد. لطفا با مدیر سیستم تماس بگیرید.
+/CKManager-Files-Upload/NoFile/fa: فایلی در سمت سرور دریافت نشد.
+/CKManager-Files-Upload/NoFileName/fa: نامی برای فایل آپلود شده مشخص نشده است.
+/CKManager-Files-Upload/Denied/fa: این نوع فایل در سرور قابل ذخیره‌سازی نیست.
+/CKManager-Files-Upload/AlreadyExists/fa: فایل {filename} قبلا در سرور وجود دارد.
+
+/CKManager/btnDeleteFiles/fa: حذف
+/CKManager/btnRenameFile/fa: تغییر نام
+/CKManager/btnUpload/fa: آپلود
+/CKManager/btnManageFolders/fa: مدیریت فولدرها
+/CKManager/btnOk/fa: تایید
+/CKManager/btnReturn/fa: بازگشت
+/CKManager/btnYes/fa: بلی
+/CKManager/btnCancel/fa: لغو
+/CKManager/txtDisplayType/fa: نحوه نمایش
+/CKManager/optDisplayTypeList/fa: لیست
+/CKManager/optDisplayTypeTable/fa: جدول
+/CKManager/optDisplayTypeThumbanil/fa: تصویر کوچک
+/CKManager/txtSortBy/fa: مرتب‌سازی
+/CKManager/optSortByName/fa: نام
+/CKManager/optSortByExtension/fa: پسوند
+/CKManager/optSortBySize/fa: اندازه
+/CKManager/optSortByCreationTime/fa: تاریخ ایجاد
+/CKManager/txtSortDirAscending/fa: صعودی
+/CKManager/txtSortDirDescending/fa: نزولی
+/CKManager/txtSearch/fa: جستجو
+/CKManager/titleFiles/fa: بازیابی لیست فایل‌ها
+/CKManager/titleFolders/fa: بازیابی لیست فولدرها
+/CKManager/titleDeleteFiles/fa: حذف فایل
+/CKManager/titleRenameFile/fa: تغییر نام فایل
+/CKManager/titleFileSelector/fa: انتخاب فایل
+/CKManager/msgServerOrInternetProblem/fa: سرور یا اتصال اینترنت مشکل دارد. انجام عملیات میسر نیست.
+/CKManager/msgDeleteFileConfirm/fa: آیا نسبت به حذف {n} فایل مطمئن هستید؟
+/CKManager/msgDeleteFileProblem/fa: به دلیل مشکل سرور یا اینترنت حذف فایل میسر نیست.
+/CKManager/msgDeleteFileNoSelection/fa: لطفا ابتدا یک یا چند فایل را انتخاب کنید.
+/CKManager/msgRenameFile/fa: نام جدید
+/CKManager/msgRenameFileProblem/fa: به دلیل مشکل سرور یا اینترنت تغییر نام فایل میسر نیست.
+/CKManager/msgPleaseSelectAFile/fa: فایلی انتخاب نشده است. لطفا فایلی را انتخاب کنید.
+/CKManager/msgNoFileUploaded/fa: فایلی برای آپلود داده نشده است.
+/CKManager/msgCsrfUploadDetected/fa: حمله CSRF انجام شده، آپلود لغو شد.

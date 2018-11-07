@@ -1,0 +1,103 @@
+﻿@* Generator: MvcView *@
+@using Newtonsoft.Json
+
+@{
+    ViewBag.PageTitle = "Mail";
+    ViewBag.Js = true;
+}
+<form class="main-form form-horizontal col-sm-6">
+    <div class="form-group">
+        <label for="MailManagerType" class="col-sm-3 control-label">Mail Manager Type</label>
+        <div class="col-sm-9">
+            <select id="MailManagerType" name="MailManagerType" class="form-control w30p">
+                <option value="">Choose Mail Manager</option>
+                <option value="Smtp">Smtp</option>
+                <option value="Pop3" disabled>Pop3</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Username" class="col-sm-3 control-label">Username</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control field-item w40p" name="User" id="Username" placeholder="" size="10" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Password" class="col-sm-3 control-label">Password</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control field-item w40p" name="Password" id="Password" placeholder="" size="10" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Port" class="col-sm-3 control-label">Port</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control field-item w10p" name="Port" id="Port" value="25" size="10" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="DefaultMail" class="col-sm-3 control-label">Default Mail</label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control field-item w50p" name="DefaultMail" id="DefaultMail" placeholder="info@myserver.com" size="30" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Host" class="col-sm-3 control-label">Host</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control field-item w50p" name="Host" id="Host" placeholder="mail.myserver.com" size="30" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="UseDefaultCredentials" class="col-sm-3 control-label">UseDefaultCredentials</label>
+        <div class="col-sm-9">
+            <input type="checkbox" class="field-item" name="UseDefaultCredentials" id="UseDefaultCredentials" value="true" checked>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="EnableSSL" class="col-sm-3 control-label">EnableSSL</label>
+        <div class="col-sm-9">
+            <input type="checkbox" class="field-item" name="EnableSSL" id="EnableSSL" value="true">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="To" class="col-sm-3 control-label">To</label>
+        <div class="col-sm-9">
+            <input type="email" class="form-control field-item w50p" name="To" id="To" placeholder="myname@myserver.com" size="30" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Subject" class="col-sm-3 control-label">Subject</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control field-item" name="Subject" id="Subject" placeholder="Subject" size="50">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Body" class="col-sm-3 control-label">Body</label>
+        <div class="col-sm-9">
+            <textarea class="form-control" name="Body" id="Body" required></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="IsHtml" class="col-sm-3 control-label">IsHtml</label>
+        <div class="col-sm-9">
+            <input type="checkbox" class="field-item" name="IsHtml" id="IsHtml" value="true">
+        </div>
+    </div>
+
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-primary btn-send" type="submit">Send</button>
+    </div>
+</form>
+
+
+

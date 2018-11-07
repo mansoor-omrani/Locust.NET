@@ -1,0 +1,15 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Season
+#--------------------------------------
+#	Season names in English Culture
+/season/1/gregorian/fa: بهار
+/season/2/gregorian/fa: تابستان
+/season/3/gregorian/fa: پاییز
+/season/4/gregorian/fa: زمستان
+
+/season/1/gregorian/en: Spring
+/season/2/gregorian/en: Summer
+/season/3/gregorian/en: Autumn
+/season/4/gregorian/en: Winter

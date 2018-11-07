@@ -1,0 +1,37 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\Newtonsoft.Json.dll" #>
+<#@ import namespace="System.Dynamic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+
+<#@ output extension=".cs" #>
+<#
+	var serviceProvider = this.Host as IServiceProvider;
+	var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
+	var solutionDir = dte.Solution.FileName;
+	var path = Path.GetDirectoryName(solutionDir) + "\\Locust\\Library\\Locust.AspNet.Identity";
+	var configContent = System.IO.File.ReadAllText(path + "\\config.json");
+
+	dynamic config = JsonConvert.DeserializeObject(configContent);
+#>
+using Microsoft.AspNet.Identity;
+using Locust.AspNet.Identity.Models;
+using Locust.AspNet.Identity.Service;
+
+namespace Locust.AspNet.Identity
+{
+	public static class IdentityHelper
+	{
+		public static UserManager<ApplicationUser, <#=config.UserPkType#>> GetUserManager()
+		{
+			return new ApplicationUserManager(new ApplicationUserStore(new ApplicationDbContext()));
+		}
+	}
+}

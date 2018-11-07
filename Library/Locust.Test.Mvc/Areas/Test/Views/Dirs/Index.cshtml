@@ -1,0 +1,28 @@
+﻿@* Generator: MvcView *@
+@{
+    ViewBag.PageTitle = "Dirs";
+    ViewBag.Js = false;
+
+    var dirs = Locust.AppPath.ApplicationPath.GetAll();
+}
+
+<h2>Directories</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Method</th>
+            <th>Directory</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in dirs)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

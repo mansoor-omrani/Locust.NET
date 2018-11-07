@@ -1,0 +1,69 @@
+﻿@* Generator: MvcView *@
+@using Locust.WebExtensions
+@using Locust.Extensions
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.PageTitle</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <style>
+        .w10p { width: 10%; }
+        .w20p { width: 20%; }
+        .w30p { width: 30%; }
+        .w40p { width: 40%; }
+        .w50p { width: 50%; }
+        .w60p { width: 60%; }
+        .w70p { width: 70%; }
+        .w80p { width: 80%; }
+        .w90p { width: 90%; }
+        .w100p { width: 100%; }
+    </style>
+    @RenderSection("header", required: false)
+    @this.AddActionCss()
+</head>
+<body>
+    <br />
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                @Html.Partial("TestList")
+            </div>
+            <div class="col-sm-10">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <div id="my-modal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+                    <h4 class="modal-title">{Title}</h4>
+                </div>
+                <div class="modal-body">
+                    <p>{Content}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/json5@("@")^1.0.1"></script>
+    <script>
+        String.prototype.replaceAll = function (find, replace) {
+            var str = this;
+            return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+        };
+        function formatObject(obj) {
+            return JSON.stringify(obj, null, 4).replace("\n", "<br/>");
+        };
+    </script>
+    @RenderSection("footer", required: false)
+    @this.AddActionJs()
+       
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+	var types = new string[] {
+		"bool", "int", "short", "long", "decimal", "double", "float", "DateTime"
+	};
+#>
+using System;
+using System.Configuration;
+
+namespace Locust.Configuration
+{
+	public partial class AppConfig
+	{
+		public string Get(string key, string defaultValue = "")
+		{
+			var result = ConfigurationManager.AppSettings[key] ?? "";
+
+			return result;
+		}
+		public T Get<T>(string key, T defaultValue = default(T))
+		{
+			var result = defaultValue;
+
+			try
+			{
+				var value = ConfigurationManager.AppSettings[key];
+				if (value != null)
+				{
+					<# foreach (var type in types) { #>
+					if (typeof(T) == typeof(<#=type#>))
+					{
+						<#=type#> r;
+
+						if (<#=type#>.TryParse(value, out r))
+						{
+							result = (T)Convert.ChangeType(r, typeof(T));
+							goto exit;
+						}
+					}
+					<# } #>
+					if (typeof(T) == typeof(string))
+					{
+						result = (T)Convert.ChangeType(value, typeof(T));
+						goto exit;
+					}
+				}
+			}
+			catch { }
+exit:
+			return result;
+		}
+	}
+}

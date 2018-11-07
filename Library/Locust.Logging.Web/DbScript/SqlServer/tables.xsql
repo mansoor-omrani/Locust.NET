@@ -1,0 +1,74 @@
+﻿@model TableScriptOptions
+@{
+	var tblSchema = string.IsNullOrEmpty(Model.TableSchema) ? "dbo" : Model.TableSchema;
+	var tblName = string.IsNullOrEmpty(Model.TableName) ? "WebExceptionLog" : Model.TableName;
+	var pkConstraintName = string.IsNullOrEmpty(Model.PKConstraintName) ? "PK_ExceptionLog" : Model.PKConstraintName;
+	var dataFileGroup = string.IsNullOrEmpty(Model.DataFileGroup) ? "FLG_LOG" : Model.DataFileGroup;
+	var blobFileGroup = string.IsNullOrEmpty(Model.BlobFileGroup) ? "FLG_LOG" : Model.BlobFileGroup;
+}
+@if (Model.UseDb && !string.IsNullOrEmpty(Model.DatabaseName))
+{
+USE @Model.DatabaseName
+GO
+}
+IF (OBJECT_ID('dbo.IsEmpty') IS NOT NULL)
+begin
+	print '''IsEmpty'' already exists. dropping it ...'
+	
+	drop function dbo.IsEmpty
+end
+
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create function [dbo].[IsEmpty](@x nvarchar(max)) returns bit
+as
+begin
+	declare @result bit = 0
+
+	if len(ltrim(rtrim(ISNULL(@x, '')))) = 0
+		set @result = 1
+
+	return @result
+end
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [@tblSchema].[@tblName](
+	[Id]			[int] IDENTITY(1,1) NOT NULL,
+	[ExceptionDate] [datetime] NOT NULL,
+	[SessionId]		[nvarchar](100) NULL,
+	[Username]		[nvarchar](50) NULL,
+	[RoleName]		[nvarchar](50) NULL,
+	[Url]			[nvarchar](500) NULL,
+	[Member]		[nvarchar](500) NULL,
+	[FilePath]		[nvarchar](1000) NULL,
+	[Line]			[int] NULL,
+	[Headers]		[nvarchar](500) NULL,
+	[Message]		[nvarchar](4000) NULL,
+	[IP]			[varchar](40) NULL,
+	[Cookies]		[nvarchar](4000) NULL,
+	[HostName]		[varchar](30) NULL,
+	[Method]		[varchar](20) NULL,
+	[Referer]		[nvarchar](500) NULL,
+	[Browser]		[varchar](50) NULL,
+	[Info]			[nvarchar](4000) NULL,
+	[FormData]		[nvarchar](4000) NULL,
+	[StackTrace]	[nvarchar](max) NULL,
+ CONSTRAINT [@pkConstraintName] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [@dataFileGroup]
+) ON [@dataFileGroup] TEXTIMAGE_ON [@blobFileGroup]
+GO
+
+ALTER TABLE [@tblSchema].[@tblName] ADD  CONSTRAINT [DF_@tblName_ExceptionDate]  DEFAULT (getdate()) FOR [ExceptionDate]
+GO
+

@@ -1,0 +1,89 @@
+﻿@model SprocScriptOptions
+@{
+	var spSchema = string.IsNullOrEmpty(Model.SprocSchema) ? "dbo" : Model.SprocSchema;
+	var tblSchema = string.IsNullOrEmpty(Model.TableSchema) ? "dbo" : Model.TableSchema;
+	var extSchema = string.IsNullOrEmpty(Model.ExtensionSchema) ? "dbo" : Model.ExtensionSchema;
+	var spName = string.IsNullOrEmpty(Model.SprocName) ? "usp0_log_exception" : Model.SprocName;
+	var tblName = string.IsNullOrEmpty(Model.TableName) ? "ExceptionLog" : Model.TableName;
+}
+@if (Model.UseDb && !string.IsNullOrEmpty(Model.DatabaseName))
+{
+USE @Model.DatabaseName
+GO
+}
+@if (Model.DropIfExists)
+{
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'@spSchema.[@spName]') AND type in (N'P', N'PC'))
+DROP PROCEDURE @spSchema.[@spName]
+GO
+}
+@helper fieldValue(string name, bool comma = true)
+{
+	@if (Model.UseDbExtensions)
+	{
+		CASE WHEN @extSchema.IsEmpty(@@(@name)) = 1 THEN NULL ELSE @@(@name) END,
+	}
+	else
+	{
+		CASE WHEN LEN(RTRIM(LTRIM(ISNULL(@@(@name), '')))) = 0 THEN NULL ELSE @@(@name) END @(comma ? "," : "")
+	}
+}
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE @spSchema.[@spName]
+(
+	@@Username		nvarchar(50) = null,
+	@@RoleName		nvarchar(50) = null,
+	@@Url			nvarchar(500) = null,
+	@@FormData		nvarchar(4000) = null,
+	@@Headers		nvarchar(500) = null,
+	@@Message		nvarchar(4000) = null,
+	@@StackTrace	nvarchar(max) = null,
+	@@IP			varchar(40) = null,
+	@@Cookies		nvarchar(4000) = null,
+	@@HostName		varchar(30) = null,
+	@@Method		varchar(20) = null,
+	@@Referer		nvarchar(500) = null,
+	@@Info			nvarchar(4000) = null,
+	@@Browser		varchar(50) = null
+)
+AS
+BEGIN
+	INSERT INTO @tblSchema.[@tblName]
+	(
+		 [Username]
+		,[RoleName]
+		,[Url]
+		,[FormData]
+		,[Headers]
+		,[Message]
+		,[StackTrace]
+		,[IP]
+		,[Cookies]
+		,[HostName]
+		,[Method]
+		,[Referer]
+		,[Info]
+		,[Browser]
+	 )
+     VALUES
+	 (
+		@fieldValue("Username")
+		@fieldValue("RoleName")
+		@fieldValue("Url")
+		@fieldValue("FormData")
+		@fieldValue("Headers")
+		@fieldValue("Message")
+		@fieldValue("StackTrace")
+		@fieldValue("IP")
+		@fieldValue("Cookies")
+		@fieldValue("HostName")
+		@fieldValue("Method")
+		@fieldValue("Referer")
+		@fieldValue("Info")
+		@fieldValue("Browser", false)
+	)
+END
+GO

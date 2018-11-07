@@ -1,0 +1,16 @@
+﻿{
+  "ConnectionStringName": "ConStr", 
+  "UserPkType": "int",
+  "Tables": {
+    "Users": "UserTbl",
+    "Roles": "RoleTbl",
+    "UserRoles": "UserRoleTbl",
+    "UserLogins": "UserLoginTbl",
+    "UserClaims": "UserClaimTbl"
+  },
+  "UseMigration": false,
+  "CustomizeModelProperties": {
+    "User": " public virtual bool IsLegalUser { get; set; } \n public virtual ICollection<Person> Person { get; set; }\n   public virtual ICollection<Company> Company { get; set; }", 
+    "Role": { "Title": "string" }
+  }
+}

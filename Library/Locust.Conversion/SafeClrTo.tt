@@ -1,0 +1,76 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+<#@ output extension=".cs" #>
+
+<# var types = new Dictionary<string, string> {
+ { "Byte", "System.Byte" }, { "SByte", "System.SByte" }, { "Int64", "System.Int64" }, { "Int32", "System.Int32" }, { "Int16", "System.Int16" }, 
+ { "UInt64", "System.UInt64" }, { "UInt32", "System.UInt32" }, { "UInt16", "System.UInt16" }, 
+ { "Single", "System.Single" }, { "Double", "System.Double" }, { "Decimal", "System.Decimal" }, { "DateTime", "System.DateTime" }
+};
+#>
+using System;
+using Locust.Base;
+
+namespace Locust.Conversion
+{
+	public static partial class SafeClrConvert
+	{
+    <# foreach (var item in types)
+       {
+		   var type = item.Key;
+		   var systemType = item.Value;
+	#>
+		public static <#=systemType#> To<#=type#>(object x, <#=systemType#> @default = default(<#=systemType#>))
+        {
+            <#=systemType#> result;
+
+            try
+            {
+                var s = x as string;
+
+                if (!(DBNull.Value.Equals(x) || x == null || (s != null && string.IsNullOrWhiteSpace(s))))
+                {
+                    result = System.Convert.To<#=type#>(x);
+                }
+                else
+                {
+                    result = @default;
+                }
+            }
+            catch
+            {
+                result = @default;
+            }
+
+            return result;
+        } 
+		public static <#=systemType#>? To<#=type#>Nullable(object x, bool useDefaultForNull = false, <#=systemType#> @default = default(<#=systemType#>))
+        {
+            <#=systemType#>? result = null;
+
+            try
+            {
+                var s = x as string;
+
+                if (!(DBNull.Value.Equals(x) || x == null || (s != null && string.IsNullOrWhiteSpace(s))))
+                {
+                    result = System.Convert.To<#=type#>(x);
+                }
+            }
+            catch
+            { }
+
+			if (result == null && useDefaultForNull)
+            {
+                result = @default;
+            }
+
+            return result;
+        }
+     <# } #>
+	}
+}

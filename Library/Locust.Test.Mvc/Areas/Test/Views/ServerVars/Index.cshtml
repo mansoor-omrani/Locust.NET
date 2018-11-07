@@ -1,0 +1,28 @@
+﻿@* Generator: MvcView *@
+@{
+    ViewBag.PageTitle = "Server Variables";
+    ViewBag.Js = false;
+
+    var vars = Request.ServerVariables;
+}
+
+<h2>Server Variables</h2>
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (string item in vars)
+        {
+            <tr>
+                <td>@item</td>
+                <td>@vars[item]</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

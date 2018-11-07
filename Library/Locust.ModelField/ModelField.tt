@@ -1,0 +1,277 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="$(SolutionDir)Locust\Library\Locust.Extensions\bin\Debug\Locust.Extensions.dll" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Locust.Extensions" #>
+
+<#@ output extension=".cs" #>
+<#
+	var types = new List<Tuple<string, string>>();
+	
+	types.Add(Tuple.Create<string, string>("TByte", "System.Byte"));
+	types.Add(Tuple.Create<string, string>("TSByte", "System.SByte"));
+	types.Add(Tuple.Create<string, string>("TInt16", "System.Int16"));
+	types.Add(Tuple.Create<string, string>("TInt32", "System.Int32"));
+	types.Add(Tuple.Create<string, string>("TInt64", "System.Int64"));
+	types.Add(Tuple.Create<string, string>("TUInt16", "System.UInt16"));
+	types.Add(Tuple.Create<string, string>("TUInt32", "System.UInt32"));
+	types.Add(Tuple.Create<string, string>("TUInt64", "System.UInt64"));
+	types.Add(Tuple.Create<string, string>("TInt", "System.Int32"));
+	types.Add(Tuple.Create<string, string>("TLong", "System.Int64"));
+	types.Add(Tuple.Create<string, string>("TShort", "System.Int16"));
+	types.Add(Tuple.Create<string, string>("TUInt", "System.UInt32"));
+	types.Add(Tuple.Create<string, string>("TULong", "System.UInt64"));
+	types.Add(Tuple.Create<string, string>("TUShort", "System.UInt16"));
+	types.Add(Tuple.Create<string, string>("TSingle", "System.Single"));
+	types.Add(Tuple.Create<string, string>("TDouble", "System.Double"));
+	types.Add(Tuple.Create<string, string>("TFloat", "System.Single"));
+	types.Add(Tuple.Create<string, string>("TDecimal", "System.Decimal"));
+	types.Add(Tuple.Create<string, string>("TChar", "System.Char"));
+	types.Add(Tuple.Create<string, string>("TDateTime", "System.DateTime"));
+	types.Add(Tuple.Create<string, string>("TGuid", "System.Guid"));
+	types.Add(Tuple.Create<string, string>("TBoolean", "System.Boolean"));
+	types.Add(Tuple.Create<string, string>("TString", "System.String"));
+#>
+using System;
+using System.ComponentModel;
+
+namespace Locust.ModelField
+{
+	public abstract class Field: IComparable
+	{
+		//public object Value { get; set; }
+		public abstract int CompareTo(object x);
+	}
+    [DefaultProperty("Value")]
+    public class Field<T>: Field where T: IComparable
+    {
+        public T Value { get; set; }
+        public static implicit operator Field<T>(T t)
+        {
+            return new Field<T>(t);
+        }
+        public static implicit operator T(Field<T> f)
+        {
+			if (f == null)
+				return default(T);
+            return f.Value;
+        }
+        public Field()
+        { }
+        public Field(T x)
+        {
+			Value = x;
+		}
+		public override int CompareTo(object x)
+		{
+			if (Value == null && x == null)
+				return 0;
+			if (Value == null)
+				return -1;
+			if (x == null)
+				return 1;
+			return Value.CompareTo(x);
+		}
+		public override int GetHashCode()
+        {
+			if (Value == null)
+				return 0;
+            return Value.GetHashCode();
+        }
+        public override bool Equals(object x)
+        {
+			if (Value == null && x == null)
+				return true;
+			if (Value == null || x == null)
+				return false;
+			return Value.Equals(x);
+        }
+		public override string ToString()
+        {
+			if (Value == null)
+				return null;
+            return Value.ToString();
+        }
+    }
+<# foreach (var item in types) { #>
+    public partial class <#=item.Item1#>: Field<<#=item.Item2#>>
+    {
+		public <#=item.Item1#>()
+            : base()
+        { }
+        public <#=item.Item1#>(<#=item.Item2#> x)
+            : base(x)
+        { }
+        public static implicit operator <#=item.Item1#>(<#=item.Item2#> t)
+        {
+            return new <#=item.Item1#>(t);
+        }
+        public static implicit operator <#=item.Item2#>(<#=item.Item1#> f)
+        {
+			if ((object)f == null)
+				return default(<#=item.Item2#>);
+			else
+				return f.Value;
+        }
+		public override int CompareTo(object x)
+		{
+			<# if (item.Item1 == "TString") { #>
+			if (Value == null && x == null)
+				return 0;
+			if (Value == null)
+				return -1;
+			if (x == null)
+				return 1;
+			return Value.CompareTo(x);
+			<# } else { #>
+			return Value.CompareTo(x);
+			<# } #>
+		}
+		public override int GetHashCode()
+        {
+			<# if (item.Item1 == "TString") { #>
+			if (Value == null)
+				return 0;
+			return Value.GetHashCode();
+			<# } else { #>
+			return Value.GetHashCode();
+			<# } #>
+        }
+        public override bool Equals(object x)
+        {
+		<# if (item.Item1 == "TString") { #>
+			if (Value == null && x == null)
+				return true;
+			if (Value == null)
+				return false;
+            return Value.Equals(x);
+		<# } else { #>
+			return Value.Equals(x);
+		<# } #>
+        }
+		public bool Equals(<#=item.Item1#> x)
+        {
+            if ((object)x == null)
+                return false;
+            return Value == x.Value;
+        }
+		public bool Equals(<#=item.Item2#> x)
+        {
+			<# if (item.Item1 == "TGuid" || item.Item1 == "TString") { #>
+			if ((object)x == null)
+				return false;
+			else
+				return Value == x;
+			<# } else { #>
+				return Value == x;
+			<# } #>
+        }
+		public override string ToString()
+        {
+		<# if (item.Item1 == "TGuid") { #>
+			return ((Value == null)? null: (Value == Guid.Empty)?null:Value.ToString());
+		<# } else if (item.Item1 == "TString") { #>
+            return ((Value == null)? null: Value.ToString());
+		<# } else { #>
+			return Value.ToString();
+		<# } #>
+        }
+		<# if (true || item.Item1 != "TString") { #>
+		//------------------ Equality (<#=item.Item1#>, <#=item.Item1#>) --------------
+        public static bool operator ==(<#=item.Item1#> x, <#=item.Item1#> y)
+        {
+            if ((object)x == null && (object)y == null)
+                return true;
+            if ((object)x == null)
+                return false;
+            return x.Equals(y);
+        }
+        public static bool operator !=(<#=item.Item1#> x, <#=item.Item1#> y)
+        {
+            if ((object)x == null && (object)y == null)
+                return false;
+            if ((object)x == null)
+                return true;
+            return !x.Equals(y);
+        }
+        //------------------ Equality (<#=item.Item1#>, <#=item.Item2#>) --------------
+		/*
+        public static bool operator ==(<#=item.Item1#> x, <#=item.Item2#> y)
+        {
+            if ((object)x == null)
+                return false;
+            return x.Equals(y);
+        }
+        public static bool operator !=(<#=item.Item1#> x, <#=item.Item2#> y)
+        {
+            if ((object)x == null)
+                return true;
+            return !x.Equals(y);
+        }
+		*/
+        //------------------ Equality (<#=item.Item2#>, <#=item.Item1#>) --------------
+		/*
+        public static bool operator ==(<#=item.Item2#> x, <#=item.Item1#> y)
+        {
+            if ((object)y == null)
+                return false;
+            return y.Equals(x);
+        }
+        public static bool operator !=(<#=item.Item2#> x, <#=item.Item1#> y)
+        {
+            if ((object)y == null)
+                return true;
+            return !y.Equals(x);
+        }
+		*/
+        <# } #>
+		
+		<# if (item.Item1 == "TGuid") { #>
+        public static implicit operator <#=item.Item1#>(System.String t)
+        {
+			Guid g;
+			if (Guid.TryParse(t, out g))
+				return new <#=item.Item1#>(g);
+			else
+				return new <#=item.Item1#>(new Guid());
+        }
+        public static implicit operator System.String(<#=item.Item1#> f)
+        {
+            return f.Value.ToString();
+        }
+		<# } #>
+    }
+<# } #>
+	/*
+	public class TString : Field<System.String>
+    {
+        public int Size { get; set; }
+
+        public TString(): base()
+        {
+            Size = -1;
+        }
+
+        public TString(string x): base(x)
+        { }
+    }
+	*/
+	public static class TypeHelper
+    {
+<# foreach (var item in types) { #>
+		public static Type TypeOf<#=item.Item1#> { get; private set; }
+<# } #>
+		//public static Type TypeOfTString { get; private set; }
+		public static Type TypeOfField { get; private set; }
+		static TypeHelper()
+        {
+<# foreach (var item in types) { #>
+			TypeOf<#=item.Item1#> = typeof(Field<<#=item.Item2#>>);
+<# } #>
+			//TypeOfTString = typeof(Field<System.String>);
+			TypeOfField = typeof(Field<>);
+		}
+	}
+}

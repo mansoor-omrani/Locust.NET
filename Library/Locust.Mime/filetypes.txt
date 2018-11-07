@@ -1,0 +1,19 @@
+﻿raster image: jpg,tif,tiff,gif,png,jpeg,bmp,pcx,tga,ico,pgf,img
+raster image container: psd, xcf,psp,cpt,pdn
+vector image: eps,pdf,svg,cgm,wmf,emf,vml
+vector image container: cdr, ai,dxf,
+portable image: pbm,pgm,pnm,ppm,pam
+3d vector: 3ds, dwg
+audio uncompressed/raw: pcm,wav,aiff
+audio lossly compressed: mp3, aac, ogg, wma, oga, mpa, m4a
+audio lossless compressed: flac, alac, wma
+video uncompressed: avi
+video compressed: .MPG, .MP2, .MPEG, .MPE, .MPV,.MP4, .M4P, .M4V, .ogg, .webm, .mov, .wmv, .flv
+document: doc, docx, rtf, txt
+spread sheet: xls, xlsx
+presentation: ppm, ppx
+programming source code: c, cpp, pas, vbs, vba, vb, cs, jav
+programming compiled binary: dll, exe, apk
+programming project: csproj, dpr,sln, 
+executable: bat, cmd, exe, com
+compressed file: zip, rar, ace

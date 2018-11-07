@@ -1,0 +1,85 @@
+﻿@* Generator: MvcView *@
+@using Locust.Extensions
+@using Locust.WebExtensions
+@using System.Collections
+@using System.Collections.Specialized
+@using System.Text
+@using System.Web.Mvc
+
+@{
+    ViewBag.PageTitle = "Request Inspector";
+
+    var items = Request.ToCollection((key, value) => {
+        var result = (object)null;
+        StringBuilder sb;
+        switch (key)
+        {
+            case "Browser":
+                var browser = value as HttpBrowserCapabilitiesBase;
+                if (browser != null)
+                {
+                    result = $"{browser.Browser} {browser.Version} {browser.Platform} (MajorVersion: {browser.MajorVersion}, MinorVersion: {browser.MinorVersion})";
+                }
+                break;
+            case "ContentEncoding":
+                result = (value as Encoding)?.EncodingName;
+                break;
+            case "Files":
+                sb = new StringBuilder();
+                foreach (HttpPostedFileBase file in (value as HttpFileCollectionBase))
+                {
+                    sb.Append(file.FileName);
+                }
+                result = sb.ToString();
+                break;
+            case "Url":
+                result = (value as Uri).ToCollection().Join("<br/>");
+                break;
+            default:
+                var nameValueCollection = value as NameValueCollection;
+                if (nameValueCollection != null)
+                {
+                    result = nameValueCollection.Join("<br/>");
+                }
+                else
+                {
+                    var stringArray = value as string[];
+                    if (stringArray != null)
+                    {
+                        result = stringArray.Join(", ");
+                    }
+                    else
+                    {
+                        var nameObjectCollection = value as NameObjectCollectionBase;
+                        if (nameObjectCollection != null)
+                        {
+                            result = nameObjectCollection.Join("<br/>");
+                        }
+                    }
+                }
+                break;
+        }
+        return result;
+    });
+}
+
+<h2>Request Inspector</h2>
+
+<table class="table table-bordered table-condensed table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in items)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@Html.Raw(item.Value)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

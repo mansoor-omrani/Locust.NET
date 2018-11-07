@@ -1,0 +1,58 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" #>
+<#@ assembly name="$(ProjectDir)bin\Debug\Newtonsoft.Json.dll" #>
+<#@ import namespace="System.Dynamic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Newtonsoft.Json" #>
+
+<#@ output extension=".cs" #>
+<#
+	var serviceProvider = this.Host as IServiceProvider;
+	var dte = serviceProvider.GetService(typeof(DTE)) as DTE;
+	var solutionDir = dte.Solution.FileName;
+	var path = Path.GetDirectoryName(solutionDir) + "\\Locust\\Library\\Locust.AspNet.Identity";
+	var configContent = System.IO.File.ReadAllText(path + "\\config.json");
+
+	dynamic config = JsonConvert.DeserializeObject(configContent);
+#>
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using Locust.AspNet.Identity.Models;
+
+namespace Locust.AspNet.Identity.Service
+{
+  
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, <#=config.UserPkType#>, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim> 
+    {
+        public ApplicationDbContext(): base("<#=config.ConnectionStringName#>")
+        { }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+		
+		<# if (Convert.ToBoolean(config.UseMigration)) { #>
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Model.Migrations.Configuration>());
+		<# } #>
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+            modelBuilder.Entity<ApplicationUser>().ToTable("<#=config.Tables.Users#>");
+            modelBuilder.Entity<ApplicationRole>().ToTable("<#=config.Tables.Roles#>");
+            modelBuilder.Entity<ApplicationUserClaim>().ToTable("<#=config.Tables.UserClaims#>");
+            modelBuilder.Entity<ApplicationUserLogin>().ToTable("<#=config.Tables.UserLogins#>");
+            modelBuilder.Entity<ApplicationUserRole>().ToTable("<#=config.Tables.UserRoles#>");
+        }
+
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
+    }
+}

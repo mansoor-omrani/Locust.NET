@@ -1,0 +1,16 @@
+﻿@* Generator: MvcView *@
+
+@using Locust.Caching;
+
+@{
+    ViewBag.PageTitle = "Index";
+    var factory = (ICacheFactory)ViewBag.Factory;
+}
+
+<h1>Index</h1>
+<ul>
+    @foreach (var item in factory.GetNames())
+    {
+        <li><a href="@Localize("/test/cache/page/" + item)">@item</a></li>
+    }
+</ul>

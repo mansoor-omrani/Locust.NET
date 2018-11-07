@@ -1,0 +1,37 @@
+﻿@* Generator: MvcView *@
+@{
+    Func<string, string> isActive =
+        arg =>
+            string.Compare(ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower(),
+                    arg, StringComparison.InvariantCultureIgnoreCase) == 0 ? "active" : "";
+}
+<h2>Tests</h2>
+<div class="list-group">
+    <a href="@Localize("/test/requestinspect")" class="list-group-item @isActive("requestinspect")">
+        Request Inspector
+    </a>
+    <a href="@Localize("/test/dirs")" class="list-group-item @isActive("dirs")">
+        Directories
+    </a>
+    <a href="@Localize("/test/cache")" class="list-group-item @isActive("cache")">
+        Cache
+    </a>
+    <a href="@Localize("/test/servervars")" class="list-group-item @isActive("servervars")">
+        Server Variables
+    </a>
+    <a href="@Localize("/test/dbconnection")" class="list-group-item @isActive("dbconnection")">
+        Db Connection
+    </a>
+    <a href="@Localize("/test/mail")" class="list-group-item @isActive("mail")">
+        Mail
+    </a>
+    <a href="@Localize("/test/sms")" class="list-group-item @isActive("sms")">
+        Sms
+    </a>
+    <a href="@Localize("/test/notification")" class="list-group-item @isActive("notification")">
+        Notification
+    </a>
+    <a href="@Localize("/test/translation")" class="list-group-item @isActive("translation")">
+        Translation
+    </a>
+</div>

@@ -1,0 +1,15 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Season
+#--------------------------------------
+#	Season names in Persian Culture
+/season/1/persian/fa: بهار
+/season/2/persian/fa: تابستان
+/season/3/persian/fa: پاییز
+/season/4/persian/fa: زمستان
+
+/season/1/persian/en: Bahar, Bahaar
+/season/2/persian/en: Tabestan, Taabestan, Taabestaan
+/season/3/persian/en: Paeez, Payeez
+/season/4/persian/en: Zemestan, Zemestaan

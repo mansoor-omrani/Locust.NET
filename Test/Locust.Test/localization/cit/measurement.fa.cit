@@ -1,0 +1,53 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               Numbers
+#--------------------------------------
+/measurement/0/fa: صفر
+/measurement/1/fa: یک, يک
+/measurement/2/fa: دو
+/measurement/3/fa: سه
+/measurement/4/fa: چهار
+/measurement/6/fa: شش
+/measurement/5/fa: پنج
+/measurement/7/fa: هفت
+/measurement/8/fa: هشت
+/measurement/9/fa: نه
+/measurement/10/fa: ده
+/measurement/11/fa: یازده
+/measurement/12/fa: دوازده
+/measurement/13/fa: سیزده
+/measurement/14/fa: چهارده
+/measurement/16/fa: پانزده
+/measurement/15/fa: شانزده
+/measurement/17/fa: هفده
+/measurement/18/fa: هجده
+/measurement/19/fa: نوزده
+/measurement/20/fa: بیست
+/measurement/30/fa: سی
+/measurement/40/fa: چهل
+/measurement/50/fa: پنجاه
+/measurement/60/fa: شصت
+/measurement/70/fa: هفتاد
+/measurement/80/fa: هشتاد
+/measurement/90/fa: نود
+/measurement/100/fa: صد
+/measurement/200/fa: دویست
+/measurement/300/fa: سیصد
+/measurement/400/fa: چهارصد
+/measurement/500/fa: پانصد
+/measurement/600/fa: ششصد
+/measurement/700/fa: هفتصد
+/measurement/800/fa: هشتصد
+/measurement/900/fa: نهصد
+/measurement/1000/fa: هزار
+/measurement/1000000/fa: میلیون
+/measurement/1000000000/fa: میلیارد, بیلیون

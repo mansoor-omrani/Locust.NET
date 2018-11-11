@@ -1,0 +1,38 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Day of Week
+#--------------------------------------
+#	names of days in a week in English Culture
+/weekday/6/christian/fa: شنبه
+/weekday/0/christian/fa: یکشنبه, يکشنبه
+/weekday/1/christian/fa: دوشنبه
+/weekday/2/christian/fa: سه‌شنبه, سه شنبه
+/weekday/3/christian/fa: چهارشنبه
+/weekday/4/christian/fa: پنج‌شنبه, پنج شنبه
+/weekday/5/christian/fa: جمعه
+
+/weekday/6/christian/en: Saturday
+/weekday/0/christian/en: Sunday
+/weekday/1/christian/en: Monday
+/weekday/2/christian/en: Tuesday
+/weekday/3/christian/en: Wednesday
+/weekday/4/christian/en: Thursday
+/weekday/5/christian/en: Friday
+
+#	short names of days in a week in English Culture
+/shortweekday/6/christian/fa: ش
+/shortweekday/0/christian/fa: ی
+/shortweekday/1/christian/fa: د
+/shortweekday/2/christian/fa: س
+/shortweekday/3/christian/fa: چ
+/shortweekday/4/christian/fa: پ
+/shortweekday/5/christian/fa: ج
+
+/shortweekday/6/christian/en: Sat
+/shortweekday/0/christian/en: Sun
+/shortweekday/1/christian/en: Mon
+/shortweekday/2/christian/en: Tue
+/shortweekday/3/christian/en: Wed
+/shortweekday/4/christian/en: Thu
+/shortweekday/5/christian/en: Fri

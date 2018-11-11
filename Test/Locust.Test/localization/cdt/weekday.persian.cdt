@@ -1,0 +1,39 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Day of Week
+#--------------------------------------
+#	names of days in a week in Persian Culture
+
+/weekday/0/persian/fa: شنبه
+/weekday/1/persian/fa: یکشنبه, يکشنبه
+/weekday/2/persian/fa: دوشنبه
+/weekday/3/persian/fa: سه‌شنبه, سه شنبه
+/weekday/4/persian/fa: چهارشنبه
+/weekday/5/persian/fa: پنج‌شنبه, پنج شنبه
+/weekday/6/persian/fa: جمعه
+
+/weekday/0/persian/en: Shanbe, Shanbeh
+/weekday/1/persian/en: Yekshanbe, Yekshanbeh
+/weekday/2/persian/en: Doshanbe, Doshanbeh
+/weekday/3/persian/en: Seshanbe, Seshanbeh
+/weekday/4/persian/en: Chahar shanbe, Chaharshanbeh
+/weekday/5/persian/en: Panjshanbe, Panjshanbeh
+/weekday/6/persian/en: Jome, Jom'e
+
+#	short names of days in a week in Persian Culture
+/shortweekday/0/persian/fa: ش
+/shortweekday/1/persian/fa: ی
+/shortweekday/2/persian/fa: د
+/shortweekday/3/persian/fa: س
+/shortweekday/4/persian/fa: چ
+/shortweekday/5/persian/fa: پ
+/shortweekday/6/persian/fa: ج
+
+/shortweekday/0/persian/en: Sh
+/shortweekday/1/persian/en: Yek
+/shortweekday/2/persian/en: Do
+/shortweekday/3/persian/en: Se
+/shortweekday/4/persian/en: Cha
+/shortweekday/5/persian/en: Pan
+/shortweekday/6/persian/en: Jom

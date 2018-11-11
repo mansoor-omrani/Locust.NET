@@ -1,0 +1,85 @@
+{
+  "service": "ApiClientIP",
+  "Strategies": [
+    {
+      "strategy": "Add",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Update",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Delete",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "SetState",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetAll",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

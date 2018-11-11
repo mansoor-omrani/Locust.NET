@@ -1,0 +1,122 @@
+﻿{
+  "service": "City",
+  "Strategies": [
+    {
+      "strategy": "Add",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "شهر {city} با موفقیت درج شد",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": "",
+            "NoTitleGiven": "لطفا نام شهر را مشخص کنید"
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Update",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "CodeAlreadyExists": "کد {code} قبلا برای شهر \\\"{city}\\\" استفاده شده است",
+            "Errored": "",
+            "Failed": "",
+            "Faulted": "",
+            "InvalidStatus": "",
+            "None": "",
+            "NoTitleGiven": "لطفا نام شهر را مشخص کنید",
+            "Success": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "DeleteById",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": "",
+            "AccessDenied": "شما دسترسی به حذف سینما را ندارید" ,
+              "NotFound": "شهر مورد نظر شما یافت نشد" 
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetById",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetByCode",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetAll",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetByState",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

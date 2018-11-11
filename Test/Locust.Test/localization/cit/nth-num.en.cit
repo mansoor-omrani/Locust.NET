@@ -1,0 +1,52 @@
+﻿#culture-independent-text
+# examples:
+#	/company/microsoft/en: Microsoft
+#	/company/microsoft/fa: مایکروسافت, ماکروسافت
+#	
+#	/name/1/fa: منصور
+#	/name/1/en: Mansoor, Mansour
+#	
+#	/fire/1/fa: آتش, آتیش
+#	/fire/1/en: Fire, Light
+#--------------------------------------
+#               nth-numbers
+#--------------------------------------
+/nth-num/1/en: First, 1st
+/nth-num/2/en: Second, 2nd
+/nth-num/3/en: Third, 3rd
+/nth-num/4/en: Fourth, 4th
+/nth-num/5/en: Fifth, 5th
+/nth-num/6/en: Sixth, 6th
+/nth-num/7/en: Seventh, 7th
+/nth-num/8/en: Eighth, 8th
+/nth-num/9/en: Ninth, 9th
+/nth-num/10/en: Tenth, 10th
+/nth-num/11/en: Eleventh, 11th
+/nth-num/12/en: Twelfth, 12th
+/nth-num/13/en: Thirteenth, 13th
+/nth-num/14/en: Fourteenth, 14th
+/nth-num/15/en: Fifteenth, 15th
+/nth-num/16/en: Sixteenth, 16th
+/nth-num/17/en: Seventeenth, 17th
+/nth-num/18/en: Eighteenth, 18th
+/nth-num/19/en: Ninteenth, 19th
+/nth-num/20/en: Twentieth, 20th
+/nth-num/30/en: Thirtieth, 30th
+/nth-num/40/en: Fourtieth, 40th
+/nth-num/50/en: Fiftieth, 50th
+/nth-num/60/en: Sixtieth, 60th
+/nth-num/70/en: Seventieth, 70th
+/nth-num/80/en: Eightieth, 80th
+/nth-num/90/en: Ninteith, 90th
+/nth-num/100/en: Hundredth, 100th
+/nth-num/200/en: Two-hundredth, 200th
+/nth-num/300/en: Three-hundredth, 300th
+/nth-num/400/en: Four-hundredth, 400th
+/nth-num/500/en: Five-hundredth, 500th
+/nth-num/600/en: Six-hundredth, 600th
+/nth-num/700/en: Seven-hundredth, 700th
+/nth-num/800/en: Eight-hundredth, 800th
+/nth-num/900/en: Nine-hundredth, 900th
+/nth-num/1000/en: Thousandth, 1000th
+/nth-num/1000000/en: Millionth, 1000000th
+/nth-num/1000000000/en: Billionth, 1000000000th

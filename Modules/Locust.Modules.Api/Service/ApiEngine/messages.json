@@ -1,0 +1,21 @@
+{
+  "service": "ApiEngine",
+  "Strategies": [
+    {
+      "strategy": "Run",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

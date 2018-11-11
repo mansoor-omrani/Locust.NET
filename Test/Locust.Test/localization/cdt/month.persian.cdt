@@ -1,0 +1,58 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Month
+#--------------------------------------
+#	month names in Persian Culture
+/month/1/persian/fa: فروردین
+/month/2/persian/fa: اردیبهشت, ارديبهشت
+/month/3/persian/fa: خرداد
+/month/4/persian/fa: تیر, تير
+/month/5/persian/fa: مرداد
+/month/6/persian/fa: شهریور, شهريور
+/month/7/persian/fa: مهر
+/month/8/persian/fa: آبان
+/month/9/persian/fa: آذر
+/month/10/persian/fa: دی, دي
+/month/11/persian/fa: بهمن
+/month/12/persian/fa: اسفند
+
+/month/1/persian/en: Farvardin
+/month/2/persian/en: Ordibehesht
+/month/3/persian/en: Khordad, Khordaad
+/month/4/persian/en: Tir
+/month/5/persian/en: Mordad, Mordaad
+/month/6/persian/en: Shahrivar
+/month/7/persian/en: Mehr
+/month/8/persian/en: Aban, Aabaan
+/month/9/persian/en: Azar, Aazar
+/month/10/persian/en: Dei, Dey
+/month/11/persian/en: Bahman
+/month/12/persian/en: Esfand
+
+#	short month names in Persian Culture
+/shortmonth/1/persian/fa: فروردین
+/shortmonth/2/persian/fa: اردیبهشت, ارديبهشت
+/shortmonth/3/persian/fa: خرداد
+/shortmonth/4/persian/fa: تیر, تير
+/shortmonth/5/persian/fa: مرداد
+/shortmonth/6/persian/fa: شهریور, شهريور
+/shortmonth/7/persian/fa: مهر
+/shortmonth/8/persian/fa: آبان
+/shortmonth/9/persian/fa: آذر
+/shortmonth/10/persian/fa: دی, دي
+/shortmonth/11/persian/fa: بهمن
+/shortmonth/12/persian/fa: اسفند
+
+/shortmonth/1/persian/en: Far
+/shortmonth/2/persian/en: Ord
+/shortmonth/3/persian/en: Khr
+/shortmonth/4/persian/en: Tir
+/shortmonth/5/persian/en: Mor
+/shortmonth/6/persian/en: Shah
+/shortmonth/7/persian/en: Meh
+/shortmonth/8/persian/en: Ab
+/shortmonth/9/persian/en: Az
+/shortmonth/10/persian/en: Dei
+/shortmonth/11/persian/en: Bah
+/shortmonth/12/persian/en: Esf

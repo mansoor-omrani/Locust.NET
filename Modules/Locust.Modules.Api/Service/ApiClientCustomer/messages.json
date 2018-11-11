@@ -1,0 +1,213 @@
+{
+  "service": "ApiClientCustomer",
+  "Strategies": [
+    {
+      "strategy": "Add",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Update",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Delete",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "SetActivated",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "SetDisabled",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Unlock",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetByPK",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetByToken",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Check",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Activate",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Refresh",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Register",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetPage",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

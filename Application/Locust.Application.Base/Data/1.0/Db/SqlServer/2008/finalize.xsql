@@ -1,0 +1,24 @@
+﻿/*
+install order:
+	schemas
+	types
+	rules
+	udfs
+	tables
+	default constraints
+	relations
+	views
+
+	types
+	assemblies
+	sequences
+	udfs
+	sprocs
+	triggers
+
+	roles
+	users
+
+	indexes
+	jobs
+*/

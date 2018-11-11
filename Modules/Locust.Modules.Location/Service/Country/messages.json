@@ -1,0 +1,101 @@
+{
+  "service": "Country",
+  "Strategies": [
+    {
+      "strategy": "Add",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "Update",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "DeleteById",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetById",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetByCode",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    },
+    {
+      "strategy": "GetAll",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

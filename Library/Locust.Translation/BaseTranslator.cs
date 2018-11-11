@@ -521,10 +521,16 @@ namespace Locust.Translation
                             if (ch == '}')
                             {
                                 temp = GetSingle(link);
+
                                 if (!string.IsNullOrEmpty(temp))
                                 {
                                     sb.Append(temp);
                                 }
+                                else
+                                {
+                                    sb.Append("{" + link + "}");
+                                }
+
                                 link = "";
                                 temp = "";
                                 state = 0;

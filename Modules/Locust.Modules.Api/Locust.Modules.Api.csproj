@@ -1,0 +1,857 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{95724E5E-3532-4B26-A280-C424647EA6CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Modules.Api</RootNamespace>
+    <AssemblyName>Locust.Modules.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>g:\nuget\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fields\Api.cs" />
+    <Compile Include="Fields\ApiClient.cs" />
+    <Compile Include="Fields\ApiClientCustomer.cs" />
+    <Compile Include="Fields\ApiClientCustomerHub.cs" />
+    <Compile Include="Fields\ApiClientIP.cs" />
+    <Compile Include="Fields\ApiSetting.cs" />
+    <Compile Include="Fields\ServiceSetting.cs" />
+    <Compile Include="Model\ApiClientCustomerHub\AdminGrid.cs" />
+    <Compile Include="Model\ApiClientCustomerHub\Full.cs" />
+    <Compile Include="Model\ApiClientCustomer\AdminGrid.cs" />
+    <Compile Include="Model\ApiClientCustomer\Full.cs" />
+    <Compile Include="Model\ApiClientIP\AdminGrid.cs" />
+    <Compile Include="Model\ApiClientIP\Full.cs" />
+    <Compile Include="Model\ApiClient\AdminGrid.cs" />
+    <Compile Include="Model\ApiClient\ClientApi.cs" />
+    <Compile Include="Model\ApiClient\Full.cs" />
+    <Compile Include="Model\ApiClient\GetPage.cs" />
+    <Compile Include="Model\ApiSetting\Full.cs" />
+    <Compile Include="Model\Api\AdminGrid.cs" />
+    <Compile Include="Model\Api\Full.cs" />
+    <Compile Include="Model\ServiceSetting\Full.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ApiBaseService.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Config.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Context.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\GetPage\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\QuickUpdate\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Service.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Service.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\ServiceBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\StrategyStore.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Context.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Request.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Response.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Status.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomerHub\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Activate\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Check\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Config.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Enrol\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetByToken\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Context.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\GetPage\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Refresh\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Register\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Service.cs" />
+    <Compile Include="Service\ApiClientCustomer\Service.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\ServiceBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetActivated\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\SetDisabled\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\StrategyStore.cs" />
+    <Compile Include="Service\ApiClientCustomer\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Unlock\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Context.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Request.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Response.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Status.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Strategy.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientCustomer\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Context.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Request.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Response.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Status.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Strategy.cs" />
+    <Compile Include="Service\ApiClientIP\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Add\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientIP\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Config.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Context.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Request.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Response.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Status.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Strategy.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientIP\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Context.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Request.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Response.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Status.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Strategy.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientIP\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Service.cs" />
+    <Compile Include="Service\ApiClientIP\Service.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\ServiceBase.cs" />
+    <Compile Include="Service\ApiClientIP\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Context.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Request.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Response.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Status.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Strategy.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientIP\SetIsActive\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\StrategyStore.cs" />
+    <Compile Include="Service\ApiClientIP\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Context.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Request.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Request.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Response.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Response.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Status.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Strategy.cs" />
+    <Compile Include="Service\ApiClientIP\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClientIP\Update\StrategyBase.cs" />
+    <Compile Include="Service\ApiClientIP\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\Add\Context.cs" />
+    <Compile Include="Service\ApiClient\Add\Request.cs" />
+    <Compile Include="Service\ApiClient\Add\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\Add\Response.cs" />
+    <Compile Include="Service\ApiClient\Add\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\Add\Status.cs" />
+    <Compile Include="Service\ApiClient\Add\Strategy.cs" />
+    <Compile Include="Service\ApiClient\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\Add\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\Config.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Context.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Request.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Response.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Status.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Strategy.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\DeleteByKey\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Context.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Request.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Response.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Status.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Strategy.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\DeleteByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Context.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Request.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Response.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Status.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Context.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Context.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Request.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Response.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Status.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetApis\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetApis\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetApis\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Context.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Request.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Response.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Status.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetByHash\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Context.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Request.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Response.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Status.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetByKey\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Context.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Request.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Response.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Status.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Context.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Context.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Request.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Response.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Status.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Strategy.cs" />
+    <Compile Include="Service\ApiClient\GetPage\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\GetPage\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\GetPage\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Context.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Request.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Response.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Status.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Strategy.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\RemoveByKey\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Context.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Request.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Response.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Status.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Strategy.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\RemoveByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Context.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Request.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Response.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Status.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Strategy.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\SaveApis\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\Service.cs" />
+    <Compile Include="Service\ApiClient\Service.Customized.cs" />
+    <Compile Include="Service\ApiClient\ServiceBase.cs" />
+    <Compile Include="Service\ApiClient\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ApiClient\StrategyStore.cs" />
+    <Compile Include="Service\ApiClient\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ApiClient\Update\Context.cs" />
+    <Compile Include="Service\ApiClient\Update\Request.cs" />
+    <Compile Include="Service\ApiClient\Update\Request.Customized.cs" />
+    <Compile Include="Service\ApiClient\Update\Response.cs" />
+    <Compile Include="Service\ApiClient\Update\Response.Customized.cs" />
+    <Compile Include="Service\ApiClient\Update\Status.cs" />
+    <Compile Include="Service\ApiClient\Update\Strategy.cs" />
+    <Compile Include="Service\ApiClient\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiClient\Update\StrategyBase.cs" />
+    <Compile Include="Service\ApiClient\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiEngine\ApiBaseRequest.cs" />
+    <Compile Include="Service\ApiEngine\ApiCallContext.cs" />
+    <Compile Include="Service\ApiEngine\ApiEngine.cs" />
+    <Compile Include="Service\ApiEngine\ApiFilter.cs" />
+    <Compile Include="Service\ApiEngine\ApiResponse.cs" />
+    <Compile Include="Service\ApiEngine\Config.cs" />
+    <Compile Include="Service\ApiEngine\Run\Context.cs" />
+    <Compile Include="Service\ApiEngine\Run\Request.cs" />
+    <Compile Include="Service\ApiEngine\Run\Response.cs" />
+    <Compile Include="Service\ApiEngine\Run\Response.Customized.cs" />
+    <Compile Include="Service\ApiEngine\Run\Status.cs" />
+    <Compile Include="Service\ApiEngine\Run\Strategy.cs" />
+    <Compile Include="Service\ApiEngine\Run\StrategyBase.cs" />
+    <Compile Include="Service\ApiEngine\Service.cs" />
+    <Compile Include="Service\ApiEngine\ServiceBase.cs" />
+    <Compile Include="Service\ApiEngine\StrategyStore.cs" />
+    <Compile Include="Service\ApiExtensions.cs" />
+    <Compile Include="Service\ApiSetting\Add\Context.cs" />
+    <Compile Include="Service\ApiSetting\Add\Request.cs" />
+    <Compile Include="Service\ApiSetting\Add\Request.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Add\Response.cs" />
+    <Compile Include="Service\ApiSetting\Add\Response.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Add\Status.cs" />
+    <Compile Include="Service\ApiSetting\Add\Strategy.cs" />
+    <Compile Include="Service\ApiSetting\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Add\StrategyBase.cs" />
+    <Compile Include="Service\ApiSetting\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Config.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Context.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Request.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Request.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Response.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Response.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Status.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Strategy.cs" />
+    <Compile Include="Service\ApiSetting\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Delete\StrategyBase.cs" />
+    <Compile Include="Service\ApiSetting\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Context.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Context.Customized.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Request.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Request.Customized.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Response.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Response.Customized.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Status.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Strategy.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\StrategyBase.cs" />
+    <Compile Include="Service\ApiSetting\GetAllByApi\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Service.cs" />
+    <Compile Include="Service\ApiSetting\Service.Customized.cs" />
+    <Compile Include="Service\ApiSetting\ServiceBase.cs" />
+    <Compile Include="Service\ApiSetting\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ApiSetting\StrategyStore.cs" />
+    <Compile Include="Service\ApiSetting\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Update\Context.cs" />
+    <Compile Include="Service\ApiSetting\Update\Request.cs" />
+    <Compile Include="Service\ApiSetting\Update\Request.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Update\Response.cs" />
+    <Compile Include="Service\ApiSetting\Update\Response.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Update\Status.cs" />
+    <Compile Include="Service\ApiSetting\Update\Strategy.cs" />
+    <Compile Include="Service\ApiSetting\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ApiSetting\Update\StrategyBase.cs" />
+    <Compile Include="Service\ApiSetting\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\Add\Context.cs" />
+    <Compile Include="Service\Api\Add\Request.cs" />
+    <Compile Include="Service\Api\Add\Request.Customized.cs" />
+    <Compile Include="Service\Api\Add\Response.cs" />
+    <Compile Include="Service\Api\Add\Response.Customized.cs" />
+    <Compile Include="Service\Api\Add\Status.cs" />
+    <Compile Include="Service\Api\Add\Strategy.cs" />
+    <Compile Include="Service\Api\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\Add\StrategyBase.cs" />
+    <Compile Include="Service\Api\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\CheckAccess\Context.cs" />
+    <Compile Include="Service\Api\CheckAccess\Request.cs" />
+    <Compile Include="Service\Api\CheckAccess\Request.Customized.cs" />
+    <Compile Include="Service\Api\CheckAccess\Response.cs" />
+    <Compile Include="Service\Api\CheckAccess\Response.Customized.cs" />
+    <Compile Include="Service\Api\CheckAccess\Status.cs" />
+    <Compile Include="Service\Api\CheckAccess\Strategy.cs" />
+    <Compile Include="Service\Api\CheckAccess\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\CheckAccess\StrategyBase.cs" />
+    <Compile Include="Service\Api\CheckAccess\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\Config.cs" />
+    <Compile Include="Service\Api\Delete\Context.cs" />
+    <Compile Include="Service\Api\Delete\Request.cs" />
+    <Compile Include="Service\Api\Delete\Request.Customized.cs" />
+    <Compile Include="Service\Api\Delete\Response.cs" />
+    <Compile Include="Service\Api\Delete\Response.Customized.cs" />
+    <Compile Include="Service\Api\Delete\Status.cs" />
+    <Compile Include="Service\Api\Delete\Strategy.cs" />
+    <Compile Include="Service\Api\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\Delete\StrategyBase.cs" />
+    <Compile Include="Service\Api\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Context.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Context.Customized.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Request.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Request.Customized.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Response.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Response.Customized.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Status.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Strategy.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\StrategyBase.cs" />
+    <Compile Include="Service\Api\GetAllByAppShortName\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\GetAll\Context.cs" />
+    <Compile Include="Service\Api\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\Api\GetAll\Request.cs" />
+    <Compile Include="Service\Api\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\Api\GetAll\Response.cs" />
+    <Compile Include="Service\Api\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\Api\GetAll\Status.cs" />
+    <Compile Include="Service\Api\GetAll\Strategy.cs" />
+    <Compile Include="Service\Api\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\Api\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\GetByPath\Context.cs" />
+    <Compile Include="Service\Api\GetByPath\Request.cs" />
+    <Compile Include="Service\Api\GetByPath\Request.Customized.cs" />
+    <Compile Include="Service\Api\GetByPath\Response.cs" />
+    <Compile Include="Service\Api\GetByPath\Response.Customized.cs" />
+    <Compile Include="Service\Api\GetByPath\Status.cs" />
+    <Compile Include="Service\Api\GetByPath\Strategy.cs" />
+    <Compile Include="Service\Api\GetByPath\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\GetByPath\StrategyBase.cs" />
+    <Compile Include="Service\Api\GetByPath\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\GetByPK\Context.cs" />
+    <Compile Include="Service\Api\GetByPK\Request.cs" />
+    <Compile Include="Service\Api\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\Api\GetByPK\Response.cs" />
+    <Compile Include="Service\Api\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\Api\GetByPK\Status.cs" />
+    <Compile Include="Service\Api\GetByPK\Strategy.cs" />
+    <Compile Include="Service\Api\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\Api\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Api\Service.cs" />
+    <Compile Include="Service\Api\Service.Customized.cs" />
+    <Compile Include="Service\Api\ServiceBase.cs" />
+    <Compile Include="Service\Api\ServiceBase.Customized.cs" />
+    <Compile Include="Service\Api\StrategyStore.cs" />
+    <Compile Include="Service\Api\StrategyStore.Customized.cs" />
+    <Compile Include="Service\Api\Update\Context.cs" />
+    <Compile Include="Service\Api\Update\Request.cs" />
+    <Compile Include="Service\Api\Update\Request.Customized.cs" />
+    <Compile Include="Service\Api\Update\Response.cs" />
+    <Compile Include="Service\Api\Update\Response.Customized.cs" />
+    <Compile Include="Service\Api\Update\Status.cs" />
+    <Compile Include="Service\Api\Update\Strategy.cs" />
+    <Compile Include="Service\Api\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\Api\Update\StrategyBase.cs" />
+    <Compile Include="Service\Api\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Date\Config.cs" />
+    <Compile Include="Service\Date\Now\Context.cs" />
+    <Compile Include="Service\Date\Now\Request.cs" />
+    <Compile Include="Service\Date\Now\Request.Customized.cs" />
+    <Compile Include="Service\Date\Now\Response.cs" />
+    <Compile Include="Service\Date\Now\Response.Customized.cs" />
+    <Compile Include="Service\Date\Now\Status.cs" />
+    <Compile Include="Service\Date\Now\Strategy.cs" />
+    <Compile Include="Service\Date\Now\Strategy.Customized.cs" />
+    <Compile Include="Service\Date\Now\StrategyBase.cs" />
+    <Compile Include="Service\Date\Now\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Date\Service.cs" />
+    <Compile Include="Service\Date\Service.Customized.cs" />
+    <Compile Include="Service\Date\ServiceBase.cs" />
+    <Compile Include="Service\Date\ServiceBase.Customized.cs" />
+    <Compile Include="Service\Date\StrategyStore.cs" />
+    <Compile Include="Service\Date\StrategyStore.Customized.cs" />
+    <Compile Include="Service\Enum.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Context.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Request.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Request.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Response.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Response.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Status.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Strategy.cs" />
+    <Compile Include="Service\ServiceSetting\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Add\StrategyBase.cs" />
+    <Compile Include="Service\ServiceSetting\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Config.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Context.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Request.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Request.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Response.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Response.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Status.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Strategy.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\StrategyBase.cs" />
+    <Compile Include="Service\ServiceSetting\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Context.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Context.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Request.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Request.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Response.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Response.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Status.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Strategy.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\Strategy.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\StrategyBase.cs" />
+    <Compile Include="Service\ServiceSetting\GetAllByService\StrategyBase.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Service.cs" />
+    <Compile Include="Service\ServiceSetting\Service.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\ServiceBase.cs" />
+    <Compile Include="Service\ServiceSetting\ServiceBase.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\StrategyStore.cs" />
+    <Compile Include="Service\ServiceSetting\StrategyStore.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Context.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Request.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Request.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Response.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Response.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Status.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Strategy.cs" />
+    <Compile Include="Service\ServiceSetting\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\ServiceSetting\Update\StrategyBase.cs" />
+    <Compile Include="Service\ServiceSetting\Update\StrategyBase.Customized.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Service\ApiClientCustomerHub\messages.json" />
+    <None Include="Service\ApiClientCustomer\messages.json" />
+    <None Include="Service\ApiClientIP\messages.json" />
+    <None Include="Service\ApiClient\messages.json" />
+    <None Include="Service\ApiEngine\messages.json" />
+    <None Include="Service\ApiSetting\messages.json" />
+    <None Include="Service\Api\messages.json" />
+    <None Include="Service\Date\messages.json" />
+    <None Include="Service\ServiceSetting\messages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
+      <Project>{2B5A6741-635A-406D-8AF9-FD74FF54B1D4}</Project>
+      <Name>Locust.AppPath</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.BaseInfo\Locust.BaseInfo.csproj">
+      <Project>{e0e8ab71-9e42-4a48-b9d0-cc8e998d6beb}</Project>
+      <Name>Locust.BaseInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Caching\Locust.Caching.csproj">
+      <Project>{a0db2230-c683-4f69-8374-d0a1b0aec6ea}</Project>
+      <Name>Locust.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Calendar\Locust.Calendar.csproj">
+      <Project>{35205318-046a-46ad-92f3-f1ff0cfe9de2}</Project>
+      <Name>Locust.Calendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Collections\Locust.Collections.csproj">
+      <Project>{37D5C9C8-F5FA-486F-B129-48D5F859AF66}</Project>
+      <Name>Locust.Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Compression\Locust.Compression.csproj">
+      <Project>{9BEBA6B5-D84D-4C48-A9BC-B1A960250B93}</Project>
+      <Name>Locust.Compression</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Cryptography\Locust.Cryptography.csproj">
+      <Project>{ed4afef9-0be2-4ecb-9c32-d9305967fa2f}</Project>
+      <Name>Locust.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Extensions\Locust.Extensions.csproj">
+      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
+      <Name>Locust.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Json\Locust.Json.csproj">
+      <Project>{ef6b7551-8219-420a-9644-c27792c3a2a3}</Project>
+      <Name>Locust.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Language\Locust.Language.csproj">
+      <Project>{c23eb959-8681-453b-a208-b5a283eb6e8f}</Project>
+      <Name>Locust.Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
+      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Mailing\Locust.Mailing.csproj">
+      <Project>{1b4da8dd-2678-4bcc-b408-2bac3717d56c}</Project>
+      <Name>Locust.Mailing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020e-a9bd-4bb2-8347-62a89518a542}</Project>
+      <Name>Locust.ModelField</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Model\Locust.Model.csproj">
+      <Project>{32f59c3b-6464-47fc-b219-db9d81910825}</Project>
+      <Name>Locust.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Network\Locust.Network.csproj">
+      <Project>{e81b36a4-1092-4eff-a8a0-42ff6a4d09a4}</Project>
+      <Name>Locust.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Notification\Locust.Notification.csproj">
+      <Project>{C5FD908E-3AF9-4B27-8B4F-4987F6B8EA86}</Project>
+      <Name>Locust.Notification</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414f68-3640-4ed7-a48f-5877101cb3ad}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel.Babbage\Locust.ServiceModel.Babbage.csproj">
+      <Project>{d7fbcf66-72c9-451d-aaeb-4109d5d4d211}</Project>
+      <Name>Locust.ServiceModel.Babbage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel\Locust.ServiceModel.csproj">
+      <Project>{efac3164-083e-4ab0-8568-bda96def3cca}</Project>
+      <Name>Locust.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Setting\Locust.Setting.csproj">
+      <Project>{e5b89198-40bf-4e94-9b25-b29418d55307}</Project>
+      <Name>Locust.Setting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.SMS\Locust.SMS.csproj">
+      <Project>{bb9f8a01-444f-447d-b98c-da3fc5c3a554}</Project>
+      <Name>Locust.SMS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Tracing\Locust.Tracing.csproj">
+      <Project>{01e76980-9efb-4beb-9e01-7d4ed57e4cb7}</Project>
+      <Name>Locust.Tracing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Translation\Locust.Translation.csproj">
+      <Project>{00f56929-2189-4234-a912-a2c14fa17da2}</Project>
+      <Name>Locust.Translation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.WebExtensions\Locust.WebExtensions.csproj">
+      <Project>{93F9F9F9-B603-428F-ADDE-62C6DD6D8815}</Project>
+      <Name>Locust.WebExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.WebTools\Locust.WebTools.csproj">
+      <Project>{5a65db80-a515-4dcb-831a-7b13d4175054}</Project>
+      <Name>Locust.WebTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Modules.Base\Locust.Modules.Base.csproj">
+      <Project>{8e082006-6c54-40c0-a47b-879553c3affd}</Project>
+      <Name>Locust.Modules.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Modules.Membership\Locust.Modules.Membership.csproj">
+      <Project>{7f22fcb9-4451-4efa-ae3f-f22999605d64}</Project>
+      <Name>Locust.Modules.Membership</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

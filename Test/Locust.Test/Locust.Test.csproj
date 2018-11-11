@@ -1,0 +1,347 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9577F8F9-A225-4B51-88F7-C9ADFBB89847}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Test</RootNamespace>
+    <AssemblyName>Locust.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <PublishUrl>D:\cms\Locust.Test\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>81BF19E84C036F08DED07FF263B151946AD95A9B</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Locust.Test_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>g:\nuget\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseBenchmark.cs" />
+    <Compile Include="BaseTest.cs" />
+    <Compile Include="Benchmark\benchmark_ActivatorCreateInstance_vs_TypeHelperCreateInstance.cs" />
+    <Compile Include="Benchmark\benchmark_appdomaincachemanager.cs" />
+    <Compile Include="Benchmark\benchmark_Basemodel_vs_ado.cs" />
+    <Compile Include="Benchmark\benchmark_Basemodel_vs_overiddenBasemodel.cs" />
+    <Compile Include="Benchmark\benchmark_manual_prop_vs_cached_reflection.cs" />
+    <Compile Include="Benchmark\benchmark_manual_prop_vs_reflection.cs" />
+    <Compile Include="Benchmark\benchmark_reflection_vs_cachedreflection_using_appdomaincachemanager.cs" />
+    <Compile Include="Benchmark\FilmsEFmodel.cs" />
+    <Compile Include="Benchmark\FilmTBL.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Benchmark\test_basemodel_vs_ef.cs" />
+    <Compile Include="Test\test_appdomaincachemanager.cs" />
+    <Compile Include="Test\test_BabbageMessageProvider.cs" />
+    <Compile Include="Test\test_baseInfo.cs" />
+    <Compile Include="Test\test_baseinfo_in_model.cs" />
+    <Compile Include="Test\test_basemodel_query.cs" />
+    <Compile Include="Test\test_conn_manual.cs" />
+    <Compile Include="Test\test_da_nvarchar_max.cs" />
+    <Compile Include="Test\test_EF_retrive.cs" />
+    <Compile Include="Test\test_empty_json_model.cs" />
+    <Compile Include="Test\test_gettype_by_string.cs" />
+    <Compile Include="Test\test_guid_and_commandparameter_input_output.cs" />
+    <Compile Include="Test\test_json_reader.cs" />
+    <Compile Include="Test\test_modelfield_operator_overloads.cs" />
+    <Compile Include="Test\test_model_using_ado.cs" />
+    <Compile Include="Test\test_nested_basemodel.cs" />
+    <Compile Include="Test\test_newtonsoft_json.cs" />
+    <Compile Include="Test\test_OveriddenBaseModel.cs" />
+    <Compile Include="Test\test_random_numbers.cs" />
+    <Compile Include="Test\test_rolecategoryservice.cs" />
+    <Compile Include="Test\test_servicemodel.cs" />
+    <Compile Include="Test\test_sp_and_guid.cs" />
+    <Compile Include="Test\test_uri.cs" />
+    <Compile Include="Test\test_locust_conn.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="localization\cdt\month.christian.cdt" />
+    <None Include="localization\cdt\month.persian.cdt" />
+    <None Include="localization\cdt\season.christian.cdt" />
+    <None Include="localization\cdt\season.persian.cdt" />
+    <None Include="localization\cdt\weekday.christian.cdt" />
+    <None Include="localization\cdt\weekday.persian.cdt" />
+    <None Include="localization\cit\measurement.en.cit" />
+    <None Include="localization\cit\measurement.fa.cit" />
+    <None Include="localization\cit\nth-num.en.cit" />
+    <None Include="localization\cit\nth-num.fa.cit" />
+    <None Include="localization\cit\number.en.cit" />
+    <None Include="localization\cit\number.fa.cit" />
+    <None Include="packages.config" />
+    <None Include="service\babbage.config" />
+    <None Include="Locust.Test_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
+      <Project>{2b5a6741-635a-406d-8af9-fd74ff54b1d4}</Project>
+      <Name>Locust.AppPath</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.BaseInfo\Locust.BaseInfo.csproj">
+      <Project>{e0e8ab71-9e42-4a48-b9d0-cc8e998d6beb}</Project>
+      <Name>Locust.BaseInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Caching\Locust.Caching.csproj">
+      <Project>{a0db2230-c683-4f69-8374-d0a1b0aec6ea}</Project>
+      <Name>Locust.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Calendar\Locust.Calendar.csproj">
+      <Project>{35205318-046a-46ad-92f3-f1ff0cfe9de2}</Project>
+      <Name>Locust.Calendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.CircuitBreaker\Locust.CircuitBreaker.csproj">
+      <Project>{4951952c-f054-4ae2-89ab-bd260a306253}</Project>
+      <Name>Locust.CircuitBreaker</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Concurrency\Locust.Concurrency.csproj">
+      <Project>{5ca195b1-9bb7-41cb-95b6-4555aada38a3}</Project>
+      <Name>Locust.Concurrency</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ConnectionString\Locust.ConnectionString.csproj">
+      <Project>{90a03c02-67fa-4106-bd45-a20e43cfcaff}</Project>
+      <Name>Locust.ConnectionString</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Cryptography\Locust.Cryptography.csproj">
+      <Project>{ed4afef9-0be2-4ecb-9c32-d9305967fa2f}</Project>
+      <Name>Locust.Cryptography</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Extensions\Locust.Extensions.csproj">
+      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
+      <Name>Locust.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.GlobalServices\Locust.GlobalServices.csproj">
+      <Project>{0d66058a-c965-45eb-bbd1-da058fddfe38}</Project>
+      <Name>Locust.GlobalServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Json\Locust.Json.csproj">
+      <Project>{ef6b7551-8219-420a-9644-c27792c3a2a3}</Project>
+      <Name>Locust.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Language\Locust.Language.csproj">
+      <Project>{c23eb959-8681-453b-a208-b5a283eb6e8f}</Project>
+      <Name>Locust.Language</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
+      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Mailing\Locust.Mailing.csproj">
+      <Project>{1b4da8dd-2678-4bcc-b408-2bac3717d56c}</Project>
+      <Name>Locust.Mailing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Measurement\Locust.Measurement.csproj">
+      <Project>{fc175bb1-622d-4217-b458-c563903413ad}</Project>
+      <Name>Locust.Measurement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020e-a9bd-4bb2-8347-62a89518a542}</Project>
+      <Name>Locust.ModelField</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Model\Locust.Model.csproj">
+      <Project>{32f59c3b-6464-47fc-b219-db9d81910825}</Project>
+      <Name>Locust.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.MvcAttributes\Locust.MvcAttributes.csproj">
+      <Project>{476ef4e6-638c-4999-a62f-0c69e62f90c4}</Project>
+      <Name>Locust.MvcAttributes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Network\Locust.Network.csproj">
+      <Project>{e81b36a4-1092-4eff-a8a0-42ff6a4d09a4}</Project>
+      <Name>Locust.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.RandomGenerator\Locust.RandomGenerator.csproj">
+      <Project>{29d4a5b8-9a9e-4a61-abcf-f43832c0a632}</Project>
+      <Name>Locust.RandomGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Security\Locust.Security.csproj">
+      <Project>{49f39d63-517f-4384-b40e-cb55377098ee}</Project>
+      <Name>Locust.Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414f68-3640-4ed7-a48f-5877101cb3ad}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceLocator\Locust.ServiceLocator.csproj">
+      <Project>{751607bf-a898-45f5-afc6-25c59f1b0f78}</Project>
+      <Name>Locust.ServiceLocator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel.Babbage\Locust.ServiceModel.Babbage.csproj">
+      <Project>{d7fbcf66-72c9-451d-aaeb-4109d5d4d211}</Project>
+      <Name>Locust.ServiceModel.Babbage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel\Locust.ServiceModel.csproj">
+      <Project>{efac3164-083e-4ab0-8568-bda96def3cca}</Project>
+      <Name>Locust.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Services\Locust.Services.csproj">
+      <Project>{c24bfdd6-64a6-46f5-8cbe-ef22eabb881f}</Project>
+      <Name>Locust.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Setting\Locust.Setting.csproj">
+      <Project>{e5b89198-40bf-4e94-9b25-b29418d55307}</Project>
+      <Name>Locust.Setting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Shetab\Locust.Shetab.csproj">
+      <Project>{e2cf5c26-4fc0-4fe6-b25a-60b915f5b2ed}</Project>
+      <Name>Locust.Shetab</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.SMS\Locust.SMS.csproj">
+      <Project>{bb9f8a01-444f-447d-b98c-da3fc5c3a554}</Project>
+      <Name>Locust.SMS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.StateProvider\Locust.StateProvider.csproj">
+      <Project>{8293ece8-bfde-40bf-a87b-4aaf410a988a}</Project>
+      <Name>Locust.StateProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Tracing\Locust.Tracing.csproj">
+      <Project>{01e76980-9efb-4beb-9e01-7d4ed57e4cb7}</Project>
+      <Name>Locust.Tracing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Translation\Locust.Translation.csproj">
+      <Project>{00f56929-2189-4234-a912-a2c14fa17da2}</Project>
+      <Name>Locust.Translation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Utils\Locust.Utils.csproj">
+      <Project>{338dcff4-3469-4ba6-a8f5-543267e8f9b6}</Project>
+      <Name>Locust.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Validation\Locust.Validation.csproj">
+      <Project>{e25137ba-b0f6-4f11-af1c-3a8aa3835580}</Project>
+      <Name>Locust.Validation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.WebExtensions\Locust.WebExtensions.csproj">
+      <Project>{93f9f9f9-b603-428f-adde-62c6dd6d8815}</Project>
+      <Name>Locust.WebExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.WebTools\Locust.WebTools.csproj">
+      <Project>{5a65db80-a515-4dcb-831a-7b13d4175054}</Project>
+      <Name>Locust.WebTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Locust.Modules.ACL\Locust.Modules.ACL.csproj">
+      <Project>{7bfef8f8-7a4a-4ec4-8449-cb1996ba10d4}</Project>
+      <Name>Locust.Modules.ACL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Modules\Locust.Modules.Api\Locust.Modules.Api.csproj">
+      <Project>{95724e5e-3532-4b26-a280-c424647ea6cb}</Project>
+      <Name>Locust.Modules.Api</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

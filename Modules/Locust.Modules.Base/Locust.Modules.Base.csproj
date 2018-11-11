@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8E082006-6C54-40C0-A47B-879553C3AFFD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Modules.Base</RootNamespace>
+    <AssemblyName>Locust.Modules.Base</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fields\AppCrossOrigin.cs" />
+    <Compile Include="Fields\Application.cs" />
+    <Compile Include="Model\AppCrossOrigin\AdminGrid.cs" />
+    <Compile Include="Model\AppCrossOrigin\Full.cs" />
+    <Compile Include="Model\Application\AdminGrid.cs" />
+    <Compile Include="Model\Application\Full.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Context.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Request.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Request.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Response.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Response.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Status.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Strategy.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\StrategyBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Config.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Context.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Request.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Request.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Response.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Response.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Status.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Strategy.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\StrategyBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Context.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Request.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Response.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Status.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Strategy.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Context.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Request.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Response.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Status.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Strategy.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Service.cs" />
+    <Compile Include="Service\AppCrossOrigin\Service.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\ServiceBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\ServiceBase.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\StrategyStore.cs" />
+    <Compile Include="Service\AppCrossOrigin\StrategyStore.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Context.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Request.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Request.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Response.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Response.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Status.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Strategy.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\StrategyBase.cs" />
+    <Compile Include="Service\AppCrossOrigin\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\Add\Context.cs" />
+    <Compile Include="Service\Application\Add\Request.cs" />
+    <Compile Include="Service\Application\Add\Request.Customized.cs" />
+    <Compile Include="Service\Application\Add\Response.cs" />
+    <Compile Include="Service\Application\Add\Response.Customized.cs" />
+    <Compile Include="Service\Application\Add\Status.cs" />
+    <Compile Include="Service\Application\Add\Strategy.cs" />
+    <Compile Include="Service\Application\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\Add\StrategyBase.cs" />
+    <Compile Include="Service\Application\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\Config.cs" />
+    <Compile Include="Service\Application\Delete\Context.cs" />
+    <Compile Include="Service\Application\Delete\Request.cs" />
+    <Compile Include="Service\Application\Delete\Request.Customized.cs" />
+    <Compile Include="Service\Application\Delete\Response.cs" />
+    <Compile Include="Service\Application\Delete\Response.Customized.cs" />
+    <Compile Include="Service\Application\Delete\Status.cs" />
+    <Compile Include="Service\Application\Delete\Strategy.cs" />
+    <Compile Include="Service\Application\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\Delete\StrategyBase.cs" />
+    <Compile Include="Service\Application\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\GetAll\Context.cs" />
+    <Compile Include="Service\Application\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\Application\GetAll\Request.cs" />
+    <Compile Include="Service\Application\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\Application\GetAll\Response.cs" />
+    <Compile Include="Service\Application\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\Application\GetAll\Status.cs" />
+    <Compile Include="Service\Application\GetAll\Strategy.cs" />
+    <Compile Include="Service\Application\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\Application\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\GetByPK\Context.cs" />
+    <Compile Include="Service\Application\GetByPK\Request.cs" />
+    <Compile Include="Service\Application\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\Application\GetByPK\Response.cs" />
+    <Compile Include="Service\Application\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\Application\GetByPK\Status.cs" />
+    <Compile Include="Service\Application\GetByPK\Strategy.cs" />
+    <Compile Include="Service\Application\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\Application\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\GetByShortName\Context.cs" />
+    <Compile Include="Service\Application\GetByShortName\Request.cs" />
+    <Compile Include="Service\Application\GetByShortName\Request.Customized.cs" />
+    <Compile Include="Service\Application\GetByShortName\Response.cs" />
+    <Compile Include="Service\Application\GetByShortName\Response.Customized.cs" />
+    <Compile Include="Service\Application\GetByShortName\Status.cs" />
+    <Compile Include="Service\Application\GetByShortName\Strategy.cs" />
+    <Compile Include="Service\Application\GetByShortName\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\GetByShortName\StrategyBase.cs" />
+    <Compile Include="Service\Application\GetByShortName\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Application\Service.cs" />
+    <Compile Include="Service\Application\Service.Customized.cs" />
+    <Compile Include="Service\Application\ServiceBase.cs" />
+    <Compile Include="Service\Application\ServiceBase.Customized.cs" />
+    <Compile Include="Service\Application\StrategyStore.cs" />
+    <Compile Include="Service\Application\StrategyStore.Customized.cs" />
+    <Compile Include="Service\Application\Update\Context.cs" />
+    <Compile Include="Service\Application\Update\Request.cs" />
+    <Compile Include="Service\Application\Update\Request.Customized.cs" />
+    <Compile Include="Service\Application\Update\Response.cs" />
+    <Compile Include="Service\Application\Update\Response.Customized.cs" />
+    <Compile Include="Service\Application\Update\Status.cs" />
+    <Compile Include="Service\Application\Update\Strategy.cs" />
+    <Compile Include="Service\Application\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\Application\Update\StrategyBase.cs" />
+    <Compile Include="Service\Application\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\Enum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service\AppCrossOrigin\messages.json" />
+    <None Include="Service\Application\messages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Locust.BaseInfo\Locust.BaseInfo.csproj">
+      <Project>{e0e8ab71-9e42-4a48-b9d0-cc8e998d6beb}</Project>
+      <Name>Locust.BaseInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Caching\Locust.Caching.csproj">
+      <Project>{a0db2230-c683-4f69-8374-d0a1b0aec6ea}</Project>
+      <Name>Locust.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Calendar\Locust.Calendar.csproj">
+      <Project>{35205318-046a-46ad-92f3-f1ff0cfe9de2}</Project>
+      <Name>Locust.Calendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Json\Locust.Json.csproj">
+      <Project>{ef6b7551-8219-420a-9644-c27792c3a2a3}</Project>
+      <Name>Locust.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
+      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020e-a9bd-4bb2-8347-62a89518a542}</Project>
+      <Name>Locust.ModelField</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Model\Locust.Model.csproj">
+      <Project>{32f59c3b-6464-47fc-b219-db9d81910825}</Project>
+      <Name>Locust.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414f68-3640-4ed7-a48f-5877101cb3ad}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel.Babbage\Locust.ServiceModel.Babbage.csproj">
+      <Project>{d7fbcf66-72c9-451d-aaeb-4109d5d4d211}</Project>
+      <Name>Locust.ServiceModel.Babbage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel\Locust.ServiceModel.csproj">
+      <Project>{efac3164-083e-4ab0-8568-bda96def3cca}</Project>
+      <Name>Locust.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Setting\Locust.Setting.csproj">
+      <Project>{e5b89198-40bf-4e94-9b25-b29418d55307}</Project>
+      <Name>Locust.Setting</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

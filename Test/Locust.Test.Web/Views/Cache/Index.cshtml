@@ -1,0 +1,106 @@
+﻿@model IEnumerable<KeyValuePair<string, CacheItem>>
+@{
+    ViewBag.Title = "List of cached items";
+}
+<center>
+    <h2>List of Cached Items</h2>
+    <a href="/cache">Refresh</a>
+    <a href="/cache/clean">Clean</a>
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">@ViewBag.Message</div>
+    }
+</center>
+<h3>Add new item</h3>
+<form action="/cache/add" method="POST" class="form-horizontal">
+    <label>Key</label>
+    <input type="text" name="txtKey"/>
+    <label>Value</label>
+    <textarea name="txtData" cols="50" rows="3"></textarea>
+    <label>Life Length</label>
+    <input type="number" name="txtLifeLength" style="width:50px" />
+    <input type="submit" class="btn btn-primary btn-sm" />
+</form>
+<form id="form1" method="POST" action="/cache/edit">
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Key</th>
+            <th>CreatedDate</th>
+            <th>LastAccessed</th>
+            <th>Elapsed</th>
+            <th>AccessCount</th>
+            <th>LifeLength</th>
+            <th>ExpireSpan</th>
+            <th>Data</th>
+            <th>RemainingLife</th>
+            <th>IsDead</th>
+            <th>IsExpired</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            if (string.Compare(ViewBag.CurrentItem, item.Key, StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                <tr>
+                    <td><a class="glyphicon glyphicon-remove" href="/cache/index"></a></td>
+                    <td><input type="submit" class="btnUpdate btn btn-primary btn-sm"/></td>
+                    <td>@item.Key</td>
+                    <td>@item.Value.CreatedDate</td>
+                    <td>@item.Value.LastAccessed</td>
+                    <td>@item.Value.Elapsed</td>
+                    <td>@item.Value.AccessCount</td>
+                    <td>@Html.TextBox("txtLifeLength", item.Value.LifeLength)</td>
+                    <td>@item.Value.ExpireSpan</td>
+                    <td>@Html.TextArea("txtData", JsonConvert.SerializeObject(item.Value.Data, Formatting.Indented).Replace("\n", "<br/>"))</td>
+                    <td>@item.Value.RemainingLife</td>
+                    <td>@item.Value.IsDead</td>
+                    <td>@item.Value.IsExpired</td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td><a class="glyphicon glyphicon-pencil" href="/cache/index/?id=@Url.Encode(item.Key)"></a></td>
+                    <td><a class="glyphicon glyphicon-trash" href="/cache/remove/?id=@Url.Encode(item.Key)"></a></td>
+                    <td>@item.Key</td>
+                    <td>@item.Value.CreatedDate</td>
+                    <td>@item.Value.LastAccessed</td>
+                    <td>@item.Value.Elapsed</td>
+                    <td>@item.Value.AccessCount</td>
+                    <td>@item.Value.LifeLength</td>
+                    <td>@item.Value.ExpireSpan</td>
+                    <td>@Html.Raw(JsonConvert.SerializeObject(item.Value.Data, Formatting.Indented).Replace("\n", "<br/>"))</td>
+                    <td>@item.Value.RemainingLife</td>
+                    <td>@item.Value.IsDead</td>
+                    <td>@item.Value.IsExpired</td>
+                </tr>
+            }
+        }
+        </tbody>
+    </table>
+    <input type="hidden" name="id" value="@ViewBag.CurrentItem"/>
+</form>
+<center>
+    <form method="POST" action="/cache/get" class="form-horizontal">
+        <h4>GET</h4>
+        <label>Key</label>
+        <input type="text" name="txtKey"/>
+        <input type="submit" class="btn btn-primary btn-sm"/>
+
+        @if (ViewBag.Item != null)
+        {
+            <div style="text-align: justify; width: 400px;">
+                @Html.Raw(JsonConvert.SerializeObject(ViewBag.Item, Formatting.Indented).Replace("\n", "<br/>"))
+            </div>
+        }
+    </form>
+</center>
+<script>
+    $(function() {
+        
+    })
+</script>

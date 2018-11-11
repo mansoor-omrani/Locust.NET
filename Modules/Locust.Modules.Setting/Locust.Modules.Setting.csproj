@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C7C9367F-E3A6-4BA8-AEDF-88EF86DA1683}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Modules.Setting</RootNamespace>
+    <AssemblyName>Locust.Modules.Setting</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fields\AppSetting.cs" />
+    <Compile Include="Fields\AppSettingCategory.cs" />
+    <Compile Include="Fields\SettingType.cs" />
+    <Compile Include="Model\AppSettingCategory\Full.cs" />
+    <Compile Include="Model\AppSetting\AdminGrid.cs" />
+    <Compile Include="Model\AppSetting\Full.cs" />
+    <Compile Include="Model\Enums\SettingType.cs" />
+    <Compile Include="Model\SettingType\Full.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Config.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByCode\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Service.cs" />
+    <Compile Include="Service\AppSettingCategory\Service.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\ServiceBase.cs" />
+    <Compile Include="Service\AppSettingCategory\ServiceBase.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\StrategyStore.cs" />
+    <Compile Include="Service\AppSettingCategory\StrategyStore.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Context.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Request.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Request.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Response.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Response.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Status.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Strategy.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\StrategyBase.cs" />
+    <Compile Include="Service\AppSettingCategory\Update\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\Add\Context.cs" />
+    <Compile Include="Service\AppSetting\Add\Request.cs" />
+    <Compile Include="Service\AppSetting\Add\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\Add\Response.cs" />
+    <Compile Include="Service\AppSetting\Add\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\Add\Status.cs" />
+    <Compile Include="Service\AppSetting\Add\Strategy.cs" />
+    <Compile Include="Service\AppSetting\Add\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\Add\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\Add\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\Config.cs" />
+    <Compile Include="Service\AppSetting\Delete\Context.cs" />
+    <Compile Include="Service\AppSetting\Delete\Request.cs" />
+    <Compile Include="Service\AppSetting\Delete\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\Delete\Response.cs" />
+    <Compile Include="Service\AppSetting\Delete\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\Delete\Status.cs" />
+    <Compile Include="Service\AppSetting\Delete\Strategy.cs" />
+    <Compile Include="Service\AppSetting\Delete\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\Delete\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\Delete\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Context.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Context.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Request.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Response.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Status.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Strategy.cs" />
+    <Compile Include="Service\AppSetting\GetAll\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetAll\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\GetAll\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Context.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Request.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Response.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Status.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Strategy.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\GetByKey\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Context.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Request.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Response.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Status.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Strategy.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\GetByPK\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Context.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Request.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Response.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Status.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Strategy.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\QuickAdd\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Context.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Request.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Response.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Status.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Strategy.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\QuickUpdate\StrategyBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\Service.cs" />
+    <Compile Include="Service\AppSetting\Service.Customized.cs" />
+    <Compile Include="Service\AppSetting\ServiceBase.cs" />
+    <Compile Include="Service\AppSetting\ServiceBase.Customized.cs" />
+    <Compile Include="Service\AppSetting\StrategyStore.cs" />
+    <Compile Include="Service\AppSetting\StrategyStore.Customized.cs" />
+    <Compile Include="Service\AppSetting\Update\Context.cs" />
+    <Compile Include="Service\AppSetting\Update\Request.cs" />
+    <Compile Include="Service\AppSetting\Update\Request.Customized.cs" />
+    <Compile Include="Service\AppSetting\Update\Response.cs" />
+    <Compile Include="Service\AppSetting\Update\Response.Customized.cs" />
+    <Compile Include="Service\AppSetting\Update\Status.cs" />
+    <Compile Include="Service\AppSetting\Update\Strategy.cs" />
+    <Compile Include="Service\AppSetting\Update\Strategy.Customized.cs" />
+    <Compile Include="Service\AppSetting\Update\StrategyBase.cs" />
+    <Compile Include="Service\AppSetting\Update\StrategyBase.Customized.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service\AppSettingCategory\messages.json" />
+    <None Include="Service\AppSetting\messages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Locust.BaseInfo\Locust.BaseInfo.csproj">
+      <Project>{e0e8ab71-9e42-4a48-b9d0-cc8e998d6beb}</Project>
+      <Name>Locust.BaseInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Caching\Locust.Caching.csproj">
+      <Project>{a0db2230-c683-4f69-8374-d0a1b0aec6ea}</Project>
+      <Name>Locust.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Json\Locust.Json.csproj">
+      <Project>{ef6b7551-8219-420a-9644-c27792c3a2a3}</Project>
+      <Name>Locust.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
+      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020e-a9bd-4bb2-8347-62a89518a542}</Project>
+      <Name>Locust.ModelField</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Model\Locust.Model.csproj">
+      <Project>{32f59c3b-6464-47fc-b219-db9d81910825}</Project>
+      <Name>Locust.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414f68-3640-4ed7-a48f-5877101cb3ad}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel.Babbage\Locust.ServiceModel.Babbage.csproj">
+      <Project>{d7fbcf66-72c9-451d-aaeb-4109d5d4d211}</Project>
+      <Name>Locust.ServiceModel.Babbage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel\Locust.ServiceModel.csproj">
+      <Project>{efac3164-083e-4ab0-8568-bda96def3cca}</Project>
+      <Name>Locust.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Modules.Base\Locust.Modules.Base.csproj">
+      <Project>{8e082006-6c54-40c0-a47b-879553c3affd}</Project>
+      <Name>Locust.Modules.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

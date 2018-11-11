@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7BFEF8F8-7A4A-4EC4-8449-CB1996BA10D4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Locust.Modules.ACL</RootNamespace>
+    <AssemblyName>Locust.Modules.ACL</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fields\RoleCategory.cs" />
+    <Compile Include="Model\RoleCategory.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\RoleCategory\Config.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Context.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Request.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Response.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Status.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Strategy.cs" />
+    <Compile Include="Service\RoleCategory\GetById\Strategy.Customized.cs" />
+    <Compile Include="Service\RoleCategory\GetById\StrategyBase.cs" />
+    <Compile Include="Service\RoleCategory\GetById\StrategyBase.Customized.cs" />
+    <Compile Include="Service\RoleCategory\Service.cs" />
+    <Compile Include="Service\RoleCategory\ServiceBase.cs" />
+    <Compile Include="Service\RoleCategory\StrategyStore.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service\RoleCategory\messages.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Library\Locust.BaseInfo\Locust.BaseInfo.csproj">
+      <Project>{e0e8ab71-9e42-4a48-b9d0-cc8e998d6beb}</Project>
+      <Name>Locust.BaseInfo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Caching\Locust.Caching.csproj">
+      <Project>{a0db2230-c683-4f69-8374-d0a1b0aec6ea}</Project>
+      <Name>Locust.Caching</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Calendar\Locust.Calendar.csproj">
+      <Project>{35205318-046a-46ad-92f3-f1ff0cfe9de2}</Project>
+      <Name>Locust.Calendar</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Json\Locust.Json.csproj">
+      <Project>{ef6b7551-8219-420a-9644-c27792c3a2a3}</Project>
+      <Name>Locust.Json</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
+      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020e-a9bd-4bb2-8347-62a89518a542}</Project>
+      <Name>Locust.ModelField</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Model\Locust.Model.csproj">
+      <Project>{32f59c3b-6464-47fc-b219-db9d81910825}</Project>
+      <Name>Locust.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.Serialization\Locust.Serialization.csproj">
+      <Project>{80414f68-3640-4ed7-a48f-5877101cb3ad}</Project>
+      <Name>Locust.Serialization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel.Babbage\Locust.ServiceModel.Babbage.csproj">
+      <Project>{d7fbcf66-72c9-451d-aaeb-4109d5d4d211}</Project>
+      <Name>Locust.ServiceModel.Babbage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Library\Locust.ServiceModel\Locust.ServiceModel.csproj">
+      <Project>{efac3164-083e-4ab0-8568-bda96def3cca}</Project>
+      <Name>Locust.ServiceModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Modules.Base\Locust.Modules.Base.csproj">
+      <Project>{8e082006-6c54-40c0-a47b-879553c3affd}</Project>
+      <Name>Locust.Modules.Base</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

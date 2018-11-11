@@ -1,0 +1,21 @@
+{
+  "service": "Date",
+  "Strategies": [
+    {
+      "strategy": "Now",
+      "messages": [
+        {
+          "lang": "fa",
+          "Items": {
+            "None": "",
+            "Success": "",
+            "Faulted": "",
+            "Errored": "",
+            "Failed": "",
+            "InvalidStatus": ""
+          }
+        }
+      ]
+    }
+  ]
+}

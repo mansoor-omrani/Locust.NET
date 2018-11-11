@@ -1,0 +1,15 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Season
+#--------------------------------------
+#	Season names in English Culture
+/season/1/christian/fa: بهار
+/season/2/christian/fa: تابستان
+/season/3/christian/fa: پاییز
+/season/4/christian/fa: زمستان
+
+/season/1/christian/en: Spring
+/season/2/christian/en: Summer
+/season/3/christian/en: Autumn
+/season/4/christian/en: Winter

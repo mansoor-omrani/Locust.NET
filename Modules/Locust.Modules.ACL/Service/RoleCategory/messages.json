@@ -1,0 +1,31 @@
+﻿{
+    "service": "RoleCategory",
+    "strategies": 
+    [
+        {
+            "strategy": "GetById",
+            "messages": [
+                {
+                    "lang": "en",
+                    "items": {
+                        "success": "Operation succeeded",
+                        "faulted": "Operation faulted because of unhandled exception",
+                        "errored": "db reported an error while executing operation",
+                        "failed": "Operation failed because of an unhandled db error (calling db command failed)",
+                        "invalidStatus": "invalid status"
+                    }
+                },
+                {
+                    "lang": "fa",
+                    "items": {
+                        "success": "عملیات موفق بود",
+                        "faulted": "عملیات با خطا مواجه شد",
+                        "errored": "خطای دیتابیسی",
+                        "failed": "خطا در فراخوانی روال دیتابیسی",
+                        "invalidStatus": "وضعیت نامعتبر"
+                    }
+                }
+            ]
+        }
+    ]
+}

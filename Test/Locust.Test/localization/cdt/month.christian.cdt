@@ -1,0 +1,58 @@
+﻿#culture-dependent-text
+# syntax: /{entity}/{globalValue}/{culture}/{language}
+#--------------------------------------
+#               Month
+#--------------------------------------
+#	month names in English Culture
+/month/1/christian/fa: ژانویه, ژانويه
+/month/2/christian/fa: فوریه, فوريه
+/month/3/christian/fa: مارس, مارچ
+/month/4/christian/fa: آوریل, آپریل, آوريل, آپريل
+/month/5/christian/fa: می, مي, مه
+/month/6/christian/fa: ژوئن, جوئن
+/month/7/christian/fa: جولای, جولاي
+/month/8/christian/fa: آگوست
+/month/9/christian/fa: سپتامبر
+/month/10/christian/fa: اکتبر
+/month/11/christian/fa: نوامبر
+/month/12/christian/fa: دسامبر
+
+/month/1/christian/en: January
+/month/2/christian/en: February
+/month/3/christian/en: March
+/month/4/christian/en: April
+/month/5/christian/en: May
+/month/6/christian/en: June
+/month/7/christian/en: July
+/month/8/christian/en: August
+/month/9/christian/en: September
+/month/10/christian/en: October
+/month/11/christian/en: November
+/month/12/christian/en: December
+
+#	short month names in English Culture
+/shortmonth/1/christian/fa: ژانویه, ژانويه
+/shortmonth/2/christian/fa: فوریه, فوريه
+/shortmonth/3/christian/fa: مارس, مارچ
+/shortmonth/4/christian/fa: آوریل, آپریل, آوريل, آپريل
+/shortmonth/5/christian/fa: می, مي, مه
+/shortmonth/6/christian/fa: ژوئن, جوئن
+/shortmonth/7/christian/fa: جولای, جولاي
+/shortmonth/8/christian/fa: آگوست
+/shortmonth/9/christian/fa: سپتامبر
+/shortmonth/10/christian/fa: اکتبر
+/shortmonth/11/christian/fa: نوامبر
+/shortmonth/12/christian/fa: دسامبر
+
+/shortmonth/1/christian/en: Jan
+/shortmonth/2/christian/en: Feb
+/shortmonth/3/christian/en: Mar
+/shortmonth/4/christian/en: Apr
+/shortmonth/5/christian/en: May
+/shortmonth/6/christian/en: Jun
+/shortmonth/7/christian/en: Jul
+/shortmonth/8/christian/en: Aug
+/shortmonth/9/christian/en: Sep
+/shortmonth/10/christian/en: Oct
+/shortmonth/11/christian/en: Nov
+/shortmonth/12/christian/en: Dec

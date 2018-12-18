@@ -20,7 +20,8 @@ namespace Locust.Logging.Web.elmah
         private void LogExceptionInternal(HttpContextBase context, Exception ex, string info = "", string memberName = "", string sourceFilePath = "", int sourceLineNumber = 0)
         {
             var err = new Elmah.Error(ex);
-            err.Detail = info;
+            err.Detail = $"memberName: {memberName}\nsourceFilePath: {sourceFilePath}\nsourceLineNumber: {sourceLineNumber}\ninfo: {info}";
+
             Elmah.ErrorLog.GetDefault(context.ApplicationInstance.Context).Log(err);
         }
         public void LogException(HttpContextBase context, Exception ex, string info = "", [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)

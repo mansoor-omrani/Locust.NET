@@ -72,6 +72,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StringToPrimitiveDataTypes.tt</DependentUpon>
     </Compile>
+    <Compile Include="TaskExtensions.cs" />
     <Compile Include="TextExtensions.cs" />
     <Compile Include="ToEnum.cs">
       <AutoGen>True</AutoGen>

@@ -42,7 +42,7 @@ CREATE TABLE [dbo].[Payments](
 	[PaymentCode] [varchar](50) NOT NULL,
 	[BankTypeId] [int] NOT NULL,
 	[Amount] [decimal](18, 2) NOT NULL,
-	[Info] [nvarchar](250) NULL,
+	[Info] [nvarchar](1000) NULL,
 	[Data] [nvarchar](4000) NULL,
  CONSTRAINT [PK_Payments] PRIMARY KEY CLUSTERED 
 (
@@ -203,6 +203,7 @@ GO
 CREATE PROCEDURE[dbo].[usp1_Payment_save_begin_step]
 (
 	@Result varchar(80) out,
+	@PaymentId int out,
 	@PaymentCode varchar(50),
 	@BankType varchar(50),
 	@Amount decimal(18, 2),
@@ -218,7 +219,7 @@ AS
 BEGIN
     SET NOCOUNT ON
 
-	declare @PaymentId int
+	set @PaymentId = 0
 	declare @BankTypeId int
 	declare @PaymentStepTypeId int
 

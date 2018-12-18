@@ -115,13 +115,13 @@ namespace Locust.Credit
     public interface ISingleTraderCreditProvider
     {
         SingleTraderCreditProviderConfig Config { get; set; }
-        // -------------------- WithDraw --------------------
-        SingleTraderCreditProviderBeginWithdrawResponse BeginWithDraw(SingleTraderCreditProviderBeginWithdrawRequest request);
-        Task<SingleTraderCreditProviderBeginWithdrawResponse> BeginWithDrawAsync(SingleTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation);
-        SingleTraderCreditProviderEndWithdrawResponse EndWithDraw(SingleTraderCreditProviderEndWithdrawRequest request);
-        Task<SingleTraderCreditProviderEndWithdrawResponse> EndWithDrawAsync(SingleTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation);
-        SingleTraderCreditProviderWithdrawResponse WithDraw(SingleTraderCreditProviderWithdrawRequest request);
-        Task<SingleTraderCreditProviderWithdrawResponse> WithDrawAsync(SingleTraderCreditProviderWithdrawRequest request, CancellationToken cancellation);
+        // -------------------- Withdraw --------------------
+        SingleTraderCreditProviderBeginWithdrawResponse BeginWithdraw(SingleTraderCreditProviderBeginWithdrawRequest request);
+        Task<SingleTraderCreditProviderBeginWithdrawResponse> BeginWithdrawAsync(SingleTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation);
+        SingleTraderCreditProviderEndWithdrawResponse EndWithdraw(SingleTraderCreditProviderEndWithdrawRequest request);
+        Task<SingleTraderCreditProviderEndWithdrawResponse> EndWithdrawAsync(SingleTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation);
+        SingleTraderCreditProviderWithdrawResponse Withdraw(SingleTraderCreditProviderWithdrawRequest request);
+        Task<SingleTraderCreditProviderWithdrawResponse> WithdrawAsync(SingleTraderCreditProviderWithdrawRequest request, CancellationToken cancellation);
         // -------------------- Deposit --------------------
         SingleTraderCreditProviderBeginDepositResponse BeginDeposit(SingleTraderCreditProviderBeginDepositRequest request);
         Task<SingleTraderCreditProviderBeginDepositResponse> BeginDepositAsync(SingleTraderCreditProviderBeginDepositRequest request, CancellationToken cancellation);
@@ -360,7 +360,7 @@ namespace Locust.Credit
             return response;
         }
         // -------------------------- Withdraw --------------------------
-        public SingleTraderCreditProviderBeginWithdrawResponse BeginWithDraw(SingleTraderCreditProviderBeginWithdrawRequest request)
+        public SingleTraderCreditProviderBeginWithdrawResponse BeginWithdraw(SingleTraderCreditProviderBeginWithdrawRequest request)
         {
             var response = new SingleTraderCreditProviderBeginWithdrawResponse();
             var sr = BeginApply(new SingleTraderCreditProviderBeginApplyRequest
@@ -375,7 +375,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<SingleTraderCreditProviderBeginWithdrawResponse> BeginWithDrawAsync(SingleTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation)
+        public async Task<SingleTraderCreditProviderBeginWithdrawResponse> BeginWithdrawAsync(SingleTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new SingleTraderCreditProviderBeginWithdrawResponse();
             var sr = await BeginApplyAsync(new SingleTraderCreditProviderBeginApplyRequest
@@ -390,7 +390,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public SingleTraderCreditProviderEndWithdrawResponse EndWithDraw(SingleTraderCreditProviderEndWithdrawRequest request)
+        public SingleTraderCreditProviderEndWithdrawResponse EndWithdraw(SingleTraderCreditProviderEndWithdrawRequest request)
         {
             var response = new SingleTraderCreditProviderEndWithdrawResponse();
             var sr = EndApply(new SingleTraderCreditProviderEndApplyRequest
@@ -403,7 +403,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<SingleTraderCreditProviderEndWithdrawResponse> EndWithDrawAsync(SingleTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation)
+        public async Task<SingleTraderCreditProviderEndWithdrawResponse> EndWithdrawAsync(SingleTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new SingleTraderCreditProviderEndWithdrawResponse();
             var sr = await EndApplyAsync(new SingleTraderCreditProviderEndApplyRequest
@@ -416,7 +416,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public SingleTraderCreditProviderWithdrawResponse WithDraw(SingleTraderCreditProviderWithdrawRequest request)
+        public SingleTraderCreditProviderWithdrawResponse Withdraw(SingleTraderCreditProviderWithdrawRequest request)
         {
             var response = new SingleTraderCreditProviderWithdrawResponse();
             var sr = Apply(new SingleTraderCreditProviderApplyRequest
@@ -431,7 +431,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<SingleTraderCreditProviderWithdrawResponse> WithDrawAsync(SingleTraderCreditProviderWithdrawRequest request, CancellationToken cancellation)
+        public async Task<SingleTraderCreditProviderWithdrawResponse> WithdrawAsync(SingleTraderCreditProviderWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new SingleTraderCreditProviderWithdrawResponse();
             var sr = await ApplyAsync(new SingleTraderCreditProviderApplyRequest

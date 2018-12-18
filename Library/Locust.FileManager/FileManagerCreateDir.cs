@@ -17,7 +17,13 @@ namespace Locust.FileManager
     }
     public class FileManagerCreateDirRequest : FileManagerActionBaseRequest
     { }
-    public class FileManagerCreateDirResponse : ServiceResponse { }
+    public class FileManagerCreateDirResponse : ServiceResponse
+    {
+        public override bool IsSucceeded()
+        {
+            return this.Success || this.HasStatus(FileManagerCreateDirResponseStatus.AlreadyExists);
+        }
+    }
     public class FileManagerCreateDir : FileManagerAction<FileManagerCreateDirRequest, FileManagerCreateDirResponse>
     {
         public FileManagerCreateDir(IFileManager filemanager) : base(filemanager)

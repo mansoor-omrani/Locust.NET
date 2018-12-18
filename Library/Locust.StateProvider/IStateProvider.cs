@@ -27,5 +27,6 @@ namespace Locust.StateProvider
         void Remove();
         void Restore();
         void Store();
+        bool Exists();
     }
 }

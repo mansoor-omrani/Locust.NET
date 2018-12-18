@@ -40,7 +40,7 @@ namespace Locust.Shetab.ZarinPal
             result.Succeeded = status == 100;
             result.GatewayUrl = Config.GatewayUrl + $"/{result.Code}";
             result.SendMethod = Config.GatewayMethod;
-            result.StrongStatus = status.ToEnum<ZarinPalBankTranStatus>();
+            result.StrongStatus = ((int)status).ToEnum<ZarinPalBankTranStatus>();
 
             return result;
         }

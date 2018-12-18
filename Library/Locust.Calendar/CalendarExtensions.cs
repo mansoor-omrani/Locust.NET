@@ -27,6 +27,10 @@ namespace Locust.Calendar
 
             return 0;
         }
+        public static string GetFullDate(this DateTimeField d, string calendar)
+        {
+            return d.Year(calendar) + "/" + d.Month(calendar) + "/" + d.Day(calendar) + " " + d.Hour(calendar) + ":" + d.Minute(calendar) + ":" + d.Second(calendar);
+        }
         public static int Month(this DateTimeField d, string calendar)
         {
             Calendars _calendar;

@@ -900,5 +900,13 @@ namespace Locust.Conversion
             return ToSingleNullable(x, useDefaultForNull, defaultValue);
         }
         #endregion
+        public static double Rad2Deg(double radians)
+        {
+            return (180 / Math.PI) * radians;
+        }
+        public static double Deg2Rad(double degrees)
+        {
+            return (Math.PI / 180) * degrees;
+        }
     }
 }

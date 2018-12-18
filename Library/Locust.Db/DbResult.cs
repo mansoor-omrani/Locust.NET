@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Locust.Db
 {
-    public enum MessageType
+    public enum DbMessageType
     {
         SingleSuccess,
         MultipleSuccess,
@@ -22,7 +22,7 @@ namespace Locust.Db
     {
         public bool Success { get; set; }
         public Exception Exception { get; set; }
-        public MessageType MessageType { get; set; }
+        public DbMessageType MessageType { get; set; }
         public int Count { get; set; }
         public string Info { get; set; }
         public DbResult()

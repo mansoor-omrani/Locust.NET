@@ -863,18 +863,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Rows.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -915,18 +915,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -978,18 +978,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1044,18 +1044,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1112,18 +1112,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1158,7 +1158,7 @@ namespace Locust.Db
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1197,7 +1197,7 @@ namespace Locust.Db
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1225,14 +1225,14 @@ namespace Locust.Db
 
                         updateOutputParams(cmd, args);
 
-                        result.MessageType = MessageType.Success;
+                        result.MessageType = DbMessageType.Success;
                         result.Success = true;
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1265,14 +1265,14 @@ namespace Locust.Db
 
                         updateOutputParams(cmd, args);
 
-                        result.MessageType = MessageType.Success;
+                        result.MessageType = DbMessageType.Success;
                         result.Success = true;
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1542,7 +1542,7 @@ namespace Locust.Db
 
             if (dbr.Success)
             {
-                dbr.MessageType = (dbr.Data.Count > 0) ? MessageType.SingleSuccess : MessageType.SingleNotFound;
+                dbr.MessageType = (dbr.Data.Count > 0) ? DbMessageType.SingleSuccess : DbMessageType.SingleNotFound;
 
                 if (dbr.Data != null && dbr.Data.Count > 0)
                 {
@@ -1551,7 +1551,7 @@ namespace Locust.Db
             }
             else
             {
-                dbr.MessageType = MessageType.SingleError;
+                dbr.MessageType = DbMessageType.SingleError;
             }
 
             var result = dbr.Copy<T>(data);
@@ -1592,18 +1592,18 @@ namespace Locust.Db
 
                         if (result.Data != null)
                         {
-                            result.MessageType = MessageType.SingleSuccess;
+                            result.MessageType = DbMessageType.SingleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.SingleNotFound;
+                            result.MessageType = DbMessageType.SingleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.SingleError;
+                        result.MessageType = DbMessageType.SingleError;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1654,18 +1654,18 @@ namespace Locust.Db
 
                         if (result.Data != null)
                         {
-                            result.MessageType = MessageType.SingleSuccess;
+                            result.MessageType = DbMessageType.SingleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.SingleNotFound;
+                            result.MessageType = DbMessageType.SingleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.SingleError;
+                        result.MessageType = DbMessageType.SingleError;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1713,18 +1713,18 @@ namespace Locust.Db
 
                         if (result.Data != null)
                         {
-                            result.MessageType = MessageType.SingleSuccess;
+                            result.MessageType = DbMessageType.SingleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.SingleNotFound;
+                            result.MessageType = DbMessageType.SingleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.SingleError;
+                        result.MessageType = DbMessageType.SingleError;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1780,18 +1780,18 @@ namespace Locust.Db
 
                         if (result.Data != null)
                         {
-                            result.MessageType = MessageType.SingleSuccess;
+                            result.MessageType = DbMessageType.SingleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.SingleNotFound;
+                            result.MessageType = DbMessageType.SingleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.SingleError;
+                        result.MessageType = DbMessageType.SingleError;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1833,18 +1833,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1899,18 +1899,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -1967,18 +1967,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -2037,18 +2037,18 @@ namespace Locust.Db
 
                         if (result.Data != null && result.Data.Count > 0)
                         {
-                            result.MessageType = MessageType.MultipleSuccess;
+                            result.MessageType = DbMessageType.MultipleSuccess;
                         }
                         else
                         {
-                            result.MessageType = MessageType.MultipleNotFound;
+                            result.MessageType = DbMessageType.MultipleNotFound;
                         }
                     }
                     catch (Exception ex)
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, cmd.CommandText, args);
                     }
@@ -2098,7 +2098,7 @@ namespace Locust.Db
                     {
                         result.Success = false;
                         result.Exception = ex;
-                        result.MessageType = MessageType.Error;
+                        result.MessageType = DbMessageType.Error;
 
                         Log(ex, "ExecuteBatch");
                     }

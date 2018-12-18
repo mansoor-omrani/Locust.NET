@@ -13,6 +13,7 @@ namespace Locust.Service
 {
     public class ServiceResponse:IJsonSerializable
     {
+        public object Bag { get; set; }
         public DateTime Date { get; set; }
         public virtual bool Success { get; set; }
         public string MessageKey { get; set; }
@@ -68,6 +69,15 @@ namespace Locust.Service
             }
             Status = "Failed";
         }
+        public void Faulted(Exception e = null)
+        {
+            Success = false;
+            if (e != null)
+            {
+                Exception = e;
+            }
+            Status = "Faulted";
+        }
         public void NotFound()
         {
             Success = false;
@@ -96,6 +106,10 @@ namespace Locust.Service
                 if (Status.ToLower().Contains("success"))
                 {
                     Success = true;
+                }
+                else
+                {
+                    Success = false;
                 }
             }
 

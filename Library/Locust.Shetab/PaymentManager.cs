@@ -64,6 +64,7 @@ namespace Locust.Shetab
                 var args = new
                 {
                     Result = CommandParameter.Output(SqlDbType.VarChar, 50),
+                    PaymentId = CommandParameter.Output(SqlDbType.Int),
                     PaymentCode = request.PaymentCode,
                     BankType = request.BankType,
                     Amount = request.Amount,
@@ -81,13 +82,16 @@ namespace Locust.Shetab
 
                 if (result.DbResult.Success)
                 {
-                    result.Status = args.Result.Value.ToString();
-
                     Logger.Log("DbStatus = " + result.Status);
 
                     dbOk = result.Status == "Success";
 
-                    if (!dbOk)
+                    if (dbOk)
+                    {
+                        result.Status = args.Result.Value.ToString();
+                        result.Data = result.DbResult.Data = (int)args.PaymentId.Value;
+                    }
+                    else
                     {
                         result.Status = "SaveError";
                     }
@@ -129,6 +133,7 @@ namespace Locust.Shetab
                 var args = new
                 {
                     Result = CommandParameter.Output(SqlDbType.VarChar, 50),
+                    PaymentId = CommandParameter.Output(SqlDbType.Int),
                     PaymentCode = request.PaymentCode,
                     BankType = request.BankType,
                     Amount = request.Amount,
@@ -146,13 +151,16 @@ namespace Locust.Shetab
 
                 if (result.DbResult.Success)
                 {
-                    result.Status = args.Result.Value.ToString();
-
                     Logger.Log("DbStatus = " + result.Status);
 
                     dbOk = result.Status == "Success";
 
-                    if (!dbOk)
+                    if (dbOk)
+                    {
+                        result.Status = args.Result.Value.ToString();
+                        result.Data = result.DbResult.Data = (int)args.PaymentId.Value;
+                    }
+                    else
                     {
                         result.Status = "SaveError";
                     }
@@ -528,6 +536,7 @@ namespace Locust.Shetab
             Logger.Log(new { Request = request, PaymentCode = paymentCode });
 
             var providers = _providerFactory.GetProviders();
+
             if (providers == null || providers.Length == 0)
             {
                 result.Status = "ProviderFactoryIsEmpty";

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Locust.Shetab.Models
 {
-    public class PaymentManagerBeginPaymentResponse: ServiceResponse
+    public class PaymentManagerBeginPaymentResponse: ServiceResponse<int>
     {
         public PaymentProviderBeginPaymentResponse ProviderResponse { get; set; }
         public BeginPaymentRequest Request { get; set; }
-        public DbResult DbResult { get; set; }
+        public DbResult<int> DbResult { get; set; }
     }
 }

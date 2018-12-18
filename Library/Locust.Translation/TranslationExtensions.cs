@@ -53,7 +53,7 @@ namespace Locust.Translation
                 {
                     response.Message = translator.GetSingle(response.MessageKey, response.Status, lang);
 
-                    if (response.HasMessageArgs())
+                    if (!string.IsNullOrEmpty(response.Message) && response.HasMessageArgs())
                     {
                         foreach (var arg in response.MessageArgs)
                         {

@@ -25,6 +25,21 @@ namespace Locust.StateProvider
         {
             get { return HttpContext.Session; }
         }
+        public override bool Exists()
+        {
+            var found = false;
+
+            foreach (string key in Session.Contents.Keys)
+            {
+                if (string.Compare(key, Name, true) == 0)
+                {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
         protected override void StoreInternal()
         {
             if (Session != null)

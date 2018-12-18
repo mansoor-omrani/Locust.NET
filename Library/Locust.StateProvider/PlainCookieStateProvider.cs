@@ -60,6 +60,12 @@ namespace Locust.StateProvider
 
             return str;
         }
+        public override bool Exists()
+        {
+            var cookie = HttpContext.Request.Cookies.Get(Name);
+
+            return (cookie != null);
+        }
         protected override void StoreInternal()
         {
             Logger?.LogCategory($"PlainCookieStateProvider<{typeof(T).Name}>('{Name}').Store()");
@@ -126,7 +132,6 @@ namespace Locust.StateProvider
             Logger?.Log("Reading cookies ...");
 
             var cookie = HttpContext.Request.Cookies.Get(Name);
-            var base64 = new Cryptography.Base64Decoder();
 
             if (cookie != null)
             {
@@ -146,6 +151,7 @@ namespace Locust.StateProvider
                         {
                             Logger?.Log("Decoding from base64 ...");
 
+                            var base64 = new Cryptography.Base64Decoder();
                             var str = base64.Decode(value, Encoding.UTF8);
                             str = TransformAfterRead(str);
                             var bytes = Encoding.UTF8.GetBytes(str);

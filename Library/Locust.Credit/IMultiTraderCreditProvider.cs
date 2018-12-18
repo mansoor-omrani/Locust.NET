@@ -118,13 +118,13 @@ namespace Locust.Credit
     public interface IMultiTraderCreditProvider
     {
         MultiTraderCreditProviderConfig Config { get; set; }
-        // -------------------- WithDraw --------------------
-        MultiTraderCreditProviderBeginWithdrawResponse BeginWithDraw(MultiTraderCreditProviderBeginWithdrawRequest request);
-        Task<MultiTraderCreditProviderBeginWithdrawResponse> BeginWithDrawAsync(MultiTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation);
-        MultiTraderCreditProviderEndWithdrawResponse EndWithDraw(MultiTraderCreditProviderEndWithdrawRequest request);
-        Task<MultiTraderCreditProviderEndWithdrawResponse> EndWithDrawAsync(MultiTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation);
-        MultiTraderCreditProviderWithdrawResponse WithDraw(MultiTraderCreditProviderWithdrawRequest request);
-        Task<MultiTraderCreditProviderWithdrawResponse> WithDrawAsync(MultiTraderCreditProviderWithdrawRequest request, CancellationToken cancellation);
+        // -------------------- Withdraw --------------------
+        MultiTraderCreditProviderBeginWithdrawResponse BeginWithdraw(MultiTraderCreditProviderBeginWithdrawRequest request);
+        Task<MultiTraderCreditProviderBeginWithdrawResponse> BeginWithdrawAsync(MultiTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation);
+        MultiTraderCreditProviderEndWithdrawResponse EndWithdraw(MultiTraderCreditProviderEndWithdrawRequest request);
+        Task<MultiTraderCreditProviderEndWithdrawResponse> EndWithdrawAsync(MultiTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation);
+        MultiTraderCreditProviderWithdrawResponse Withdraw(MultiTraderCreditProviderWithdrawRequest request);
+        Task<MultiTraderCreditProviderWithdrawResponse> WithdrawAsync(MultiTraderCreditProviderWithdrawRequest request, CancellationToken cancellation);
         // -------------------- Deposit --------------------
         MultiTraderCreditProviderBeginDepositResponse BeginDeposit(MultiTraderCreditProviderBeginDepositRequest request);
         Task<MultiTraderCreditProviderBeginDepositResponse> BeginDepositAsync(MultiTraderCreditProviderBeginDepositRequest request, CancellationToken cancellation);
@@ -369,7 +369,7 @@ namespace Locust.Credit
             return response;
         }
         // -------------------------- Withdraw --------------------------
-        public MultiTraderCreditProviderBeginWithdrawResponse BeginWithDraw(MultiTraderCreditProviderBeginWithdrawRequest request)
+        public MultiTraderCreditProviderBeginWithdrawResponse BeginWithdraw(MultiTraderCreditProviderBeginWithdrawRequest request)
         {
             var response = new MultiTraderCreditProviderBeginWithdrawResponse();
             var sr = BeginApply(new MultiTraderCreditProviderBeginApplyRequest
@@ -385,7 +385,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<MultiTraderCreditProviderBeginWithdrawResponse> BeginWithDrawAsync(MultiTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation)
+        public async Task<MultiTraderCreditProviderBeginWithdrawResponse> BeginWithdrawAsync(MultiTraderCreditProviderBeginWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new MultiTraderCreditProviderBeginWithdrawResponse();
             var sr = await BeginApplyAsync(new MultiTraderCreditProviderBeginApplyRequest
@@ -401,7 +401,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public MultiTraderCreditProviderEndWithdrawResponse EndWithDraw(MultiTraderCreditProviderEndWithdrawRequest request)
+        public MultiTraderCreditProviderEndWithdrawResponse EndWithdraw(MultiTraderCreditProviderEndWithdrawRequest request)
         {
             var response = new MultiTraderCreditProviderEndWithdrawResponse();
             var sr = EndApply(new MultiTraderCreditProviderEndApplyRequest
@@ -415,7 +415,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<MultiTraderCreditProviderEndWithdrawResponse> EndWithDrawAsync(MultiTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation)
+        public async Task<MultiTraderCreditProviderEndWithdrawResponse> EndWithdrawAsync(MultiTraderCreditProviderEndWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new MultiTraderCreditProviderEndWithdrawResponse();
             var sr = await EndApplyAsync(new MultiTraderCreditProviderEndApplyRequest
@@ -429,7 +429,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public MultiTraderCreditProviderWithdrawResponse WithDraw(MultiTraderCreditProviderWithdrawRequest request)
+        public MultiTraderCreditProviderWithdrawResponse Withdraw(MultiTraderCreditProviderWithdrawRequest request)
         {
             var response = new MultiTraderCreditProviderWithdrawResponse();
             var sr = Apply(new MultiTraderCreditProviderApplyRequest
@@ -445,7 +445,7 @@ namespace Locust.Credit
 
             return response;
         }
-        public async Task<MultiTraderCreditProviderWithdrawResponse> WithDrawAsync(MultiTraderCreditProviderWithdrawRequest request, CancellationToken cancellation)
+        public async Task<MultiTraderCreditProviderWithdrawResponse> WithdrawAsync(MultiTraderCreditProviderWithdrawRequest request, CancellationToken cancellation)
         {
             var response = new MultiTraderCreditProviderWithdrawResponse();
             var sr = await ApplyAsync(new MultiTraderCreditProviderApplyRequest

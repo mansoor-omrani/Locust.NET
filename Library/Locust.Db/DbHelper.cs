@@ -1,5 +1,6 @@
 ﻿using Locust.Db;
 using Locust.Expressions;
+using Locust.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -36,7 +37,23 @@ namespace Locust.Db
 
                         if (prop != null)
                         {
-                            prop.SetValue(result, value);
+                            try
+                            {
+                                if (prop.PropertyType.IsNullable())
+                                {
+                                    var nullableValue = Activator.CreateInstance(prop.PropertyType, new object[] { value });
+
+                                    prop.SetValue(result, nullableValue);
+                                }
+                                else
+                                {
+                                    prop.SetValue(result, value);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                throw new Exception($"error reading column {column} into prop {prop.Name}", e);
+                            }
                         }
                     }
                 }

@@ -504,6 +504,23 @@ namespace Locust.Extensions
         {
             return string.Format(s, args);
         }
+        public static string Substr(this string s, int start, int length = 0)
+        {
+            var result = "";
+
+            if (!string.IsNullOrEmpty(s))
+            {
+                var i = start < 0 ? 0 : start >= s.Length ? s.Length - 1 : start;
+                var len = length <= 0 || i + length > s.Length ? s.Length - i : length;
+
+                if (len > 0)
+                {
+                    result = s.Substring(i, len);
+                }
+            }
+
+            return result;
+        }
         public static string UnCamel(this string s, char separator = '-', int buffersize = 16)
         {
             var buff = new CharBuffer(buffersize);

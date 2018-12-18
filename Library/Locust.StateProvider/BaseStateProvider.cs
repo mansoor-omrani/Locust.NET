@@ -142,6 +142,7 @@ namespace Locust.StateProvider
             this.HttpContextProvider = httpContextProvider;
             this.Serializer = serializer;
         }
+        public abstract bool Exists();
         public virtual void Remove()
         {
             var s = Stat;

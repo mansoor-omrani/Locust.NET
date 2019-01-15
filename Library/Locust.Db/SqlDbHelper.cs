@@ -365,6 +365,27 @@ namespace Locust.Db
                             continue;
                         }
 
+                        var cmdListParam = value as CommandListParameter;
+
+                        if (cmdListParam != null)
+                        {
+                            var op = cmdListParam;
+                            var p = new SqlParameter("@" + item.Key, op.StrongValue);
+
+                            p.SqlDbType = SqlDbType.Structured;
+                            p.Direction = op.Direction;
+                            p.TypeName = op.Name;
+
+                            if (op.Value == null)
+                            {
+                                p.Value = DBNull.Value;
+                            }
+
+                            _cmd.Parameters.Add(p);
+
+                            continue;
+                        }
+
                         var cmdParam = value as CommandParameter;
                         if (cmdParam != null)
                         {
@@ -478,6 +499,27 @@ namespace Locust.Db
                                 p.Value = DBNull.Value;
                             }
                         }
+                        _cmd.Parameters.Add(p);
+
+                        continue;
+                    }
+
+                    var cmdListParam = value as CommandListParameter;
+
+                    if (cmdListParam != null)
+                    {
+                        var op = cmdListParam;
+                        var p = new SqlParameter("@" + property.Name, op.StrongValue);
+
+                        p.SqlDbType = SqlDbType.Structured;
+                        p.Direction = op.Direction;
+                        p.TypeName = op.Name;
+
+                        if (op.Value == null)
+                        {
+                            p.Value = DBNull.Value;
+                        }
+
                         _cmd.Parameters.Add(p);
 
                         continue;

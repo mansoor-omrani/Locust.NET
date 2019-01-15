@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -100,10 +101,65 @@ namespace Locust.Extensions
 
             return result;
         }
-        public static DataTable ToDataTable<T>(this List<T> list)
+        public static DataTable ToDataTable<T>(this IEnumerable<T> list)
         {
             var result = new DataTable();
             var type = typeof(T);
+            var props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).ToArray();
+
+            foreach (var prop in props)
+            {
+                result.Columns.Add(prop.Name, prop.PropertyType);
+            }
+
+            foreach (var item in list)
+            {
+                var row = new object[props.Length];
+                var i = 0;
+
+                foreach (var prop in props)
+                {
+                    row[i++] = prop.GetValue(item);
+                }
+
+                result.Rows.Add(row);
+            }
+
+            return result;
+        }
+        public static DataTable ToDataTable(this IEnumerable list)
+        {
+            var result = new DataTable();
+
+            PropertyInfo[] props = null;
+            Type itemType = null;
+
+            foreach (var item in list)
+            {
+                if (props == null && item != null)
+                {
+                    itemType = item.GetType();
+                    props = itemType.GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.CanRead).ToArray();
+
+                    foreach (var prop in props)
+                    {
+                        result.Columns.Add(prop.Name, prop.PropertyType);
+                    }
+                }
+
+                if (props != null && item != null && item.GetType() == itemType)
+                {
+                    var row = new object[props.Length];
+                    var i = 0;
+
+                    foreach (var prop in props)
+                    {
+                        row[i++] = prop.GetValue(item);
+                    }
+
+                    result.Rows.Add(row);
+                }
+            }
 
             return result;
         }

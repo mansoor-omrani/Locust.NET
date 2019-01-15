@@ -51,6 +51,22 @@ namespace Locust.Service
                 innerResponses = value;
             }
         }
+        public virtual bool IsNotFound()
+        {
+            return string.Compare(Status, "NotFound", true) == 0;
+        }
+        public virtual bool IsFailed()
+        {
+            return string.Compare(Status, "Failed", true) == 0;
+        }
+        public virtual bool IsErrored()
+        {
+            return string.Compare(Status, "Errored", true) == 0;
+        }
+        public virtual bool IsFaulted()
+        {
+            return string.Compare(Status, "Faulted", true) == 0;
+        }
         public virtual bool IsSucceeded()
         {
             return Success;
@@ -103,7 +119,7 @@ namespace Locust.Service
             {
                 Status = value.ToString();
 
-                if (Status.ToLower().Contains("success"))
+                if (Status.ToLower().Contains("success") || Status.ToLower().Contains("succeed"))
                 {
                     Success = true;
                 }

@@ -22,10 +22,18 @@ namespace Locust.Measurement
     {
         public double Value { get; set; }
         public FileSizeUnit Unit { get; set; }
+        public string Render(string lang)
+        {
+            var result = "";
+
+
+
+            return result;
+        }
     }
     public class FileSize
     {
-        private int size;
+        private long size;
         private double? calculatedSize;
         private FileSizeUnit unit;
         private FileSizeUnit calculatedUnit;
@@ -33,14 +41,20 @@ namespace Locust.Measurement
             : this(0)
         {
         }
-        public FileSize(int size)
+        public FileSize(long size)
         {
             this.size = size;
             this.unit = FileSizeUnit.Auto;
 
             calculatedSize = calculate(this.size, this.unit, out calculatedUnit);
         }
-        public int Size
+        public FileSize(long size, FileSizeUnit unit)
+        {
+            this.unit = unit;
+
+            Size = size;
+        }
+        public long Size
         {
             get { return size; }
             set
@@ -60,7 +74,7 @@ namespace Locust.Measurement
                 calculatedSize = calculate(this.size, this.unit, out calculatedUnit);
             }
         }
-        private double calculate(int size, FileSizeUnit unit, out FileSizeUnit calculatedUnit)
+        private double calculate(long size, FileSizeUnit unit, out FileSizeUnit calculatedUnit)
         {
             double result = 0;
 

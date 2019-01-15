@@ -19,7 +19,7 @@ namespace Locust.IPStack
     }
     public class IPStackLookupResultLocation
     {
-        public int geoname_id { get; set; }
+        public int? geoname_id { get; set; }
         public string capital { get; set; }
         public List<IPStackLookupResultLanguage> languages { get; set; }
         public string country_flag { get; set; }
@@ -32,7 +32,7 @@ namespace Locust.IPStack
     {
         public string id { get; set; }
         public string current_time { get; set; }
-        public int gmt_offset { get; set; }
+        public int? gmt_offset { get; set; }
         public string code { get; set; }
         public bool is_daylight_saving { get; set; }
     }
@@ -46,7 +46,7 @@ namespace Locust.IPStack
     }
     public class IPStackLookupResultConnection
     {
-        public int asn { get; set; }
+        public int? asn { get; set; }
         public string isp { get; set; }
     }
     public class IPStackLookupResultSecurity
@@ -83,7 +83,7 @@ namespace Locust.IPStack
     }
     public class IPStackLookupError
     {
-        public int code { get; set; }
+        public int? code { get; set; }
         public string type { get; set; }
         public string info { get; set; }
     }

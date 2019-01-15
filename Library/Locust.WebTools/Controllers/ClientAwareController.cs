@@ -103,27 +103,52 @@ namespace Locust.WebTools
             }
             set { digestExceptions = value; }
         }
-
-        protected virtual string GetContentFromView(string name)
+        /*
+        protected virtual string GetViewPath(string area, string controller, string lang, string name, string extension)
         {
-            var partial = Request.QueryString["par"] == "1";
-            var path = "";
-            var lang = "";
+            var result = "";
+            var _lang = "";
+            var ext = extension.Replace(".", "_") + ".";
 
-            if (!string.IsNullOrEmpty(ClientSideContentProvider.Area))
+            if (!string.IsNullOrEmpty(area))
             {
                 if (WebConstants.SeparateClientSideStaticFilesByLanguage && (WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.Both || WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.OnlyLanguageBased)
-                            && !string.IsNullOrEmpty(ClientSideContentProvider.Lang))
+                            && !string.IsNullOrEmpty(lang))
                 {
-                    lang = "." + ClientSideContentProvider.Lang;
+                    _lang = "." + lang;
                 }
 
-                path = "~/Areas/" + ClientSideContentProvider.Area + "/Views/" + ClientSideContentProvider.Controller + "/" + name + lang + ".cshtml";
+                result = $"~/Areas/{area}/Views/{controller}/{ext}{name}{_lang}.cshtml";
             }
             else
             {
-                path = "~/Views/" + ClientSideContentProvider.Controller + "/" + name + lang + ".cshtml";
+                result = $"~/Views/{controller}/{ext}{name}{_lang}.cshtml";
             }
+
+            return result;
+        }
+        */
+        protected virtual string GetContentFromView(string name, string extension)
+        {
+            var partial = Request.QueryString["par"] == "1";
+            var path = ClientSideContentProvider.GetViewPath(ClientSideContentProvider.Area, ClientSideContentProvider.Controller, ClientSideContentProvider.Lang, name, extension);
+            //var lang = "";
+            //var ext = extension.Replace(".", "_") + ".";
+
+            //if (!string.IsNullOrEmpty(ClientSideContentProvider.Area))
+            //{
+            //    if (WebConstants.SeparateClientSideStaticFilesByLanguage && (WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.Both || WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.OnlyLanguageBased)
+            //                && !string.IsNullOrEmpty(ClientSideContentProvider.Lang))
+            //    {
+            //        lang = "." + ClientSideContentProvider.Lang;
+            //    }
+
+            //    path = $"~/Areas/{ClientSideContentProvider.Area}/Views/{ClientSideContentProvider.Controller}/{ext}{name}{lang}.cshtml";
+            //}
+            //else
+            //{
+            //    path = $"~/Views/{ClientSideContentProvider.Controller}/{ext}{name}{lang}.cshtml";
+            //}
 
             Logger?.Log($"GetContentFromView: {path}");
 
@@ -259,7 +284,7 @@ namespace Locust.WebTools
             {
                 try
                 {
-                    result = GetContentFromView(name);
+                    result = GetContentFromView(name, extension);
                 }
                 catch (Exception e)
                 {
@@ -292,10 +317,18 @@ namespace Locust.WebTools
                 Logger?.Log($"result length:");
                 Logger?.Log($"non-minified: {result.Length}");
 
-                result = minify(result);
+                try
+                {
+                    result = minify(result);
 
-                Logger?.Log($"minified: {result.Length}");
-
+                    Logger?.Log($"minified: {result.Length}");
+                }
+                catch (Exception e)
+                {
+                    ExceptionLogger.LogException(e, $"name: {name}, type: {type}, mime: {mime}");
+                    Logger?.Log("Minification failed: refer to exception logs.");
+                }
+                
                 return Content(result, mime);
             }
 
@@ -399,7 +432,7 @@ namespace Locust.WebTools
             {
                 try
                 {
-                    result = GetContentFromView(name);
+                    result = GetContentFromView(name, extension);
                 }
                 catch (Exception e)
                 {

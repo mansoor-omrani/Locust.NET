@@ -11,10 +11,17 @@ using Z.EntityFramework.Plus;
 
 namespace Locust.Repository.EF
 {
-    public class BaseRepositoryEF
+    public interface IRepositoryEF: IRepository
+    {
+        DbContext Context { get; set; }
+    }
+    public interface IRepositoryEF<T, PK> : IRepositoryEF, IRepository<T, PK> where T : class
+    {
+    }
+    public class BaseRepositoryEF: IRepositoryEF
     {
         public DbContext Context { get; set; }
-        public virtual bool AutoSave
+        public virtual bool AutoSaveChanges
         {
             get; set;
         }
@@ -23,7 +30,7 @@ namespace Locust.Repository.EF
             Context = context;
         }
     }
-    public class BaseRepositoryEF<T, PK> : BaseRepositoryEF, IRepository<T, PK> where T : class
+    public class BaseRepositoryEF<T, PK> : BaseRepositoryEF, IRepositoryEF<T, PK> where T : class
     {
         public BaseRepositoryEF(DbContext context):base(context)
         { }
@@ -35,14 +42,14 @@ namespace Locust.Repository.EF
             Context.Set<T>().Add(entity);
             //Context.Entry<T>(entity).State = EntityState.Added;
 
-            Save();
+            AutoSave();
         }
 
         public virtual void Delete(T entity)
         {
             Context.Set<T>().Remove(entity);
 
-            Save();
+            AutoSave();
         }
 
         public virtual void DeleteByPK(PK id)
@@ -81,7 +88,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(true));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual void RemoveRange(Expression<Func<T, bool>> predicate)
@@ -90,7 +97,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(true));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual void RemoveRange(Expression<Func<T, int, bool>> predicate)
@@ -99,7 +106,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(true));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual void RecoverRange(string predicate)
@@ -108,7 +115,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(false));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual void RecoverRange(Expression<Func<T, bool>> predicate)
@@ -117,7 +124,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(false));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual void RecoverRange(Expression<Func<T, int, bool>> predicate)
@@ -126,7 +133,7 @@ namespace Locust.Repository.EF
             {
                 Context.Set<T>().Where(predicate).Update(UpdateIsDeleted(false));
 
-                Save();
+                AutoSave();
             }
         }
         public virtual bool Remove(T entity)
@@ -138,7 +145,7 @@ namespace Locust.Repository.EF
                 recoverableEntity.IsDeleted = true;
                 Update(entity);
 
-                Save();
+                AutoSave();
 
                 return true;
             }
@@ -162,7 +169,7 @@ namespace Locust.Repository.EF
                 recoverableEntity.IsDeleted = false;
                 Update(entity);
 
-                Save();
+                AutoSave();
 
                 return true;
             }
@@ -185,10 +192,7 @@ namespace Locust.Repository.EF
 
             Context.Entry<T>(entity).State = EntityState.Modified;
 
-            //Context.Set<T>().Attach(entity);
-            //Context.Entry<T>(entity).State = EntityState.Modified;
-
-            Save();
+            AutoSave();
         }
         public int UpdateRange(string predicate, Expression<Func<T, T>> updateFactory)
         {
@@ -202,12 +206,16 @@ namespace Locust.Repository.EF
         {
             return Context.Set<T>().Where(predicate).Update(updateFactory);
         }
+        public virtual void AutoSave()
+        {
+            if (AutoSaveChanges)
+            {
+                Save();
+            }
+        }
         public virtual void Save()
         {
-            if (AutoSave)
-            {
-                Context.SaveChanges();
-            }
+            Context.SaveChanges();
         }
         #endregion
         #region CRUD (async)
@@ -217,14 +225,14 @@ namespace Locust.Repository.EF
             Context.Set<T>().Add(entity);
             //Context.Entry<T>(entity).State = EntityState.Added;
 
-            await SaveAsync();
+            await AutoSaveAsync();
         }
 
         public async virtual Task DeleteAsync(T entity)
         {
             Context.Set<T>().Remove(entity);
 
-            await SaveAsync();
+            await AutoSaveAsync();
         }
 
         public async virtual Task DeleteByPKAsync(PK id)
@@ -241,7 +249,7 @@ namespace Locust.Repository.EF
             {
                 recoverableEntity.IsDeleted = true;
                 await UpdateAsync(entity);
-                await SaveAsync();
+                await AutoSaveAsync();
 
                 return true;
             }
@@ -263,7 +271,7 @@ namespace Locust.Repository.EF
             {
                 recoverableEntity.IsDeleted = false;
                 await UpdateAsync(entity);
-                await SaveAsync();
+                await AutoSaveAsync();
 
                 return true;
             }
@@ -295,7 +303,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(true));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public virtual async Task RemoveRangeAsync(Expression<Func<T, bool>> predicate)
@@ -304,7 +312,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(true));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public virtual async Task RemoveRangeAsync(Expression<Func<T, int, bool>> predicate)
@@ -313,7 +321,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(true));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public virtual async Task RecoverRangeAsync(string predicate)
@@ -322,7 +330,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(false));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public virtual async Task RecoverRangeAsync(Expression<Func<T, bool>> predicate)
@@ -331,7 +339,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(false));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public virtual async Task RecoverRangeAsync(Expression<Func<T, int, bool>> predicate)
@@ -340,7 +348,7 @@ namespace Locust.Repository.EF
             {
                 await Context.Set<T>().Where(predicate).UpdateAsync(UpdateIsDeleted(false));
 
-                Save();
+                await AutoSaveAsync();
             }
         }
         public async virtual Task UpdateAsync(T entity)
@@ -352,10 +360,7 @@ namespace Locust.Repository.EF
 
             Context.Entry<T>(entity).State = EntityState.Modified;
 
-            //Context.Set<T>().Attach(entity);
-            //Context.Entry<T>(entity).State = EntityState.Modified;
-
-            await SaveAsync();
+            await AutoSaveAsync();
         }
         public Task<int> UpdateRangeAsync(string predicate, Expression<Func<T, T>> updateFactory)
         {
@@ -381,12 +386,16 @@ namespace Locust.Repository.EF
         {
             return Context.Set<T>().Where(predicate).UpdateAsync(updateFactory);
         }
+        public async virtual Task AutoSaveAsync()
+        {
+            if (AutoSaveChanges)
+            {
+                await AutoSaveAsync();
+            }
+        }
         public async virtual Task SaveAsync()
         {
-            if (AutoSave)
-            {
-                await Context.SaveChangesAsync();
-            }
+            await Context.SaveChangesAsync();
         }
         #endregion
         #region Data Retrieval (sync)

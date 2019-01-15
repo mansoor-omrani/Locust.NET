@@ -8,7 +8,7 @@ namespace Locust.Repository
 {
     public interface IRepository
     {
-        bool AutoSave { get; set; }
+        bool AutoSaveChanges { get; set; }
     }
     public interface IRepository<T, PK>: IRepository, ISyncRepository<T, PK>, IAsyncRepository<T, PK>
     {

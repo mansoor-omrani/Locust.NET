@@ -32,7 +32,6 @@
   <ItemGroup>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>g:\nuget\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,12 +47,6 @@
     <Compile Include="ElmahChainExceptionLogger.cs" />
     <Compile Include="ElmahExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Locust.ConnectionString\Locust.ConnectionString.csproj">
@@ -72,6 +65,12 @@
       <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
       <Name>Locust.Logging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

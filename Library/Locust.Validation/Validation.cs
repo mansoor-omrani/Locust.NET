@@ -40,6 +40,39 @@ namespace Locust.Validation
             else
                 return Regex.IsMatch(x, $"^[a-zA-Z]\\w{{{minLength},{maxLength}}}$", RegexOptions.IgnoreCase);
         }
+        public static bool IsPositiveInteger(string x)
+        {
+            x = x?.Trim();
+
+            if (!string.IsNullOrEmpty(x))
+            {
+                return Regex.IsMatch(x, @"^\d+$");
+            }
+
+            return false;
+        }
+        public static bool IsNumeric(string x)
+        {
+            x = x?.Trim();
+
+            if (!string.IsNullOrEmpty(x))
+            {
+                return Regex.IsMatch(x, @"^(-|\+)?[0-9]+(\.[0-9]+)?$");
+            }
+
+            return false;
+        }
+        public static bool IsInteger(string x)
+        {
+            x = x?.Trim();
+
+            if (!string.IsNullOrEmpty(x))
+            {
+                return Regex.IsMatch(x, @"^(-|\+)?[0-9]+$");
+            }
+
+            return false;
+        }
         public static IsNationalCodeResult IsNationalCode(string nationalCode)
         {
             if (String.IsNullOrEmpty(nationalCode))

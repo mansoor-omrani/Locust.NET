@@ -44,5 +44,6 @@ namespace Locust.Repository
         Task<int> UpdateRangeAsync(Expression<Func<T, int, bool>> predicate, Expression<Func<T, T>> updateFactory);
         Task<int> UpdateRangeAsync(Expression<Func<T, int, bool>> predicate, Expression<Func<T, T>> updateFactory, CancellationToken cancellationToken);
         Task SaveAsync();
+        Task AutoSaveAsync();
     }
 }

@@ -62,9 +62,9 @@ namespace Locust.WebTools
         /// </param>
         /// <param name="model">The model to render the view with</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public string RenderView(string viewPath, object model)
+        public string RenderView(string viewPath, object model, string masterName = null)
         {
-            return RenderViewToStringInternal(viewPath, model, false);
+            return RenderViewToStringInternal(viewPath, model, false, masterName);
         }
 
 
@@ -96,11 +96,11 @@ namespace Locust.WebTools
         /// <param name="model">The model to pass to the viewRenderer</param>
         /// <param name="controllerContext">Active Controller context</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public static string RenderView(string viewPath, object model,
-                                        ControllerContext controllerContext)
+        public static string RenderView(string viewPath, object model, ControllerContext controllerContext, string masterName)
         {
             ViewRenderer renderer = new ViewRenderer(controllerContext);
-            return renderer.RenderView(viewPath, model);
+
+            return renderer.RenderView(viewPath, model, masterName);
         }
 
         /// <summary>
@@ -118,13 +118,14 @@ namespace Locust.WebTools
         /// <returns>String of the rendered view or null on error</returns>
         public static string RenderView(string viewPath, object model,
                                         ControllerContext controllerContext,
+                                        string masterName,
                                         out string errorMessage)
         {
             errorMessage = null;
             try
             {
                 ViewRenderer renderer = new ViewRenderer(controllerContext);
-                return renderer.RenderView(viewPath, model);
+                return renderer.RenderView(viewPath, model, masterName);
             }
             catch (Exception ex)
             {
@@ -194,14 +195,14 @@ namespace Locust.WebTools
         /// <param name="partial">Determines whether to render a full or partial view</param>
         /// <returns>String of the rendered view</returns>
         protected string RenderViewToStringInternal(string viewPath, object model,
-                                                    bool partial = false)
+                                                    bool partial = false, string masterName = null)
         {
             // first find the ViewEngine for this view
             ViewEngineResult viewEngineResult = null;
             if (partial)
                 viewEngineResult = ViewEngines.Engines.FindPartialView(Context, viewPath);
             else
-                viewEngineResult = ViewEngines.Engines.FindView(Context, viewPath, null);
+                viewEngineResult = ViewEngines.Engines.FindView(Context, viewPath, masterName);
 
             if (viewEngineResult == null)
                 throw new FileNotFoundException($"View {viewPath} Could Not Be Found");

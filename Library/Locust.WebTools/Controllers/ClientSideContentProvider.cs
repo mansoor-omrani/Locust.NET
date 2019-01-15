@@ -150,6 +150,29 @@ namespace Locust.WebTools
             
             return result;
         }
+        public virtual string GetViewPath(string area, string controller, string lang, string name, string extension)
+        {
+            var result = "";
+            var _lang = "";
+            var ext = extension.Replace(".", "_") + ".";
+
+            if (!string.IsNullOrEmpty(area))
+            {
+                if (WebConstants.SeparateClientSideStaticFilesByLanguage && (WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.Both || WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.OnlyLanguageBased)
+                            && !string.IsNullOrEmpty(lang))
+                {
+                    _lang = "." + lang;
+                }
+
+                result = $"~/Areas/{area}/Views/{controller}/{ext}{name}{_lang}.cshtml";
+            }
+            else
+            {
+                result = $"~/Views/{controller}/{ext}{name}{_lang}.cshtml";
+            }
+
+            return result;
+        }
         internal virtual string GetFile(string basePath, string name, string extension)
         {
             var area = Area;
@@ -471,6 +494,7 @@ namespace Locust.WebTools
                 else
                 if (ExternalClientSideItemType.RazorView.EqualsTrimmedIgnoreCase(type))
                 {
+                    /*
                     if (WebConstants.SeparateClientSideStaticFilesByLanguage && (WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.Both || WebConstants.MultiLanguageClientAwareController == MultiLanguageRoutingOptions.OnlyLanguageBased)
                             && !string.IsNullOrEmpty(Lang))
                     {
@@ -485,7 +509,9 @@ namespace Locust.WebTools
                     {
                         path = "/Views/" + Controller + "/" + action + lang + ".cshtml";
                     }
-
+                    */
+                    path = GetViewPath(Area, Controller, Lang, Action, extension);
+                    path = path.Length > 1 ? path.Substr(2): "";
                     path = Path.Combine(HttpContext.Server.MapPath("\\"), path);
 
                     try

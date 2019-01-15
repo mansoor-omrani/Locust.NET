@@ -40,6 +40,7 @@ namespace Locust.Repository
         int UpdateRange(Expression<Func<T, bool>> predicate, Expression<Func<T, T>> updateFactory);
         int UpdateRange(Expression<Func<T, int, bool>> predicate, Expression<Func<T, T>> updateFactory);
         void Save();
+        void AutoSave();
         void Attach(T entity);
         void Detach(T entity);
     }

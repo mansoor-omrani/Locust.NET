@@ -100,7 +100,18 @@ namespace Locust.Network
                 }
             }
         }
+        public IPv4(decimal ip)
+        {
+            var a = Math.Floor(ip / 16777216);
+            var b = Math.Floor((ip - a * 16777216)/ 65536);
+            var c = Math.Floor((ip - a * 16777216 - b * 65536) / 256);
+            var d = ip - a * 16777216 - b * 65536 - c * 256;
 
+            A = a.ToString();
+            B = b.ToString();
+            C = c.ToString();
+            D = d.ToString();
+        }
         public bool Matches(IPv4 ip)
         {
             return
@@ -185,6 +196,13 @@ namespace Locust.Network
         public static implicit operator string(IPv4 f)
         {
             return f.ToString();
+        }
+        public decimal ToDecimal()
+        {
+            return (decimal)((A == "*" ? 0 : System.Convert.ToByte(A)) * 16777216 +
+                             (B == "*" ? 0 : System.Convert.ToByte(B)) * 65536 +
+                             (C == "*" ? 0 : System.Convert.ToByte(C)) * 256 +
+                             (D == "*" ? 0 : System.Convert.ToByte(D)));
         }
     }
 }

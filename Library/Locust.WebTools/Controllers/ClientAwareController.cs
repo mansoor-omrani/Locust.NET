@@ -7,6 +7,7 @@ using Locust.Logging;
 using Locust.Service;
 using Locust.Translation;
 using Locust.WebExtensions;
+using Locust.WebTools.Utilities;
 using Newtonsoft.Json;
 using NUglify;
 using System;
@@ -36,6 +37,30 @@ namespace Locust.WebTools
                 ClientSideContentProvider.Settings = value;
             }
         }
+        private IJavascriptObfuscator javascriptObfuscator;
+        public IJavascriptObfuscator JavascriptObfuscator
+        {
+            get
+            {
+                if (javascriptObfuscator == null)
+                    javascriptObfuscator = new ECMAScriptPacker(ECMAScriptPacker.PackerEncoding.Normal, fastDecode: true, specialChars: false);
+
+                return javascriptObfuscator;
+            }
+            set { javascriptObfuscator = value; }
+        }
+        private ICssMinifier cssMinifier;
+        public ICssMinifier CssMinifier
+        {
+            get
+            {
+                if (cssMinifier == null)
+                    cssMinifier = new UglifyCssMinifier();
+
+                return cssMinifier;
+            }
+            set { cssMinifier = value; }
+        }
         private ClientSideContentControllerProvider clientSideContentProvider;
         private ILogger logger;
         protected virtual ILogger Logger
@@ -47,7 +72,7 @@ namespace Locust.WebTools
             set
             {
                 logger = value;
-                clientSideContentProvider.Logger = value;
+                ClientSideContentProvider.Logger = value;
             }
         }
         private IExceptionLogger exceptionLogger;
@@ -60,7 +85,7 @@ namespace Locust.WebTools
             set
             {
                 exceptionLogger = value;
-                clientSideContentProvider.ExceptionLogger = value;
+                ClientSideContentProvider.ExceptionLogger = value;
             }
         }
         protected virtual ClientSideContentControllerProvider ClientSideContentProvider
@@ -202,6 +227,8 @@ namespace Locust.WebTools
             var result = "";
             var ok = true;
 
+            InitDynamicContent();
+
             Logger?.LogCategory($"GetContent(): {nameof(name)} = {name},{nameof(type)} = {type}");
             Logger?.Log($@"Args({nameof(mime)}:{mime},
 {nameof(extension)}:{extension},
@@ -209,8 +236,6 @@ namespace Locust.WebTools
 {nameof(dynamicResourceResourceDefaultBasePath)}:{dynamicResourceResourceDefaultBasePath},
 {nameof(dynamicResourcePathKey)}:{dynamicResourcePathKey},
 {nameof(dynamicResourceDefaultBasePath)}:{dynamicResourceDefaultBasePath})");
-
-            InitDynamicContent();
 
             if (ExternalClientSideItemType.Resource.EqualsTrimmedIgnoreCase(type))
             {
@@ -350,6 +375,8 @@ namespace Locust.WebTools
             var result = "";
             var ok = true;
 
+            InitDynamicContent();
+
             Logger?.LogCategory($"GetContent(): {nameof(name)} = {name},{nameof(type)} = {type}");
             Logger?.Log($@"Args({nameof(mime)}:{mime},
 {nameof(extension)}:{extension},
@@ -357,8 +384,6 @@ namespace Locust.WebTools
 {nameof(dynamicResourceResourceDefaultBasePath)}:{dynamicResourceResourceDefaultBasePath},
 {nameof(dynamicResourcePathKey)}:{dynamicResourcePathKey},
 {nameof(dynamicResourceDefaultBasePath)}:{dynamicResourceDefaultBasePath})");
-
-            InitDynamicContent();
 
             if (ExternalClientSideItemType.Resource.EqualsTrimmedIgnoreCase(type))
             {
@@ -557,7 +582,7 @@ namespace Locust.WebTools
                                 dynamicResourceResourceDefaultBasePath: dynamicResourceResourceDefaultBasePath,
                                 dynamicResourcePathKey: WebConstants.CSS_DYNAMIC_RESOURCE_PATH_KEY,
                                 dynamicResourceDefaultBasePath: dynamicResourceDefaultBasePath,
-                                minify: (content) => ClientSideContentProvider.MinifyCss ? Uglify.Css(content).Code : content);
+                                minify: (content) => ClientSideContentProvider.MinifyCss ? CssMinifier.Minify(content) : content);
         }
         [OutputCache(Location = OutputCacheLocation.Client, Duration = 31536000)]
         public virtual ActionResult Js(string name, string type)
@@ -588,8 +613,7 @@ namespace Locust.WebTools
 
                                     if (ClientSideContentProvider.MinifyJs)
                                     {
-                                        var packer = new ECMAScriptPacker(ECMAScriptPacker.PackerEncoding.Normal, fastDecode: true, specialChars: false);
-                                        result = packer.Pack(result);
+                                        result = JavascriptObfuscator.Obfuscate(result);
                                     }
 
                                     return result;
@@ -625,7 +649,7 @@ namespace Locust.WebTools
                                 dynamicResourceResourceDefaultBasePath: dynamicResourceResourceDefaultBasePath,
                                 dynamicResourcePathKey: WebConstants.CSS_DYNAMIC_RESOURCE_PATH_KEY,
                                 dynamicResourceDefaultBasePath: dynamicResourceDefaultBasePath,
-                                minify: (content) => ClientSideContentProvider.MinifyCss ? Uglify.Css(content).Code : content);
+                                minify: (content) => ClientSideContentProvider.MinifyCss ? CssMinifier.Minify(content) : content);
         }
         [OutputCache(Location = OutputCacheLocation.Client, Duration = 31536000)]
         public virtual async Task<ActionResult> Js(string name, string type)
@@ -656,8 +680,7 @@ namespace Locust.WebTools
 
                                     if (ClientSideContentProvider.MinifyJs)
                                     {
-                                        var packer = new ECMAScriptPacker(ECMAScriptPacker.PackerEncoding.Normal, fastDecode: true, specialChars: false);
-                                        result = packer.Pack(result);
+                                        result = JavascriptObfuscator.Obfuscate(result);
                                     }
 
                                     return result;

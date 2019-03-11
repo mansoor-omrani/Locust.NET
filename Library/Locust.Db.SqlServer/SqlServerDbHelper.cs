@@ -11,20 +11,16 @@ using System.Threading;
 using System.Transactions;
 using CircuitBreaker.Net;
 using CircuitBreaker.Net.Exceptions;
-using Newtonsoft.Json;
-using Locust.Base;
-using Locust.CircuitBreaker;
+using TypeHelper = Locust.Base.TypeHelper;
 using Locust.ConnectionString;
-using Locust.Conversion;
-using Locust.Data;
+using Locust.CircuitBreaker;
 using Locust.Logging;
 using Locust.Extensions;
+using Locust.Data;
+using Locust.Conversion;
 using Locust.ModelField;
-using TypeHelper = Locust.Base.TypeHelper;
-using Microsoft.SqlServer.Management.Smo;
-using Microsoft.SqlServer.Management.Common;
 
-namespace Locust.Db
+namespace Locust.Db.SqlServer
 {
     internal class GetConnectionResult : IDisposable
     {
@@ -73,8 +69,9 @@ namespace Locust.Db
             Dispose(false);
         }
     }
-    public class SqlDbHelper : IDbHelper, IDisposable
+    public class SqlServerDbHelper : IDbHelper, IDisposable
     {
+        #region Fields
         protected IConnectionStringProvider _cnnProvider;
         protected Action<IDbConnection> initConn;
         protected TransactionScope tran;
@@ -83,6 +80,8 @@ namespace Locust.Db
         protected ICircuitBreakerFactory _circuitBreakerFactory;
         protected ICircuitBreaker circuitBreaker;
         protected IExceptionLogger _logger;
+        #endregion
+        #region Statics
         public static SqlDbType GetSqlDbType(int x)
         {
             SqlDbType result;
@@ -128,37 +127,62 @@ namespace Locust.Db
 
             return result;
         }
-        public IDbContextInfoProvider ContextInfoProvider
+        public static SqlServerDbHelper GetDefault()
+        {
+            var _cnn = new AppConfigConnectionStringProvider();
+            var cbf = new AppConfigCircuitBreakerFactory();
+            var cbs = new AppDomainCircuitBreakerStore();
+            var cip = new NoContextInfoProvider();
+            var memLogger = new DefaultMemoryLogger();
+            var logger = new DebugExceptionLogger();
+
+            return new SqlServerDbHelper(_cnn, cip, cbs, cbf, logger);
+        }
+        public static void ConfigureDA()
+        {
+            try
+            {
+                DA.DefaultDb = GetDefault();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        #endregion
+        #region Properties
+        public virtual IDbContextInfoProvider ContextInfoProvider
         {
             get { return _contextInfoProvider; }
             set { _contextInfoProvider = value; }
         }
-        public ICircuitBreakerStore CircuitBreakerStore
+        public virtual ICircuitBreakerStore CircuitBreakerStore
         {
             get { return _circuitBreakerStore; }
             set { _circuitBreakerStore = value; }
         }
-        public ICircuitBreakerFactory CircuitBreakerFactory
+        public virtual ICircuitBreakerFactory CircuitBreakerFactory
         {
             get { return _circuitBreakerFactory; }
             set { _circuitBreakerFactory = value; }
         }
-        public ICircuitBreaker CircuitBreaker
+        public virtual ICircuitBreaker CircuitBreaker
         {
             get { return circuitBreaker; }
             set { circuitBreaker = value; }
         }
-        public IConnectionStringProvider ConnectionStringProvider
+        public virtual IConnectionStringProvider ConnectionStringProvider
         {
             get { return _cnnProvider; }
             set { _cnnProvider = value; }
         }
-        public IExceptionLogger ExceptionLogger
+        public virtual IExceptionLogger ExceptionLogger
         {
             get { return _logger; }
             set { _logger = value; }
         }
-        public SqlDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, ICircuitBreakerStore circuitBreakerStore, ICircuitBreakerFactory circuitBreakerFactory, IExceptionLogger logger)
+        #endregion
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, ICircuitBreakerStore circuitBreakerStore, ICircuitBreakerFactory circuitBreakerFactory, IExceptionLogger logger)
         {
             this._cnnProvider = cnnProvider;
             this._contextInfoProvider = contextInfoProvider;
@@ -267,7 +291,7 @@ namespace Locust.Db
 			}
         }
         */
-        public IDbCommand GetCommand(string text, bool sproc = true)
+        public virtual IDbCommand GetCommand(string text, bool sproc = true)
         {
             var cmd = new SqlCommand(text);
 
@@ -566,7 +590,6 @@ namespace Locust.Db
                 }
             }
         }
-
         private void updateOutputParams(IDbCommand cmd, object args)
         {
             if (args != null)
@@ -703,11 +726,12 @@ namespace Locust.Db
             }
         }
 
-        public DbResult<List<T>> ExecuteTable<T>(IDbCommand cmd, Func<DataRow, T> transform, object args = null, string tableName = "table")
+        public virtual DbResult<List<T>> ExecuteTable<T>(IDbCommand cmd, Func<DataRow, T> transform, object args = null, string tableName = "table")
         {
             var data = new List<T>();
             var result = new DbResult<List<T>>();
-            DbResult<DataTable> dbr = ExecuteTable(cmd, args, tableName);
+
+            var dbr = ExecuteTable(cmd, args, tableName);
 
             if (dbr.Success)
             {
@@ -719,6 +743,7 @@ namespace Locust.Db
                 }
             }
 
+            result.ExecArgs = args;
             result.Exception = dbr.Exception;
             result.Count = dbr.Count;
             result.Info = dbr.Info;
@@ -728,11 +753,11 @@ namespace Locust.Db
 
             return result;
         }
-        public DbResult<List<T>> ExecuteTable<T>(IDbCommand cmd, Func<DataColumnCollection, DataRow, T> transform, object args = null, string tableName = "table")
+        public virtual DbResult<List<T>> ExecuteTable<T>(IDbCommand cmd, Func<DataColumnCollection, DataRow, T> transform, object args = null, string tableName = "table")
         {
             var data = new List<T>();
             var result = new DbResult<List<T>>();
-            DbResult<DataTable> dbr = ExecuteTable(cmd, args, tableName);
+            var dbr = ExecuteTable(cmd, args, tableName);
 
             if (dbr.Success)
             {
@@ -744,6 +769,7 @@ namespace Locust.Db
                 }
             }
 
+            result.ExecArgs = args;
             result.Exception = dbr.Exception;
             result.Count = dbr.Count;
             result.Info = dbr.Info;
@@ -753,8 +779,7 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<object>> ExecuteTableDynamic(IDbCommand cmd, object args = null, string tableName = "table")
+        public virtual DbResult<List<object>> ExecuteTableDynamic(IDbCommand cmd, object args = null, string tableName = "table")
         {
             Func<DataColumnCollection, DataRow, object> transform = (cols, row) =>
             {
@@ -768,8 +793,7 @@ namespace Locust.Db
 
             return ExecuteTable(cmd, transform, args, tableName);
         }
-
-        public DbResult<List<object>> ExecuteReaderDynamic(IDbCommand cmd, object args = null)
+        public virtual DbResult<List<object>> ExecuteReaderDynamic(IDbCommand cmd, object args = null)
         {
             Func<IDataReader, object> transform = (reader) =>
             {
@@ -783,7 +807,7 @@ namespace Locust.Db
 
             return ExecuteReader(cmd, transform, args);
         }
-        public DbResult<SchemaBasedList> ExecuteReaderSchemaDynamic(IDbCommand cmd, object args = null)
+        public virtual DbResult<SchemaBasedList> ExecuteReaderSchemaDynamic(IDbCommand cmd, object args = null)
         {
             var cols = new List<string>();
             var schemaExtracted = false;
@@ -815,12 +839,11 @@ namespace Locust.Db
 
             return DbResult.From(dbr, new SchemaBasedList { Schema = cols, Items = dbr.Data });
         }
-
-        public Task<DbResult<SchemaBasedList>> ExecuteReaderSchemaDynamicAsync(IDbCommand cmd, object args = null)
+        public virtual Task<DbResult<SchemaBasedList>> ExecuteReaderSchemaDynamicAsync(IDbCommand cmd, object args = null)
         {
             return ExecuteReaderSchemaDynamicAsync(cmd, args, CancellationToken.None);
         }
-        public async Task<DbResult<SchemaBasedList>> ExecuteReaderSchemaDynamicAsync(IDbCommand cmd, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<SchemaBasedList>> ExecuteReaderSchemaDynamicAsync(IDbCommand cmd, object args, CancellationToken cancellation)
         {
             var cols = new List<string>();
             var schemaExtracted = false;
@@ -852,12 +875,11 @@ namespace Locust.Db
 
             return DbResult.From(dbr, new SchemaBasedList { Schema = cols, Items = dbr.Data });
         }
-        public Task<DbResult<List<object>>> ExecuteReaderDynamicAsync(IDbCommand cmd, object args = null)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderDynamicAsync(IDbCommand cmd, object args = null)
         {
             return ExecuteReaderDynamicAsync(cmd, args, CancellationToken.None);
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderDynamicAsync(IDbCommand cmd, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderDynamicAsync(IDbCommand cmd, object args, CancellationToken cancellation)
         {
             Func<IDataReader, object> transform = (reader) =>
             {
@@ -871,19 +893,19 @@ namespace Locust.Db
 
             return ExecuteReaderAsync(cmd, transform, args, cancellation);
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object, object> transform, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object, object> transform, object args, CancellationToken cancellation)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReaderAsync(_cmd, transform, args, cancellation);
         }
-
-        public DbResult<DataTable> ExecuteTable(IDbCommand cmd, object args = null, string tableName = "table")
+        public virtual DbResult<DataTable> ExecuteTable(IDbCommand cmd, object args = null, string tableName = "table")
         {
             IDbConnection conn;
 
             var result = GetConnection<DataTable>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -894,11 +916,13 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         using (var dap = new SqlDataAdapter(cmd as SqlCommand))
                         {
                             result.Data = new DataTable(tableName);
                             dap.Fill(result.Data);
                         }
+
                         updateOutputParams(cmd, args);
 
                         result.Success = true;
@@ -925,11 +949,13 @@ namespace Locust.Db
 
             return result;
         }
-        public DbResult<List<T>> ExecuteReader<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual DbResult<List<T>> ExecuteReader<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<T>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<T>();
 
             if (result.Success)
@@ -941,7 +967,9 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = cmd.ExecuteReader();
+
                         while (reader.Read())
                         {
                             if (transform != null)
@@ -949,6 +977,7 @@ namespace Locust.Db
                                 result.Data.Add(transform(reader));
                             }
                         }
+
                         reader.Close();
 
                         updateOutputParams(cmd, args);
@@ -977,12 +1006,13 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<T>> ExecuteReader<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
+        public virtual DbResult<List<T>> ExecuteReader<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<T>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<T>();
 
             if (result.Success)
@@ -994,6 +1024,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = cmd.ExecuteReader();
                         var prev = default(T);
                         var next = default(T);
@@ -1040,23 +1071,23 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<T>> ExecuteReader<T>(string cmd, Func<IDataReader, T, T> transform, object args = null)
+        public virtual DbResult<List<T>> ExecuteReader<T>(string cmd, Func<IDataReader, T, T> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReader(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
         {
             return ExecuteReaderAsync(cmd, transform, args, CancellationToken.None);
         }
-        public async Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<T>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<T>();
 
             if (result.Success)
@@ -1068,6 +1099,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = await (cmd as SqlCommand).ExecuteReaderAsync(cancellation);
 
                         while (reader.Read())
@@ -1106,17 +1138,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
+        public virtual Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
         {
             return ExecuteReaderAsync(cmd, transform, args, CancellationToken.None);
         }
-
-        public async Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<List<T>>> ExecuteReaderAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<T>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<T>();
 
             if (result.Success)
@@ -1128,6 +1160,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = await (cmd as SqlCommand).ExecuteReaderAsync();
                         var prev = default(T);
                         var next = default(T);
@@ -1174,12 +1207,13 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<object> ExecuteScaler(IDbCommand cmd, object args = null)
+        public virtual DbResult<object> ExecuteScaler(IDbCommand cmd, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<object>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1190,6 +1224,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         result.Data = cmd.ExecuteScalar();
 
                         updateOutputParams(cmd, args);
@@ -1209,16 +1244,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<object>> ExecuteScalerAsync(IDbCommand cmd, object args = null)
+        public virtual Task<DbResult<object>> ExecuteScalerAsync(IDbCommand cmd, object args = null)
         {
             return ExecuteScalerAsync(cmd, args, CancellationToken.None);
         }
-        public async Task<DbResult<object>> ExecuteScalerAsync(IDbCommand cmd, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<object>> ExecuteScalerAsync(IDbCommand cmd, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<object>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1229,6 +1265,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         result.Data = await (cmd as SqlCommand).ExecuteScalarAsync(cancellation);
 
                         updateOutputParams(cmd, args);
@@ -1248,11 +1285,13 @@ namespace Locust.Db
 
             return result;
         }
-        public DbResult<int> ExecuteNonQuery(IDbCommand cmd, object args = null)
+        public virtual DbResult<int> ExecuteNonQuery(IDbCommand cmd, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<int>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1283,16 +1322,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<int>> ExecuteNonQueryAsync(IDbCommand cmd, object args = null)
+        public virtual Task<DbResult<int>> ExecuteNonQueryAsync(IDbCommand cmd, object args = null)
         {
             return ExecuteNonQueryAsync(cmd, args, CancellationToken.None);
         }
-        public async Task<DbResult<int>> ExecuteNonQueryAsync(IDbCommand cmd, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<int>> ExecuteNonQueryAsync(IDbCommand cmd, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<int>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1303,6 +1343,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         result.Data = await (cmd as SqlCommand).ExecuteNonQueryAsync(cancellation);
 
                         updateOutputParams(cmd, args);
@@ -1323,81 +1364,71 @@ namespace Locust.Db
 
             return result;
         }
-        public DbResult<List<T>> ExecuteReader<T>(string cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual DbResult<List<T>> ExecuteReader<T>(string cmd, Func<IDataReader, T> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReader(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<T>>> ExecuteReaderAsync<T>(string cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual Task<DbResult<List<T>>> ExecuteReaderAsync<T>(string cmd, Func<IDataReader, T> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReaderAsync(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<T>>> ExecuteReaderAsync<T>(string cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<List<T>>> ExecuteReaderAsync<T>(string cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReaderAsync(_cmd, transform, args, cancellation);
         }
-
-        public DbResult<DataTable> ExecuteTable(string cmd, object args = null, string tableName = "table")
+        public virtual DbResult<DataTable> ExecuteTable(string cmd, object args = null, string tableName = "table")
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteTable(_cmd, args, tableName);
         }
-
-        public DbResult<object> ExecuteScaler(string cmd, object args = null)
+        public virtual DbResult<object> ExecuteScaler(string cmd, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteScaler(_cmd, args);
         }
-
-        public Task<DbResult<object>> ExecuteScalerAsync(string cmd, object args = null)
+        public virtual Task<DbResult<object>> ExecuteScalerAsync(string cmd, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteScalerAsync(_cmd, args);
         }
-
-        public Task<DbResult<object>> ExecuteScalerAsync(string cmd, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<object>> ExecuteScalerAsync(string cmd, object args, CancellationToken cancellation)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteScalerAsync(_cmd, args, cancellation);
         }
-
-        public DbResult<int> ExecuteNonQuery(string cmd, object args = null)
+        public virtual DbResult<int> ExecuteNonQuery(string cmd, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteNonQuery(_cmd, args);
         }
-
-        public Task<DbResult<int>> ExecuteNonQueryAsync(string cmd, object args = null)
+        public virtual Task<DbResult<int>> ExecuteNonQueryAsync(string cmd, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteNonQueryAsync(_cmd, args);
         }
-
-        public Task<DbResult<int>> ExecuteNonQueryAsync(string cmd, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<int>> ExecuteNonQueryAsync(string cmd, object args, CancellationToken cancellation)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteNonQueryAsync(_cmd, args, cancellation);
         }
 
-        public void SetConnectionInitializer(Action<IDbConnection> initConn)
+        public virtual void SetConnectionInitializer(Action<IDbConnection> initConn)
         {
             this.initConn = initConn;
         }
-
         protected IDbConnection GetConnection()
         {
             var cnn = _cnnProvider.GetConnectionString();
@@ -1432,7 +1463,7 @@ namespace Locust.Db
 
             return con;
         }
-        public DbResult GetConnection(out IDbConnection conn)
+        public virtual DbResult GetConnection(out IDbConnection conn)
         {
             var result = new DbResult();
 
@@ -1460,7 +1491,7 @@ namespace Locust.Db
 
             return result;
         }
-        public DbResult<T> GetConnection<T>(out IDbConnection conn)
+        public virtual DbResult<T> GetConnection<T>(out IDbConnection conn)
         {
             var result = new DbResult<T>();
 
@@ -1488,7 +1519,7 @@ namespace Locust.Db
 
             return result;
         }
-        public void BeginTran(bool distributed)
+        public virtual void BeginTran(bool distributed)
         {
             lock (AppDomain.CurrentDomain)
             {
@@ -1498,8 +1529,7 @@ namespace Locust.Db
                 }
             }
         }
-
-        public void Commit()
+        public virtual void Commit()
         {
             lock (AppDomain.CurrentDomain)
             {
@@ -1511,7 +1541,7 @@ namespace Locust.Db
                 tran = null;
             }
         }
-        public void Rollback()
+        public virtual void Rollback()
         {
             lock (AppDomain.CurrentDomain)
             {
@@ -1528,7 +1558,7 @@ namespace Locust.Db
                 }
             }
         }
-        public void Dispose()
+        public virtual void Dispose()
         {
             lock (AppDomain.CurrentDomain)
             {
@@ -1546,37 +1576,31 @@ namespace Locust.Db
             }
         }
 
-
-        public DbResult<T> ExecuteSingle<T>(string sp, Func<DataRow, T> transform, object args = null) where T : class
+        public virtual DbResult<T> ExecuteSingle<T>(string sp, Func<DataRow, T> transform, object args = null) where T : class
         {
             var cmd = GetCommand(sp);
 
             return ExecuteSingle<T>(cmd, transform, args);
         }
-
-        public DbResult<T> ExecuteSingle<T>(string sp, Func<IDataReader, T> transform, object args = null) where T : class
+        public virtual DbResult<T> ExecuteSingle<T>(string sp, Func<IDataReader, T> transform, object args = null) where T : class
         {
             var cmd = GetCommand(sp);
 
             return ExecuteSingle<T>(cmd, transform, args);
         }
-
-        public Task<DbResult<T>> ExecuteSingleAsync<T>(string sp, Func<IDataReader, T> transform, object args = null) where T : class
+        public virtual Task<DbResult<T>> ExecuteSingleAsync<T>(string sp, Func<IDataReader, T> transform, object args = null) where T : class
         {
             var cmd = GetCommand(sp);
 
             return ExecuteSingleAsync<T>(cmd, transform, args, CancellationToken.None);
         }
-
-        public Task<DbResult<T>> ExecuteSingleAsync<T>(string sp, Func<IDataReader, T> transform, object args, CancellationToken cancellation) where T : class
+        public virtual Task<DbResult<T>> ExecuteSingleAsync<T>(string sp, Func<IDataReader, T> transform, object args, CancellationToken cancellation) where T : class
         {
             var cmd = GetCommand(sp);
 
             return ExecuteSingleAsync<T>(cmd, transform, args);
         }
-
-
-        public DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<DataRow, T> transform, object args = null) where T : class
+        public virtual DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<DataRow, T> transform, object args = null) where T : class
         {
             T data = null;
 
@@ -1600,12 +1624,13 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<T>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1654,12 +1679,13 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
+        public virtual DbResult<T> ExecuteSingle<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<T>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1670,6 +1696,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = cmd.ExecuteReader();
                         var prev = default(T);
                         var next = default(T);
@@ -1716,17 +1743,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
+        public virtual Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args = null)
         {
             return ExecuteSingleAsync(cmd, transform, args, CancellationToken.None);
         }
-
-        public async Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<T>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1737,7 +1764,9 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = await (cmd as SqlCommand).ExecuteReaderAsync(cancellation);
+
                         while (reader.Read())
                         {
                             if (transform != null)
@@ -1747,6 +1776,7 @@ namespace Locust.Db
 
                             break;
                         }
+
                         reader.Close();
 
                         updateOutputParams(cmd, args);
@@ -1775,17 +1805,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
+        public virtual Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args = null)
         {
             return ExecuteSingleAsync(cmd, transform, args, CancellationToken.None);
         }
-
-        public async Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<T>(out conn);
+
+            result.ExecArgs = args;
 
             if (result.Success)
             {
@@ -1796,6 +1826,7 @@ namespace Locust.Db
                         populateParameters(cmd, args);
 
                         cmd.Connection = conn as SqlConnection;
+
                         var reader = await (cmd as SqlCommand).ExecuteReaderAsync(cancellation);
                         var prev = default(T);
                         var next = default(T);
@@ -1842,12 +1873,13 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<object>> ExecuteReader(IDbCommand cmd, Func<IDataReader, object> transform, object args = null)
+        public virtual DbResult<List<object>> ExecuteReader(IDbCommand cmd, Func<IDataReader, object> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<object>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<object>();
 
             if (result.Success)
@@ -1895,23 +1927,23 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<object>> ExecuteReader(string cmd, Func<IDataReader, object, object> transform, object args = null)
+        public virtual DbResult<List<object>> ExecuteReader(string cmd, Func<IDataReader, object, object> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReader(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object> transform, object args = null)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object> transform, object args = null)
         {
             return ExecuteReaderAsync(cmd, transform, args, CancellationToken.None);
         }
-        public async Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<object>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<object>();
 
             if (result.Success)
@@ -1961,17 +1993,17 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object, object> transform, object args = null)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object, object> transform, object args = null)
         {
             return ExecuteReaderAsync(cmd, transform, args, CancellationToken.None);
         }
-
-        public async Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object, object> transform, object args, CancellationToken cancellation)
+        public virtual async Task<DbResult<List<object>>> ExecuteReaderAsync(IDbCommand cmd, Func<IDataReader, object, object> transform, object args, CancellationToken cancellation)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<object>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<object>();
 
             if (result.Success)
@@ -2029,19 +2061,19 @@ namespace Locust.Db
 
             return result;
         }
-
-        public DbResult<List<object>> ExecuteReader(string cmd, Func<IDataReader, object> transform, object args = null)
+        public virtual DbResult<List<object>> ExecuteReader(string cmd, Func<IDataReader, object> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReader(_cmd, transform, args);
         }
-
-        public DbResult<List<object>> ExecuteReader(IDbCommand cmd, Func<IDataReader, object, object> transform, object args = null)
+        public virtual DbResult<List<object>> ExecuteReader(IDbCommand cmd, Func<IDataReader, object, object> transform, object args = null)
         {
             IDbConnection conn;
 
             var result = GetConnection<List<object>>(out conn);
+
+            result.ExecArgs = args;
             result.Data = new List<object>();
 
             if (result.Success)
@@ -2099,52 +2131,55 @@ namespace Locust.Db
 
             return result;
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object> transform, object args = null)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object> transform, object args = null)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReaderAsync(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object> transform, object args, CancellationToken cancellation)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object> transform, object args, CancellationToken cancellation)
         {
             var _cmd = GetCommand(cmd);
 
             return ExecuteReaderAsync(_cmd, transform, args);
         }
-
-        public Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object, object> transform, object args = null)
+        public virtual Task<DbResult<List<object>>> ExecuteReaderAsync(string cmd, Func<IDataReader, object, object> transform, object args = null)
         {
             return ExecuteReaderAsync(cmd, transform, args, CancellationToken.None);
         }
-
-        public DbResult<int> ExecuteBatch(string batch)
+        public virtual DbResult<int> ExecuteBatch(string batch)
         {
-            IDbConnection conn;
+            return new DbResult<int> { MessageType = DbMessageType.Error, Exception = new NotImplementedException() };
+        }
+        public virtual List<object> TestDB(string cnnStr, string sqlTest = "")
+        {
+            var result = new List<object>();
+            var con = new SqlConnection(cnnStr);
 
-            var result = GetConnection<int>(out conn);
-
-            if (result.Success)
+            try
             {
-                using (conn)
+                con.Open();
+
+                result.Add("connection ok");
+
+                if (!string.IsNullOrEmpty(sqlTest))
                 {
-                    try
-                    {
-                        var server = new Server(new ServerConnection(conn as SqlConnection));
+                    var cmd = new SqlCommand(sqlTest, con);
+                    var reader = cmd.ExecuteReader();
 
-                        result.Data = server.ConnectionContext.ExecuteNonQuery(batch);
-                        result.Success = true;
-                    }
-                    catch (Exception ex)
+                    while (reader.Read())
                     {
-                        result.Success = false;
-                        result.Exception = ex;
-                        result.MessageType = DbMessageType.Error;
-
-                        Log(ex, "ExecuteBatch");
+                        result.Add(reader[0]);
                     }
+
+                    reader.Close();
                 }
+
+                con.Close();
+            }
+            catch (Exception e)
+            {
+                result.Add("connection error: " + e.Message);
             }
 
             return result;

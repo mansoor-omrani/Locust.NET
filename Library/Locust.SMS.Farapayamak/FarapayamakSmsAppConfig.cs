@@ -3,30 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Locust.Setting;
+using Locust.Configuration;
 
 namespace Locust.SMS.Farapayamak
 {
     public class FarapayamakSmsAppConfig : ISMSConfiguration
     {
-        private dynamic config;
         public FarapayamakSmsAppConfig()
         {
-            config = new AppConfigSettings();
         }
         public string Username
         {
-            get { return config.FarapayamakUserName; }
+            get { return Config.AppSettings.FarapayamakUserName; }
         }
 
         public string Password
         {
-            get { return config.FarapayamakPassword; }
+            get { return Config.AppSettings.FarapayamakPassword; }
         }
 
         public string Number
         {
-            get { return config.FarapayamakPhone; }
+            get { return Config.AppSettings.FarapayamakPhone; }
         }
     }
 }

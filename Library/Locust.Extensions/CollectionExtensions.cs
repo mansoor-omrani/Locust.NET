@@ -382,10 +382,10 @@ namespace Locust.Extensions
 
             return result;
         }
-        public static IDictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
-        {
-            return source.ToDictionary<TSource, TKey, TElement>(keySelector, elementSelector, (IEqualityComparer<TKey>)null);
-        }
+        //public static IDictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
+        //{
+        //    return source.ToDictionary<TSource, TKey, TElement>(keySelector, elementSelector, (IEqualityComparer<TKey>)null);
+        //}
         public static IDictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement>(this IEnumerable<TSource> source, IDictionary<TKey, TElement> target, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector)
         {
             return source.ToDictionary<TSource, TKey, TElement>(target, keySelector, elementSelector, (IEqualityComparer<TKey>)null);

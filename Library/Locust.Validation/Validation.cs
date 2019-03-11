@@ -19,6 +19,31 @@ namespace Locust.Validation
     }
     public class Validation
     {
+        public static string NamePattern => @"^[\w\s\.\-_]+$";
+        public static bool IsName(string x)
+        {
+            return Regex.IsMatch(x, NamePattern);
+        }
+        public static bool IsNameList(string names, string separator = ",")
+        {
+            var result = true;
+            
+            if (!string.IsNullOrEmpty(names))
+            {
+                var arr = names.Split(separator, MyStringSplitOptions.TrimAndRemoveEmptyEntries);
+
+                foreach (var name in arr)
+                {
+                    if (!IsName(name))
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
+
+            return result;
+        }
         public static bool IsEmail(string x)
         {
             if (string.IsNullOrEmpty(x))

@@ -83,7 +83,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Areas\CKManager\Views\Files\Index.generated.cs">
+    <Compile Include="Areas\CKManager\Views\Files\Index1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Index.cshtml</DependentUpon>
@@ -111,7 +111,7 @@
     </None>
     <None Include="Areas\CKManager\Views\Files\Index.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>Index.generated.cs</LastGenOutput>
+      <LastGenOutput>Index1.generated.cs</LastGenOutput>
     </None>
     <None Include="Areas\CKManager\Views\Shared\_Layout.cshtml">
       <Generator>RazorGenerator</Generator>

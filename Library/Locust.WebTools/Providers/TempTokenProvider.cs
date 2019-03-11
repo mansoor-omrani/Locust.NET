@@ -160,7 +160,7 @@ namespace Locust.WebTools
             }
             else
             {
-                Logger.Log($"No key or key size is not 16 bytes. key = {key}");
+                Logger.Log($"No encryption key found or key size is not 16 bytes. key = {key}");
             }
 
             return result;

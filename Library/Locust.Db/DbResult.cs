@@ -25,6 +25,7 @@ namespace Locust.Db
         public DbMessageType MessageType { get; set; }
         public int Count { get; set; }
         public string Info { get; set; }
+        public object ExecArgs { get; set; }
         public DbResult()
         { }
         public DbResult<T> Copy<T>()
@@ -35,7 +36,8 @@ namespace Locust.Db
                 Exception = this.Exception,
                 Count = this.Count,
                 Info = this.Info,
-                MessageType = this.MessageType
+                MessageType = this.MessageType,
+                ExecArgs = this.ExecArgs
             };
 
             return result;
@@ -49,7 +51,8 @@ namespace Locust.Db
                 Count = dbr.Count,
                 Info = dbr.Info,
                 MessageType = dbr.MessageType,
-                Data = data
+                Data = data,
+                ExecArgs = dbr.ExecArgs
             };
 
             return result;
@@ -68,6 +71,7 @@ namespace Locust.Db
             this.Success = r.Success;
             this.MessageType = r.MessageType;
             this.Info = r.Info;
+            this.ExecArgs = r.ExecArgs;
         }
         public DbResult(DbResult r, T data): this(r)
         {
@@ -89,7 +93,8 @@ namespace Locust.Db
                 Exception = this.Exception,
                 Count = this.Count,
                 Info = this.Info,
-                MessageType = this.MessageType
+                MessageType = this.MessageType,
+                ExecArgs = this.ExecArgs
             };
 
             return result;
@@ -103,7 +108,8 @@ namespace Locust.Db
                 Count = this.Count,
                 Info = this.Info,
                 MessageType = this.MessageType,
-                Data = data
+                Data = data,
+                ExecArgs = this.ExecArgs
             };
 
             return result;

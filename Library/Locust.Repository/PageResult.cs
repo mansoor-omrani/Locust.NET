@@ -11,6 +11,7 @@ namespace Locust.Repository
         public int PageSize { get; set; }
         public int PageCount { get; set; }
         public long RecordCount { get; set; }
+        public bool RequiresAuth { get; set; }
         public T Items { get; set; }
     }
     public class PageListResult<T>: PageResult<List<T>>

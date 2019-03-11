@@ -1,12 +1,10 @@
-﻿using System;
+﻿using Locust.ConnectionString;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Locust.CircuitBreaker;
-using Locust.ConnectionString;
-using Locust.Logging;
 
 namespace Locust.Db
 {
@@ -20,20 +18,7 @@ namespace Locust.Db
         private static IDbHelper _db;
         static DA()
         {
-            try
-            {
-                var _cnn = new AppConfigConnectionStringProvider();
-                var cbf = new AppConfigCircuitBreakerFactory();
-                var cbs = new AppDomainCircuitBreakerStore();
-                var cip = new NoContextInfoProvider();
-                var memLogger = new DefaultMemoryLogger();
-                var logger = new DebugExceptionLogger();
-                _db = new SqlDbHelper(_cnn, cip, cbs, cbf, logger);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            _db = new FakeDbHelper(false);
         }
         public static IDbCommand GetCommand(string text, bool sproc = true)
         {
@@ -74,36 +59,7 @@ namespace Locust.Db
 
         public static List<object> TestDB(string cnnStr, string sqlTest = "")
         {
-            var result = new List<object>();
-            var con = new SqlConnection(cnnStr);
-
-            try
-            {
-                con.Open();
-
-                result.Add("connection ok");
-
-                if (!string.IsNullOrEmpty(sqlTest))
-                {
-                    var cmd = new SqlCommand(sqlTest, con);
-                    var reader = cmd.ExecuteReader();
-
-                    while (reader.Read())
-                    {
-                        result.Add(reader[0]);
-                    }
-
-                    reader.Close();
-                }
-
-                con.Close();
-            }
-            catch (Exception e)
-            {
-                result.Add("connection error: " + e.Message);
-            }
-
-            return result;
+            return _db.TestDB(cnnStr, sqlTest);
         }
     }
 }

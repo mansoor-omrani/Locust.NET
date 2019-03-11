@@ -67,10 +67,6 @@
       <Project>{7f777775-fe16-45c0-9689-fe7fcb8918fd}</Project>
       <Name>Locust.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.Setting\Locust.Setting.csproj">
-      <Project>{e5b89198-40bf-4e94-9b25-b29418d55307}</Project>
-      <Name>Locust.Setting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Locust.SMS\Locust.SMS.csproj">
       <Project>{bb9f8a01-444f-447d-b98c-da3fc5c3a554}</Project>
       <Name>Locust.SMS</Name>

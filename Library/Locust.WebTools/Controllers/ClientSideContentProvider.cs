@@ -47,6 +47,8 @@ namespace Locust.WebTools
             {
                 var result = Settings[$"{Area}{Controller}MinifyCss"]?.Trim();
 
+                Logger?.Log($"{Area}{Controller}MinifyCss: {result}");
+
                 if (string.IsNullOrEmpty(result))
                 {
                     result = WebConstants.MinifyCss;
@@ -70,6 +72,8 @@ namespace Locust.WebTools
             get
             {
                 var result = Settings[$"{Area}{Controller}MinifyJs"]?.Trim();
+
+                Logger?.Log($"{Area}{Controller}MinifyJs: {result}");
 
                 if (string.IsNullOrEmpty(result))
                 {

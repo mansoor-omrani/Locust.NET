@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Web;
 using System.IO;
 using System.Diagnostics;
+using Locust.WebTools.Utilities;
 
 /*
 	packer, version 2.0 (beta) (2005/02/01)
@@ -25,7 +26,7 @@ namespace Locust.WebTools
     /// <summary>
     /// Packs a javascript file into a smaller area, removing unnecessary characters from the output.
     /// </summary>
-    public class ECMAScriptPacker : IHttpHandler
+    public class ECMAScriptPacker : IHttpHandler, IJavascriptObfuscator
     {
         /// <summary>
         /// The encoding level to use. See http://dean.edwards.name/packer/usage/ for more info.
@@ -643,6 +644,11 @@ namespace Locust.WebTools
             r.Close();
             context.Response.ContentType = "text/javascript";
             context.Response.Output.Write(Pack(jscontent));
+        }
+
+        public string Obfuscate(string content)
+        {
+            return Pack(content);
         }
 
         public bool IsReusable

@@ -33,7 +33,6 @@ namespace Locust.Notification
         public string Body { get; set; }
         public bool IsHtml { get; set; }
     }
-
     public class EmailNotifyResponse : NotifyResponse
     {
     }

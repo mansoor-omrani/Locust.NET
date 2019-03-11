@@ -1,5 +1,5 @@
-﻿using Locust.Conversion;
-using Locust.Setting;
+﻿using Locust.Configuration;
+using Locust.Conversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,14 @@ namespace Locust.Mailing.Smtp
 {
     public class SmtpMailAppConfig: IMailConfig
     {
-        private dynamic config;
         public SmtpMailAppConfig()
         {
-            config = new AppConfigSettings();
         }
         public string Username
         {
             get
             {
-                return SafeClrConvert.ToString(config.SmtpUser);
+                return SafeClrConvert.ToString(Config.AppSettings.SmtpUser);
             }
         }
 
@@ -27,7 +25,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToString(config.SmtpPass);
+                return SafeClrConvert.ToString(Config.AppSettings.SmtpPass);
             }
         }
 
@@ -35,7 +33,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToString(config.SmtpDefaultMail);
+                return SafeClrConvert.ToString(Config.AppSettings.SmtpDefaultMail);
             }
         }
 
@@ -43,7 +41,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToInt32(config.SmtpPort);
+                return SafeClrConvert.ToInt32(Config.AppSettings.SmtpPort);
             }
         }
 
@@ -51,7 +49,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToString(config.SmtpHost);
+                return SafeClrConvert.ToString(Config.AppSettings.SmtpHost);
             }
         }
 
@@ -59,7 +57,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToBoolean(config.SmtpEnableSSL);
+                return SafeClrConvert.ToBoolean(Config.AppSettings.SmtpEnableSSL);
             }
         }
 
@@ -67,7 +65,7 @@ namespace Locust.Mailing.Smtp
         {
             get
             {
-                return SafeClrConvert.ToBoolean(config.SmtpUseDefaultCredentials);
+                return SafeClrConvert.ToBoolean(Config.AppSettings.SmtpUseDefaultCredentials);
             }
         }
     }

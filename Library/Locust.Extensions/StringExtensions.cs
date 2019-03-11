@@ -521,7 +521,7 @@ namespace Locust.Extensions
 
             return result;
         }
-        public static string UnCamel(this string s, char separator = '-', int buffersize = 16)
+        public static string UnCamel(this string s, char separator = '-', bool preserveCase = false, int buffersize = 16)
         {
             var buff = new CharBuffer(buffersize);
 
@@ -529,8 +529,18 @@ namespace Locust.Extensions
             {
                 if (char.IsUpper(ch))
                 {
-                    buff.Append(separator);
-                    buff.Append((char)(ch + 32));
+                    if (buff.Length > 0)
+                    {
+                        buff.Append(separator);
+                    }
+                    if (preserveCase)
+                    {
+                        buff.Append(ch);
+                    }
+                    else
+                    {
+                        buff.Append((char)(ch + 32));
+                    }
                 }
                 else
                 {
@@ -540,16 +550,26 @@ namespace Locust.Extensions
 
             return buff.ToString();
         }
-        public static string UnCamel(this string s, Func<char, bool> fnDashLow, char separator = '-', int buffersize = 16)
+        public static string UnCamel(this string s, Func<char, bool> fnUnCamelCondition, char separator = '-', bool preserveCase = false, int buffersize = 16)
         {
             var buff = new CharBuffer(buffersize);
 
             foreach (var ch in s)
             {
-                if (fnDashLow(ch))
+                if (fnUnCamelCondition?.Invoke(ch) ?? false)
                 {
-                    buff.Append(separator);
-                    buff.Append((char)(ch + 32));
+                    if (buff.Length > 0)
+                    {
+                        buff.Append(separator);
+                    }
+                    if (preserveCase)
+                    {
+                        buff.Append(ch);
+                    }
+                    else
+                    {
+                        buff.Append((char)(ch + 32));
+                    }
                 }
                 else
                 {
@@ -635,17 +655,28 @@ namespace Locust.Extensions
         {
             return s.In(values, true, ',', MyStringSplitOptions.TrimToLowerAndRemoveEmptyEntries);
         }
+        public static string SelectOf(this string s, string values, string defaultValue)
+        {
+            return s.In(values) ? s : defaultValue;
+        }
         public static bool In(this string s, string values, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
         {
             var arr = values?.Split(separator, options) ?? new string[] { };
 
             return s.In(arr);
         }
-        public static bool In(this string s, IEnumerable<string> arr, StringComparison comparisonType)
+        public static string SelectOf(this string s, string values, string defaultValue, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
+        {
+            return s.In(values, separator, options) ? s : defaultValue;
+        }
+        public static bool In(this string s, IEnumerable<string> values, StringComparison comparisonType)
         {
             var result = false;
 
-            foreach (var item in arr)
+            if (values == null || values.Count() == 0)
+                return string.IsNullOrEmpty(s);
+
+            foreach (var item in values)
             {
                 if (string.Compare(s, item, comparisonType) == 0)
                 {
@@ -656,17 +687,25 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static string SelectOf(this string s, IEnumerable<string> values, string defaultValue, StringComparison comparisonType)
+        {
+            return s.In(values, comparisonType) ? s : defaultValue;
+        }
         public static bool In(this string s, string values, StringComparison comparisonType, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
         {
             var arr = values?.Split(separator, options) ?? new string[] { };
 
             return s.In(arr, comparisonType);
         }
-        public static bool In(this string s, IEnumerable<string> arr, bool ignoreCase)
+        public static string SelectOf(this string s, string values, string defaultValue, StringComparison comparisonType, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
+        {
+            return s.In(values, comparisonType, separator, options) ? s : defaultValue;
+        }
+        public static bool In(this string s, IEnumerable<string> values, bool ignoreCase)
         {
             var result = false;
 
-            foreach (var item in arr)
+            foreach (var item in values)
             {
                 if (string.Compare(s, item, ignoreCase) == 0)
                 {
@@ -677,17 +716,25 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static string SelectOf(this string s, IEnumerable<string> values, string defaultValue, bool ignoreCase)
+        {
+            return s.In(values, ignoreCase) ? s : defaultValue;
+        }
         public static bool In(this string s, string values, bool ignoreCase, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
         {
             var arr = values?.Split(separator, options) ?? new string[] { };
 
             return s.In(arr, ignoreCase);
         }
-        public static bool In(this string s, IEnumerable<string> arr, bool ignoreCase, CultureInfo culture)
+        public static string SelectOf(this string s, string values, string defaultValue, bool ignoreCase, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
+        {
+            return s.In(values, ignoreCase, separator, options) ? s : defaultValue;
+        }
+        public static bool In(this string s, IEnumerable<string> values, bool ignoreCase, CultureInfo culture)
         {
             var result = false;
 
-            foreach (var item in arr)
+            foreach (var item in values)
             {
                 if (string.Compare(s, item, ignoreCase, culture) == 0)
                 {
@@ -698,17 +745,25 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static string SelectOf(this string s, IEnumerable<string> values, string defaultValue, bool ignoreCase, CultureInfo culture)
+        {
+            return s.In(values, ignoreCase, culture) ? s : defaultValue;
+        }
         public static bool In(this string s, string values, bool ignoreCase, CultureInfo culture, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
         {
             var arr = values?.Split(separator, options) ?? new string[] { };
 
             return s.In(arr, ignoreCase, culture);
         }
-        public static bool In(this string s, IEnumerable<string> arr, CultureInfo culture, CompareOptions options)
+        public static string SelectOf(this string s, string values, string defaultValue, bool ignoreCase, CultureInfo culture, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
+        {
+            return s.In(values, ignoreCase, culture, separator, options) ? s : defaultValue;
+        }
+        public static bool In(this string s, IEnumerable<string> values, CultureInfo culture, CompareOptions options)
         {
             var result = false;
 
-            foreach (var item in arr)
+            foreach (var item in values)
             {
                 if (string.Compare(s, item, culture, options) == 0)
                 {
@@ -719,11 +774,19 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static string SelectOf(this string s, IEnumerable<string> values, string defaultValue, CultureInfo culture, CompareOptions options)
+        {
+            return s.In(values, culture, options) ? s : defaultValue;
+        }
         public static bool In(this string s, string values, CultureInfo culture, CompareOptions compareOptions, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
         {
             var arr = values?.Split(separator, options) ?? new string[] { };
 
             return s.In(arr, culture, compareOptions);
+        }
+        public static string SelectOf(this string s, string values, string defaultValue, CultureInfo culture, CompareOptions compareOptions, char separator, MyStringSplitOptions options = MyStringSplitOptions.TrimAndRemoveEmptyEntries)
+        {
+            return s.In(values, culture, compareOptions, separator, options) ? s : defaultValue;
         }
         #endregion
         #region NotIn()

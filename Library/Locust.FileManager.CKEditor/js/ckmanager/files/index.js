@@ -220,7 +220,7 @@
             if (p.length && p[0] == '/') {
                 p = p.substr(1);
             }
-            html += "<li><a href='#'>" + p + "</a></option>";
+            html += "<li><a href='#'>" + htmlEncode(p) + "</a></option>";
         });
 
         $(".dirs ul").html(html);
@@ -456,7 +456,7 @@
                 var _path = basePath + (f.Path == "/" ? "/" : f.Path + "/") + f.Name;
                 html += "<div class='col-xs-2 file' id='f" + i + "' data-tooltip-content='#tt" + i + "'>" +
                             "<div class='filename' align='" + app.lang.align + "'>" +
-                                "<a href='" + _path + "' class='mag-pop'><img src='" + _path + "' class='img-responsive'/></a>" +
+                                "<a href='" + _path + "' class='mag-pop'><img src=\"" + _path + "\" class='img-responsive'/></a>" +
                                 (
                                     (app.lang.dir == "ltr") ?
                                         ("<input type='checkbox' name='chkFile' class='file-checkbox' value='" + i + "' />&nbsp;" + f.Name) :
@@ -474,7 +474,7 @@
             } else {
                 html += "<div class='col-xs-2 file' id='f" + i + "' data-tooltip-content='#tt" + i + "'>" +
                             "<div class='filename' align='" + app.lang.align + "'>" +
-                                "<img src='/ckmanager/files/icon/?type=" + f.Extension + "' class='img-responsive'>" +
+                                "<img src=\"/ckmanager/files/icon/?type=" + f.Extension + "\" class='img-responsive'>" +
                                 (
                                     (app.lang.dir == "ltr") ?
                                         ("<input type='checkbox' name='chkFile' class='file-checkbox' value='" + i + "' />&nbsp;" + f.Name) :

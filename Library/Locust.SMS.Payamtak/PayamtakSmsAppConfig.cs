@@ -1,4 +1,4 @@
-﻿using Locust.Setting;
+﻿using Locust.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +9,22 @@ namespace Locust.SMS.Payamtak
 {
     public class PayamtakSmsAppConfig: ISMSConfiguration
     {
-        private dynamic config;
         public PayamtakSmsAppConfig()
         {
-            config = new AppConfigSettings();
         }
         public string Username
         {
-            get { return config.PayamtakUserName; }
+            get { return Config.AppSettings.PayamtakUserName; }
         }
 
         public string Password
         {
-            get { return config.PayamtakPassword; }
+            get { return Config.AppSettings.PayamtakPassword; }
         }
 
         public string Number
         {
-            get { return config.PayamtakPhone; }
+            get { return Config.AppSettings.PayamtakPhone; }
         }
     }
 }

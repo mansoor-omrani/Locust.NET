@@ -88,6 +88,9 @@
     <Compile Include="Providers\FakeHttpContext.cs" />
     <Compile Include="Providers\FakeHttpRequest.cs" />
     <Compile Include="Providers\FakeInternetExplorerBrowserCapabilities.cs" />
+    <Compile Include="Utilities\ICssMinifier.cs" />
+    <Compile Include="Utilities\IJavascriptObfuscator.cs" />
+    <Compile Include="Utilities\UglifyCssMinifier.cs" />
     <Compile Include="Views\ClientAwareWebViewPage.cs" />
     <Compile Include="Controllers\ClientSideContentProvider.cs" />
     <Compile Include="Utilities\CssMinifier.cs" />

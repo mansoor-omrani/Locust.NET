@@ -50,18 +50,18 @@ WriteLiteral("\r\n");
             
             #line default
             #line hidden
-WriteLiteral("\r\n<header>\r\n    <div");
+WriteLiteral("\r\n\r\n<header>\r\n    <div");
 
 WriteLiteral(" class=\"form-inline\"");
 
-WriteAttribute("dir", Tuple.Create(" dir=\"", 154), Tuple.Create("\"", 175)
+WriteAttribute("dir", Tuple.Create(" dir=\"", 156), Tuple.Create("\"", 177)
             
-            #line 8 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 160), Tuple.Create<System.Object, System.Int32>(Lang.Direction
+            #line 9 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 162), Tuple.Create<System.Object, System.Int32>(Lang.Direction
             
             #line default
             #line hidden
-, 160), false)
+, 162), false)
 );
 
 WriteLiteral(">\r\n        <div");
@@ -76,14 +76,14 @@ WriteLiteral(" id=\"btnManageFolders\"");
 
 WriteLiteral(" class=\"btn btn-primary\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 291), Tuple.Create("\"", 340)
+WriteAttribute("value", Tuple.Create(" value=\"", 293), Tuple.Create("\"", 342)
             
-            #line 10 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-       , Tuple.Create(Tuple.Create("", 299), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnManageFolders")
+            #line 11 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+       , Tuple.Create(Tuple.Create("", 301), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnManageFolders")
             
             #line default
             #line hidden
-, 299), false)
+, 301), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n        <div");
@@ -93,7 +93,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(">\r\n            <label>");
 
             
-            #line 13 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 14 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
               Write(GetText("CKManager", "txtDisplayType"));
 
             
@@ -112,7 +112,7 @@ WriteLiteral(" value=\"List\"");
 WriteLiteral(">");
 
             
-            #line 15 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 16 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                 Write(GetText("CKManager", "optDisplayTypeList"));
 
             
@@ -125,7 +125,7 @@ WriteLiteral(" value=\"Table\"");
 WriteLiteral(">");
 
             
-            #line 16 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 17 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                  Write(GetText("CKManager", "optDisplayTypeTable"));
 
             
@@ -138,7 +138,7 @@ WriteLiteral(" value=\"Thumbnail\"");
 WriteLiteral(">");
 
             
-            #line 17 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 18 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                      Write(GetText("CKManager", "optDisplayTypeThumbanil"));
 
             
@@ -151,7 +151,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(">\r\n            <label>");
 
             
-            #line 21 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 22 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
               Write(GetText("CKManager", "txtSortBy"));
 
             
@@ -170,7 +170,7 @@ WriteLiteral(" value=\"Name\"");
 WriteLiteral(">");
 
             
-            #line 23 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 24 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                 Write(GetText("CKManager", "optSortByName"));
 
             
@@ -183,7 +183,7 @@ WriteLiteral(" value=\"Extension\"");
 WriteLiteral(">");
 
             
-            #line 24 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 25 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                      Write(GetText("CKManager", "optSortByExtension"));
 
             
@@ -196,7 +196,7 @@ WriteLiteral(" value=\"Size\"");
 WriteLiteral(">");
 
             
-            #line 25 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 26 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                 Write(GetText("CKManager", "optSortBySize"));
 
             
@@ -209,7 +209,7 @@ WriteLiteral(" value=\"CreationTime\"");
 WriteLiteral(">");
 
             
-            #line 26 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 27 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                         Write(GetText("CKManager", "optSortByCreationTime"));
 
             
@@ -230,7 +230,7 @@ WriteLiteral(" value=\"1\"");
 WriteLiteral(" /> ");
 
             
-            #line 30 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 31 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                                                 Write(GetText("CKManager", "txtSortDirAscending"));
 
             
@@ -247,7 +247,7 @@ WriteLiteral(" value=\"0\"");
 WriteLiteral(" /> ");
 
             
-            #line 31 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 32 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                                                 Write(GetText("CKManager", "txtSortDirDescending"));
 
             
@@ -260,7 +260,7 @@ WriteLiteral(" class=\"form-group\"");
 WriteLiteral(">\r\n            <label>");
 
             
-            #line 34 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 35 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
               Write(GetText("CKManager", "txtSearch"));
 
             
@@ -286,14 +286,14 @@ WriteLiteral(" id=\"btnUpload\"");
 
 WriteLiteral(" class=\"btn btn-primary\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2002), Tuple.Create("\"", 2044)
+WriteAttribute("value", Tuple.Create(" value=\"", 2004), Tuple.Create("\"", 2046)
             
-            #line 38 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 2010), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnUpload")
+            #line 39 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 2012), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnUpload")
             
             #line default
             #line hidden
-, 2010), false)
+, 2012), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n        <div");
@@ -308,14 +308,14 @@ WriteLiteral(" id=\"btnDeleteFiles\"");
 
 WriteLiteral(" class=\"btn btn-danger\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2175), Tuple.Create("\"", 2222)
+WriteAttribute("value", Tuple.Create(" value=\"", 2177), Tuple.Create("\"", 2224)
             
-            #line 41 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-   , Tuple.Create(Tuple.Create("", 2183), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnDeleteFiles")
+            #line 42 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+   , Tuple.Create(Tuple.Create("", 2185), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnDeleteFiles")
             
             #line default
             #line hidden
-, 2183), false)
+, 2185), false)
 );
 
 WriteLiteral(" />\r\n        </div>\r\n        <div");
@@ -330,17 +330,17 @@ WriteLiteral(" id=\"btnRenameFile\"");
 
 WriteLiteral(" class=\"btn btn-primary\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 2353), Tuple.Create("\"", 2399)
+WriteAttribute("value", Tuple.Create(" value=\"", 2355), Tuple.Create("\"", 2401)
             
-            #line 44 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-   , Tuple.Create(Tuple.Create("", 2361), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnRenameFile")
+            #line 45 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+   , Tuple.Create(Tuple.Create("", 2363), Tuple.Create<System.Object, System.Int32>(GetText("CKManager", "btnRenameFile")
             
             #line default
             #line hidden
-, 2361), false)
+, 2363), false)
 );
 
-WriteLiteral(" disabled />\r\n        </div>\r\n    </div>\r\n</header>\r\n<div");
+WriteLiteral(" disabled />\r\n        </div>\r\n    </div>\r\n</header>\r\n\r\n<div");
 
 WriteLiteral(" class=\"container-fluid\"");
 
@@ -355,13 +355,13 @@ WriteLiteral(" id=\"row\"");
 WriteLiteral(">\r\n");
 
             
-            #line 50 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 52 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
         
             
             #line default
             #line hidden
             
-            #line 50 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 52 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
          if (Lang.Direction == Locust.Language.TextDirection.ltr)
         {
 
@@ -374,24 +374,24 @@ WriteLiteral(" class=\"col-xs-2 no-float dirs\"");
 
 WriteLiteral(">\r\n                <ul");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 2678), Tuple.Create("\"", 2701)
+WriteAttribute("class", Tuple.Create(" class=\"", 2682), Tuple.Create("\"", 2705)
             
-            #line 53 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 2686), Tuple.Create<System.Object, System.Int32>(Lang.Direction
+            #line 55 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 2690), Tuple.Create<System.Object, System.Int32>(Lang.Direction
             
             #line default
             #line hidden
-, 2686), false)
+, 2690), false)
 );
 
-WriteAttribute("dir", Tuple.Create(" dir=\"", 2702), Tuple.Create("\"", 2723)
+WriteAttribute("dir", Tuple.Create(" dir=\"", 2706), Tuple.Create("\"", 2727)
             
-            #line 53 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 2708), Tuple.Create<System.Object, System.Int32>(Lang.Direction
+            #line 55 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 2712), Tuple.Create<System.Object, System.Int32>(Lang.Direction
             
             #line default
             #line hidden
-, 2708), false)
+, 2712), false)
 );
 
 WriteLiteral("></ul>\r\n            </div>\r\n");
@@ -407,7 +407,7 @@ WriteLiteral(" id=\"files\"");
 WriteLiteral("></div>\r\n            </div>\r\n");
 
             
-            #line 58 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 60 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
         }
         else
         {
@@ -431,36 +431,36 @@ WriteLiteral(" class=\"col-xs-2 no-float dirs\"");
 
 WriteLiteral(">\r\n                <ul");
 
-WriteAttribute("class", Tuple.Create(" class=\"", 3081), Tuple.Create("\"", 3104)
+WriteAttribute("class", Tuple.Create(" class=\"", 3085), Tuple.Create("\"", 3108)
             
-            #line 65 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3089), Tuple.Create<System.Object, System.Int32>(Lang.Direction
+            #line 67 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3093), Tuple.Create<System.Object, System.Int32>(Lang.Direction
             
             #line default
             #line hidden
-, 3089), false)
+, 3093), false)
 );
 
-WriteAttribute("dir", Tuple.Create(" dir=\"", 3105), Tuple.Create("\"", 3126)
+WriteAttribute("dir", Tuple.Create(" dir=\"", 3109), Tuple.Create("\"", 3130)
             
-            #line 65 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3111), Tuple.Create<System.Object, System.Int32>(Lang.Direction
+            #line 67 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3115), Tuple.Create<System.Object, System.Int32>(Lang.Direction
             
             #line default
             #line hidden
-, 3111), false)
+, 3115), false)
 );
 
 WriteLiteral("></ul>\r\n            </div>\r\n");
 
             
-            #line 67 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 69 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
         }
 
             
             #line default
             #line hidden
-WriteLiteral("    </div>\r\n</div>\r\n<footer>\r\n    <center>\r\n        <button");
+WriteLiteral("    </div>\r\n</div>\r\n\r\n<footer>\r\n    <center>\r\n        <button");
 
 WriteLiteral(" class=\"btn btn-primary\"");
 
@@ -469,7 +469,7 @@ WriteLiteral(" id=\"btnOk\"");
 WriteLiteral(">");
 
             
-            #line 72 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 75 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                               Write(GetText("CKManager", "btnOk"));
 
             
@@ -484,7 +484,7 @@ WriteLiteral(" id=\"btnReturn\"");
 WriteLiteral(">");
 
             
-            #line 73 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 76 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
                                                   Write(GetText("CKManager", "btnReturn"));
 
             
@@ -536,14 +536,14 @@ WriteLiteral(" id=\"baseFilesPath\"");
 
 WriteLiteral(" type=\"hidden\"");
 
-WriteAttribute("value", Tuple.Create(" value=\"", 3911), Tuple.Create("\"", 3941)
+WriteAttribute("value", Tuple.Create(" value=\"", 3917), Tuple.Create("\"", 3947)
             
-            #line 89 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
-, Tuple.Create(Tuple.Create("", 3919), Tuple.Create<System.Object, System.Int32>(ViewBag.BaseFilesPath
+            #line 92 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+, Tuple.Create(Tuple.Create("", 3925), Tuple.Create<System.Object, System.Int32>(ViewBag.BaseFilesPath
             
             #line default
             #line hidden
-, 3919), false)
+, 3925), false)
 );
 
 WriteLiteral(" />\r\n\r\n");
@@ -682,34 +682,38 @@ WriteLiteral(" integrity=\"sha256-9TLeW6tAsEKUUCX9AbSDY6A9F+O/p0mDFwLJEDvn5C8=\"
 
 WriteLiteral(" crossorigin=\"anonymous\"");
 
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" src=\"https://cdn.jsdelivr.net/npm/js-htmlencode@0.3.0/src/htmlencode.min.js\"");
+
 WriteLiteral("></script>\r\n");
 
             
-            #line 112 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 112 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #if DEBUG 
             
             #line default
             #line hidden
 WriteLiteral("\r\n    <script");
 
-WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.4.8/dist/locust.js\"");
+WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.5.2/dist/locust.js\"");
 
 WriteLiteral("></script>\r\n");
 
             
-            #line 114 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 114 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #else 
             
             #line default
@@ -721,13 +725,13 @@ WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs/dist/lo
 WriteLiteral("></script>\r\n");
 
             
-            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #endif 
             
             #line default

@@ -1,23 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4BD8FD3D-0BD8-4255-BD19-79B70DA0FB46}</ProjectGuid>
+    <ProjectGuid>{F9DB69ED-C137-4CFA-A49D-0E1D8F93C816}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Locust.Db</RootNamespace>
-    <AssemblyName>Locust.Db</AssemblyName>
+    <RootNamespace>Locust.Db.SqlServer</RootNamespace>
+    <AssemblyName>Locust.Db.SqlServer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,49 +32,63 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CircuitBreaker.Net, Version=0.7.0.0, Culture=neutral, PublicKeyToken=1abcd264af1f4ccf, processorArchitecture=MSIL">
+      <HintPath>g:\nuget\packages\CircuitBreaker.Net.0.7.0\lib\net45\CircuitBreaker.Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DA.cs" />
-    <Compile Include="DataExtensions.cs" />
-    <Compile Include="DbHelper.cs" />
-    <Compile Include="DbResult.cs" />
-    <Compile Include="FakeDbHelper.cs" />
-    <Compile Include="IContextInfoProvider.cs" />
-    <Compile Include="IDbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerDbHelper.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.CircuitBreaker\Locust.CircuitBreaker.csproj">
+      <Project>{4951952C-F054-4AE2-89AB-BD260A306253}</Project>
+      <Name>Locust.CircuitBreaker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.ConnectionString\Locust.ConnectionString.csproj">
       <Project>{90A03C02-67FA-4106-BD45-A20E43CFCAFF}</Project>
       <Name>Locust.ConnectionString</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.Expressions\Locust.Expressions.csproj">
-      <Project>{6DE4C138-BC57-4872-88C7-A2791EBF1D11}</Project>
-      <Name>Locust.Expressions</Name>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Db\Locust.Db.csproj">
+      <Project>{4bd8fd3d-0bd8-4255-bd19-79b70da0fb46}</Project>
+      <Name>Locust.Db</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
       <Project>{1F214C8E-C72F-4EB3-956A-058C16D3A640}</Project>
       <Name>Locust.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.Reflection\Locust.Reflection.csproj">
-      <Project>{7FBC21DB-2402-45DB-A154-A77483CE3FAF}</Project>
-      <Name>Locust.Reflection</Name>
+    <ProjectReference Include="..\Locust.Logging\Locust.Logging.csproj">
+      <Project>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</Project>
+      <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.ModelField\Locust.ModelField.csproj">
+      <Project>{8592020E-A9BD-4BB2-8347-62A89518A542}</Project>
+      <Name>Locust.ModelField</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

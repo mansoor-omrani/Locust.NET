@@ -105,5 +105,7 @@ namespace Locust.Db
         Task<DbResult<T>> ExecuteSingleAsync<T>(IDbCommand cmd, Func<IDataReader, T, T> transform, object args, CancellationToken cancellation);// where T : class;
         /* --------------------------- ExecuteSingle ----------------------*/
         DbResult<int> ExecuteBatch(string batch);
+
+        List<object> TestDB(string cnnStr, string sqlTest = "");
     }
 }

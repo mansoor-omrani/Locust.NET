@@ -63,10 +63,6 @@
       <Project>{1b4da8dd-2678-4bcc-b408-2bac3717d56c}</Project>
       <Name>Locust.Mailing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.Setting\Locust.Setting.csproj">
-      <Project>{e5b89198-40bf-4e94-9b25-b29418d55307}</Project>
-      <Name>Locust.Setting</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

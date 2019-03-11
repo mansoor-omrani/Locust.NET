@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Locust.WebTools.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 namespace Locust.WebTools
 {
     // source: https://cssminifier.com/c-sharp
-    public static class CssMinifier
+    public static class StaticCssMinifier
     {
         private const string URL_CSS_MINIFIER = "https://cssminifier.com/raw";
         private const string POST_PAREMETER_NAME = "input";
@@ -16,9 +17,9 @@ namespace Locust.WebTools
         public static async Task<String> MinifyCss(string inputCss)
         {
             List<KeyValuePair<String, String>> contentData = new List<KeyValuePair<String, String>>
-        {
-            new KeyValuePair<String, String>(POST_PAREMETER_NAME, inputCss)
-        };
+            {
+                new KeyValuePair<String, String>(POST_PAREMETER_NAME, inputCss)
+            };
 
             using (HttpClient httpClient = new HttpClient())
             {
@@ -31,6 +32,13 @@ namespace Locust.WebTools
                     }
                 }
             }
+        }
+    }
+    public class RemoteCssMinifier : ICssMinifier
+    {
+        public string Minify(string content)
+        {
+            return StaticCssMinifier.MinifyCss(content).Result;
         }
     }
 }

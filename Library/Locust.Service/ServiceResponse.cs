@@ -13,14 +13,15 @@ namespace Locust.Service
 {
     public class ServiceResponse:IJsonSerializable
     {
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object Bag { get; set; }
         public DateTime Date { get; set; }
         public virtual bool Success { get; set; }
         public string MessageKey { get; set; }
         public string Status { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Info { get; set; }
         private Dictionary<string, object> messageArgs;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, object> MessageArgs
         {
             get
@@ -36,7 +37,6 @@ namespace Locust.Service
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Exception Exception { get; set; }
         private Dictionary<string, ServiceResponse> innerResponses;
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, ServiceResponse> InnerResponses
         {
             get
@@ -50,6 +50,14 @@ namespace Locust.Service
             {
                 innerResponses = value;
             }
+        }
+        public bool ShouldSerializeInnerResponses()
+        {
+            return innerResponses?.Count > 0;
+        }
+        public bool ShouldSerializeMessageArgs()
+        {
+            return messageArgs?.Count > 0;
         }
         public virtual bool IsNotFound()
         {

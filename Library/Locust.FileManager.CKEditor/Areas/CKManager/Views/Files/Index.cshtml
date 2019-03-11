@@ -4,6 +4,7 @@
     ViewBag.Css = true;
     ViewBag.Js = true;
 }
+
 <header>
     <div class="form-inline" dir="@Lang.Direction">
         <div class="form-group">
@@ -45,6 +46,7 @@
         </div>
     </div>
 </header>
+
 <div class="container-fluid" id="container">
     <div class="row" id="row">
         @if (Lang.Direction == Locust.Language.TextDirection.ltr)
@@ -67,6 +69,7 @@
         }
     </div>
 </div>
+
 <footer>
     <center>
         <button class="btn btn-primary" id="btnOk">@GetText("CKManager", "btnOk")</button>
@@ -109,8 +112,9 @@
     <script src="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js" integrity="sha256-P93G0oq6PBPWTP1IR8Mz/0jHHUpaWL0aBJTKauisG7Q=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-dialog@1.34.6/dist/js/bootstrap-dialog.min.js" integrity="sha256-QNeLKypKBOMbTcuLSI8WMwbIuOb5G4S/O1NR+6OIL14=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/pako@1.0.6/dist/pako.min.js" integrity="sha256-9TLeW6tAsEKUUCX9AbSDY6A9F+O/p0mDFwLJEDvn5C8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-htmlencode@0.3.0/src/htmlencode.min.js"></script>
     @{ #if DEBUG }
-    <script src="https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.4.8/dist/locust.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.5.2/dist/locust.js"></script>
     @{ #else }
     <script src="https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs/dist/locust.min.js"></script>
     @{ #endif }

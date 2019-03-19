@@ -13,21 +13,30 @@ namespace Locust.Logging
     {
         public void Log(object log)
         {
-            string x = null;
-
             if (log != null)
             {
+                string x = null;
+
                 if (log.GetType().IsNullableOrBasicType())
+                {
                     x = log.ToString();
+                }
                 else
                 {
-                    x = JsonConvert.SerializeObject(log, Formatting.Indented);
+                    try
+                    {
+                        x = JsonConvert.SerializeObject(log, Formatting.Indented);
+                    }
+                    catch
+                    {
+                        x = log.ToString() + " (json serialization failed!)";
+                    }
                 }
+
+                var data = string.Format("{0:yyyy/MM/dd HH:mm:ss.fffffff}       {1}\n", DateTime.Now, x);
+
+                LogInternal(data);
             }
-
-            var data = string.Format("{0:yyyy/MM/dd HH:mm:ss.fffffff}       {1}\n", DateTime.Now, x);
-
-            LogInternal(data);
         }
         protected abstract void LogCategoryInternal(string data);
         public void LogCategory(object category = null,

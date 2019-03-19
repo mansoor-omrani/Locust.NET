@@ -3,6 +3,7 @@ using Locust.Collections;
 using Locust.Conversion;
 using Locust.Expressions;
 using Locust.Extensions;
+using Locust.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -18,7 +19,6 @@ namespace Locust.WebExtensions
 {
     public static class WebHelper
     {
-        private static PropertyProvider propProvider = new PropertyProvider(true);
         public static IEnumerable<SelectListItem> CreateSelectList(Type enumType, int? value, IEnumerable<string> itemTexts = null)
         {
             List<SelectListItem> result = null;
@@ -77,10 +77,11 @@ namespace Locust.WebExtensions
 
             if (x != null)
             {
-                var props = PropertyProvider.PropertyCache.GetPublicInstanceReadableProperties(x.GetType());
+                var props = GlobalReflectionPropertyCache.Cache.GetPublicInstanceReadableProperties(x.GetType());
+
                 foreach (var prop in props)
                 {
-                    result.Add(prop.Name, propProvider.Read(x, prop.Name));
+                    result.Add(prop.Name, GlobalPropertyProvider.Read(x, prop.Name));
                 }
             }
 
@@ -100,10 +101,11 @@ namespace Locust.WebExtensions
 
             if (x != null)
             {
-                var props = PropertyProvider.PropertyCache.GetPublicInstanceReadableProperties(x.GetType());
+                var props = GlobalReflectionPropertyCache.Cache.GetPublicInstanceReadableProperties(x.GetType());
+
                 foreach (var prop in props)
                 {
-                    result.Add(prop.Name, propProvider.Read(x, prop.Name));
+                    result.Add(prop.Name, GlobalPropertyProvider.Read(x, prop.Name));
                 }
             }
 

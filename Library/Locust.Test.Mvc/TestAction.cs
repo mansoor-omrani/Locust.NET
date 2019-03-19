@@ -50,7 +50,7 @@ namespace Locust.Test.Mvc
                             lang = Lang.En;
                         }
 
-                        filterContext.Result = new RedirectResult(lang.ShortName + "/test/home/login?returnurl=" +
+                        filterContext.Result = new RedirectResult($"/{lang.ShortName}/test/home/login?returnurl=" +
                             filterContext.HttpContext.Server.UrlEncode(filterContext.HttpContext.Request.Url.ToString()));
                     }
                     else

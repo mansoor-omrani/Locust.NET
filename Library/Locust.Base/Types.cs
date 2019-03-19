@@ -41,6 +41,30 @@ namespace Locust.Base
         public static Type TypeOfIListOfT { get; private set; }
         public static Type TypeOfIEnumerableOfT { get; private set; }
         public static Type TypeOfIEnumerable { get; private set; }
+        public static Type TypeOfException { get; private set; }
+        
+        public static Type TypeOfNullableInt16 { get; private set; }
+        public static Type TypeOfNullableShort { get { return TypeOfNullableInt16; } }
+        public static Type TypeOfNullableInt32 { get; private set; }
+        public static Type TypeOfNullableInt { get { return TypeOfNullableInt32; } }
+        public static Type TypeOfNullableInt64 { get; private set; }
+        public static Type TypeOfNullableLong { get { return TypeOfNullableInt64; } }
+        public static Type TypeOfNullableUInt16 { get; private set; }
+        public static Type TypeOfNullableUShort { get { return TypeOfNullableUInt16; } }
+        public static Type TypeOfNullableUInt32 { get; private set; }
+        public static Type TypeOfNullableUInt { get { return TypeOfNullableUInt32; } }
+        public static Type TypeOfNullableUInt64 { get; private set; }
+        public static Type TypeOfNullableULong { get { return TypeOfNullableUInt64; } }
+        public static Type TypeOfNullableSingle { get; private set; }
+        public static Type TypeOfNullableFloat { get { return TypeOfNullableSingle; } }
+        public static Type TypeOfNullableDouble { get; private set; }
+        public static Type TypeOfNullableDecimal { get; private set; }
+        public static Type TypeOfNullableByte { get; private set; }
+        public static Type TypeOfNullableSByte { get; private set; }
+        public static Type TypeOfNullableBool { get; private set; }
+        public static Type TypeOfNullableDateTime { get; private set; }
+        public static Type TypeOfNullableTimeSpan { get; private set; }
+
         static TypeHelper()
         {
             TypeOfInt16 = typeof(System.Int16);
@@ -67,6 +91,23 @@ namespace Locust.Base
             TypeOfIListOfT = typeof(System.Collections.Generic.IList<>);
             TypeOfIEnumerable = typeof(System.Collections.IEnumerable);
             TypeOfIEnumerableOfT = typeof(System.Collections.Generic.IEnumerable<>);
+            TypeOfException = typeof(System.Exception);
+
+            TypeOfNullableInt16 = typeof(System.Nullable<System.Int16>);
+            TypeOfNullableInt32 = typeof(System.Nullable<System.Int32>);
+            TypeOfNullableInt64 = typeof(System.Nullable<System.Int64>);
+            TypeOfNullableUInt16 = typeof(System.Nullable<System.UInt16>);
+            TypeOfNullableUInt32 = typeof(System.Nullable<System.UInt32>);
+            TypeOfNullableUInt64 = typeof(System.Nullable<System.UInt64>);
+
+            TypeOfNullableSingle = typeof(System.Nullable<System.Single>);
+            TypeOfNullableDouble = typeof(System.Nullable<System.Double>);
+            TypeOfNullableDecimal = typeof(System.Nullable<System.Decimal>);
+            TypeOfNullableByte = typeof(System.Nullable<System.Byte>);
+            TypeOfNullableSByte = typeof(System.Nullable<System.SByte>);
+            TypeOfNullableBool = typeof(System.Nullable<System.Boolean>);
+            TypeOfNullableDateTime = typeof(System.Nullable<System.DateTime>);
+            TypeOfNullableTimeSpan = typeof(System.Nullable<System.TimeSpan>);
         }
 
         //public static bool IsNumeric(object x)

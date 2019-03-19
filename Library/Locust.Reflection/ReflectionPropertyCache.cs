@@ -21,7 +21,7 @@ namespace Locust.Reflection
             else
                 propStore = new SafeDictionary<Type, ISafeDictionary<BindingFlags, List<PropertyInfo>>>();
         }
-        public List<PropertyInfo> GetProperties(Type type, BindingFlags attrs, Func<PropertyInfo, bool> predicate)
+        public List<PropertyInfo> GetProperties(Type type, BindingFlags attrs, Func<PropertyInfo, bool> predicate = null)
         {
             var props = propStore.GetOrAdd(type, (t) =>
                 useConcurrentDictionary ?
@@ -29,20 +29,27 @@ namespace Locust.Reflection
                     :
                     (ISafeDictionary<BindingFlags, List<PropertyInfo>>)(new SafeDictionary<BindingFlags, List<PropertyInfo>>())
             );
-            var result = props.GetOrAdd(attrs, (a) => type.GetProperties(a)
-                    .Where(predicate)
-                    .ToList()
-            );
-            return result;
+            
+            var result = props.GetOrAdd(attrs, (a) => type.GetProperties(attrs).ToList());
+            if (predicate != null)
+            {
+                result = result.Where(predicate).ToList();
+            }
+
+            return result ?? new List<PropertyInfo>();
+        }
+        public List<PropertyInfo> GetProperties<T>(BindingFlags attrs, Func<PropertyInfo, bool> predicate = null)
+        {
+            return GetProperties(typeof(T), attrs, predicate);
         }
         #region Public-Instance
         public List<PropertyInfo> GetPublicInstanceProperties(Type type)
         {
-            return GetProperties(type, BindingFlags.Instance | BindingFlags.Public, p => true);
+            return GetProperties(type, BindingFlags.Instance | BindingFlags.Public);
         }
         public List<PropertyInfo> GetPublicInstanceProperties<T>()
         {
-            return GetProperties(typeof(T), BindingFlags.Instance | BindingFlags.Public, p => true);
+            return GetProperties(typeof(T), BindingFlags.Instance | BindingFlags.Public);
         }
         #endregion
         #region Public-Instance-Readable
@@ -65,33 +72,54 @@ namespace Locust.Reflection
             return GetProperties(typeof(T), BindingFlags.Instance | BindingFlags.Public, p => p.CanWrite);
         }
         #endregion
-        public List<PropertyInfo> GetProperties(Type type, BindingFlags attrs)
+        
+        /* ------------------- Public Instance --------------- */
+        public PropertyInfo GetPublicInstanceProperty(Type type, string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetProperties(type, attrs, p => true);
+            return GetPublicInstanceProperties(type).FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public List<PropertyInfo> GetProperties<T>(BindingFlags attrs)
+        /* ------------------- Public Instance Readable--------------- */
+        public PropertyInfo GetPublicInstanceReadableProperty(Type type, string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetProperties(typeof(T), attrs, p => true);
+            return GetPublicInstanceReadableProperties(type).FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public List<PropertyInfo> GetProperties<T>(BindingFlags attrs, Func<PropertyInfo, bool> predicate)
+        /* ------------------- Public Instance Writable --------------- */
+        public PropertyInfo GetPublicInstanceWritableProperty(Type type, string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetProperties(typeof(T), attrs, predicate);
+            return GetPublicInstanceWritableProperties(type).FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public PropertyInfo GetPublicInstanceProperty(Type type, string name)
+        /* ------------------- Generic Public Instance --------------- */
+        public PropertyInfo GetPublicInstanceProperty<T>(string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetPublicInstanceProperties(type).FirstOrDefault(pi => string.Compare(pi.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0);
+            return GetPublicInstanceProperties<T>().FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public PropertyInfo GetPublicInstanceProperty<T>(string name)
+        /* ------------------- Generic Public Instance Readable --------------- */
+        public PropertyInfo GetPublicInstanceReadableProperty<T>(string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetPublicInstanceProperties<T>().FirstOrDefault(pi => string.Compare(pi.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0);
+            return GetPublicInstanceReadableProperties<T>().FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public PropertyInfo GetProperty(Type type, string name, BindingFlags flags)
+        /* ------------------- Generic Public Instance Writable --------------- */
+        public PropertyInfo GetPublicInstanceWritableProperty<T>(string name, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetProperties(type, flags).FirstOrDefault(pi => string.Compare(pi.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0);
+            return GetPublicInstanceWritableProperties<T>().FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
         }
-        public PropertyInfo GetProperty<T>(string name, BindingFlags flags)
+        /* ------------------- Property --------------- */
+        public PropertyInfo GetProperty(Type type, string name, BindingFlags flags, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
         {
-            return GetProperties<T>(flags).FirstOrDefault(pi => string.Compare(pi.Name, name, StringComparison.InvariantCultureIgnoreCase) == 0);
+            return GetProperties(type, flags).FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
+        }
+        /* ------------------- Generic Property --------------- */
+        public PropertyInfo GetProperty<T>(string name, BindingFlags flags, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
+        {
+            return GetProperties<T>(flags).FirstOrDefault(pi => string.Compare(pi.Name, name, comparison) == 0);
+        }
+    }
+    public static class GlobalReflectionPropertyCache
+    {
+        public static ReflectionPropertyCache Cache { get; set; }
+        static GlobalReflectionPropertyCache()
+        {
+            Cache = new ReflectionPropertyCache();
         }
     }
 }

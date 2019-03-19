@@ -7,33 +7,20 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Locust.Base;
+using Locust.Expressions;
 
 namespace Locust.Extensions
 {
     public static class TypeExtensions
     {
-        public static object ReadProperty(this object x, string name, bool ignoreCase = true)
+        public static object ReadProperty(this object x, string name)
         {
-            object result = null;
-            var type = x.GetType();
-            var flags = BindingFlags.Public | BindingFlags.Instance;
-
-            if (ignoreCase)
-                flags |= BindingFlags.IgnoreCase;
-
-            var property = type.GetProperty(name, flags);
-
-            if (property != null)
-            {
-                result = property.GetValue(x);
-            }
-
-            return result;
+            return GlobalPropertyProvider.Read(x, name);
         }
         
         public static bool IsBasicType(this Type type)
         {
-            return type.IsPrimitive || type == TypeHelper.TypeOfString;
+            return type.IsPrimitive || type.IsEnum || type == TypeHelper.TypeOfDateTime || type == TypeHelper.TypeOfTimeSpan || type == TypeHelper.TypeOfString;
         }
         
         public static bool IsByteArray(this Type type)
@@ -58,9 +45,33 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static bool IsNullableNumeric(this Type type)
+        {
+            var result = false;
+
+            result = (type == TypeHelper.TypeOfNullableInt64) || (type == TypeHelper.TypeOfNullableInt32) || (type == TypeHelper.TypeOfNullableInt16) || (type == TypeHelper.TypeOfNullableByte) ||
+                    (type == TypeHelper.TypeOfNullableUInt64) || (type == TypeHelper.TypeOfNullableUInt32) || (type == TypeHelper.TypeOfNullableUInt16) || (type == TypeHelper.TypeOfNullableSByte) ||
+                    (type == TypeHelper.TypeOfNullableSingle) || (type == TypeHelper.TypeOfNullableDouble || type == TypeHelper.TypeOfNullableDecimal);
+
+            return result;
+        }
+        public static bool IsNullableOrNumeric(this Type type)
+        {
+            var result = false;
+
+            result =
+                    (type == TypeHelper.TypeOfInt64) || (type == TypeHelper.TypeOfInt32) || (type == TypeHelper.TypeOfInt16) || (type == TypeHelper.TypeOfByte) ||
+                    (type == TypeHelper.TypeOfUInt64) || (type == TypeHelper.TypeOfUInt32) || (type == TypeHelper.TypeOfUInt16) || (type == TypeHelper.TypeOfSByte) ||
+                    (type == TypeHelper.TypeOfSingle) || (type == TypeHelper.TypeOfDouble || type == TypeHelper.TypeOfDecimal) ||
+                    (type == TypeHelper.TypeOfNullableInt64) || (type == TypeHelper.TypeOfNullableInt32) || (type == TypeHelper.TypeOfNullableInt16) || (type == TypeHelper.TypeOfNullableByte) ||
+                    (type == TypeHelper.TypeOfNullableUInt64) || (type == TypeHelper.TypeOfNullableUInt32) || (type == TypeHelper.TypeOfNullableUInt16) || (type == TypeHelper.TypeOfNullableSByte) ||
+                    (type == TypeHelper.TypeOfNullableSingle) || (type == TypeHelper.TypeOfNullableDouble || type == TypeHelper.TypeOfNullableDecimal);
+
+            return result;
+        }
         public static bool IsNullableOrBasicType(this Type type)
         {
-            return type.IsPrimitive || type.IsEnum || type == TypeHelper.TypeOfString || type.IsNullable() || type == TypeHelper.TypeOfDateTime;
+            return type.IsNullable() || type.IsBasicType();
         }
         public static bool IsNullable(this Type type)
         {
@@ -147,6 +158,9 @@ namespace Locust.Extensions
         }
         public static bool Implements(this Type type, Type interfaceType)
         {
+            if (!interfaceType.IsInterface)
+                return false;
+
             if (interfaceType.IsGenericType)
             {
                 return type.GetInterfaces().Any(i => i.IsGenericType && (i.GetGenericTypeDefinition() == interfaceType || i == interfaceType));

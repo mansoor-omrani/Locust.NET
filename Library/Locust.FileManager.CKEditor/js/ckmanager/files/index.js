@@ -456,7 +456,7 @@
                 var _path = basePath + (f.Path == "/" ? "/" : f.Path + "/") + f.Name;
                 html += "<div class='col-xs-2 file' id='f" + i + "' data-tooltip-content='#tt" + i + "'>" +
                             "<div class='filename' align='" + app.lang.align + "'>" +
-                                "<a href='" + _path + "' class='mag-pop'><img src=\"" + _path + "\" class='img-responsive'/></a>" +
+                                ("<a href='" + _path + "' class='mag-pop'><img src='" + _path + "' class='img-responsive'/></a>") +
                                 (
                                     (app.lang.dir == "ltr") ?
                                         ("<input type='checkbox' name='chkFile' class='file-checkbox' value='" + i + "' />&nbsp;" + f.Name) :
@@ -514,6 +514,7 @@
             $(this).addClass("success");
 
             selectedFile = $(this).attr("id").replace("f", "");
+
             $("#btnRenameFile").prop("disabled", false);
         });
 
@@ -761,7 +762,7 @@
         if (selectedFile >= 0) {
             var basePath = $("#baseFilesPath").val();
             var f = _files[selectedFile];
-            var _path = basePath + (f.Path == "/" ? "/" : f.Path + "/") + f.Name;
+            var _path = (basePath + (f.Path == "/" ? "/" : f.Path + "/") + f.Name).replaceAll("//", "/").replaceAll("\\\\", "/");
 
             if (getUrlParam('CKEditor')) {
                 var funcNum = getUrlParam('CKEditorFuncNum');

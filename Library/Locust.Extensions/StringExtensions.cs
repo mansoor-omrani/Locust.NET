@@ -17,7 +17,9 @@ namespace Locust.Extensions
         ToLowerEntries = 4,
         TrimToLowerAndRemoveEmptyEntries = 5,
         ToUpperEntries = 6,
-        TrimToUpperAndRemoveEmptyEntries = 7
+        TrimToUpperAndRemoveEmptyEntries = 7,
+        ToLowerAndRemoveEmptyEntries = 8,
+        ToUpperAndRemoveEmptyEntries = 9
     }
 
     public static class StringHelper
@@ -431,9 +433,15 @@ namespace Locust.Extensions
                     result = s.Split(ch, x => x.ToUpper());
                     break;
                 case MyStringSplitOptions.TrimToLowerAndRemoveEmptyEntries:
-                    result = s.Split(ch, x => x.ToLower(), true);
+                    result = s.Split(ch, x => x.Trim().ToLower(), true);
                     break;
                 case MyStringSplitOptions.TrimToUpperAndRemoveEmptyEntries:
+                    result = s.Split(ch, x => x.Trim().ToUpper(), true);
+                    break;
+                case MyStringSplitOptions.ToLowerAndRemoveEmptyEntries:
+                    result = s.Split(ch, x => x.ToLower(), true);
+                    break;
+                case MyStringSplitOptions.ToUpperAndRemoveEmptyEntries:
                     result = s.Split(ch, x => x.ToUpper(), true);
                     break;
             }

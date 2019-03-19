@@ -1,6 +1,7 @@
 ﻿using Locust.Db;
 using Locust.Expressions;
 using Locust.Extensions;
+using Locust.Reflection;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,18 +14,13 @@ namespace Locust.Db
 {
     public static class DbHelper
     {
-        private static PropertyProvider propertyProvider;
-        static DbHelper()
-        {
-            propertyProvider = new PropertyProvider();
-        }
         public static T ReflectionTransform<T>(IDataReader reader) where T : class, new()
         {
             var result = new T();
 
             if (!reader.IsClosed)
             {
-                var props = PropertyProvider.PropertyCache.GetPublicInstanceReadableProperties<T>();
+                var props = GlobalReflectionPropertyCache.Cache.GetPublicInstanceReadableProperties<T>();
 
                 for (var i = 0; i < reader.FieldCount; i++)
                 {
@@ -75,7 +71,7 @@ namespace Locust.Db
                         var value = reader[i];
 
                         
-                        propertyProvider.Write(result, column, value);
+                        GlobalPropertyProvider.Write(result, column, value);
                     }
                 }
             }
@@ -97,7 +93,7 @@ namespace Locust.Db
                             var column = reader.GetName(i);
                             var value = reader[i];
 
-                            propertyProvider.Write(result, column, value);
+                            GlobalPropertyProvider.Write(result, column, value);
                         }
                     }
                 }

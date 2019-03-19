@@ -111,25 +111,38 @@ namespace Locust.WebTools
         {
             return "/" + Lang.ShortName + url;
         }
-        protected virtual ActionResult RedirectToLocal(string returnUrl, string action = "", string controller = "")
+        protected virtual ActionResult RedirectToLocal(string returnUrl, string action = "", string controller = "", string defaultUrl = "")
         {
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                returnUrl = defaultUrl;
+            }
+
             if (!string.IsNullOrEmpty(returnUrl))
             {
                 if (Url.IsLocalUrl(returnUrl))
                 {
                     return Redirect(returnUrl);
                 }
+            }
 
-                if (!string.IsNullOrEmpty(action))
+            if (!string.IsNullOrEmpty(action))
+            {
+                if (string.IsNullOrEmpty(controller))
                 {
-                    if (string.IsNullOrEmpty(controller))
-                    {
-                        return RedirectToAction(action);
-                    }
-                    else
-                    {
-                        return RedirectToAction(action, controller);
-                    }
+                    return RedirectToAction(action);
+                }
+                else
+                {
+                    return RedirectToAction(action, controller);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(defaultUrl))
+            {
+                if (Url.IsLocalUrl(defaultUrl))
+                {
+                    return Redirect(defaultUrl);
                 }
             }
 

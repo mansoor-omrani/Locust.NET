@@ -50,8 +50,10 @@
   <ItemGroup>
     <Compile Include="AppConfigCircuitBreakerFactory.cs" />
     <Compile Include="AppDomainCircuitBreakerStore.cs" />
+    <Compile Include="DynamicCircuitBreakerFactory.cs" />
     <Compile Include="ICircuitBreakerFactory.cs" />
     <Compile Include="ICircuitBreakerStore.cs" />
+    <Compile Include="NoCircuitBreakerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

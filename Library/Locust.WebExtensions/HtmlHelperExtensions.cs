@@ -1,5 +1,6 @@
 ﻿using Locust.Expressions;
 using Locust.Extensions;
+using Locust.Reflection;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -13,7 +14,6 @@ namespace Locust.WebExtensions
 {
     public static class HtmlHelperExtensions
     {
-        private static PropertyProvider propProvider = new PropertyProvider();
         public static IDictionary<string, object> AttributesAndData(this HtmlHelper helper, object dataArgs, object attributes, bool uncamel = false)
         {
             return helper.Attributes(attributes).Merge(helper.Data(dataArgs, uncamel));
@@ -45,13 +45,13 @@ namespace Locust.WebExtensions
             if (args != null)
             {
                 result = new Dictionary<string, object>();
-                var props = PropertyProvider.PropertyCache.GetPublicInstanceReadableProperties(args.GetType());
+                var props = GlobalReflectionPropertyCache.Cache.GetPublicInstanceReadableProperties(args.GetType());
 
                 foreach (var prop in props)
                 {
                     if (prop.CanRead)
                     {
-                        result.Add(prop.Name, propProvider.Read(args, prop.Name));
+                        result.Add(prop.Name, GlobalPropertyProvider.Read(args, prop.Name));
                     }
                 }
             }
@@ -70,13 +70,13 @@ namespace Locust.WebExtensions
             {
                 result = new Dictionary<string, object>();
                 prefix = string.IsNullOrEmpty(prefix) ? "" : prefix + "-";
-                var props = PropertyProvider.PropertyCache.GetPublicInstanceReadableProperties(args.GetType());
+                var props = GlobalReflectionPropertyCache.Cache.GetPublicInstanceReadableProperties(args.GetType());
 
                 foreach (var prop in props)
                 {
                     if (prop.CanRead)
                     {
-                        result.Add("data-" + prefix + (!uncamel ? prop.Name : prop.Name.UnCamel()), propProvider.Read(args, prop.Name));
+                        result.Add("data-" + prefix + (!uncamel ? prop.Name : prop.Name.UnCamel()), GlobalPropertyProvider.Read(args, prop.Name));
                     }
                 }
             }

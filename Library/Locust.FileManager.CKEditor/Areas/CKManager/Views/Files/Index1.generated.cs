@@ -647,6 +647,20 @@ WriteLiteral("></script>\r\n    <script");
 
 WriteLiteral(" type=\"text/javascript\"");
 
+WriteLiteral(" src=\"https://cdn.jsdelivr.net/npm/jquery-validation-cjs@1.0.0/dist/jquery.valida" +
+"te.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
+WriteLiteral(" src=\"https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.11/dist/jque" +
+"ry.validate.unobtrusive.min.js\"");
+
+WriteLiteral("></script>\r\n    <script");
+
+WriteLiteral(" type=\"text/javascript\"");
+
 WriteLiteral(" src=\"//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js\"");
 
 WriteLiteral("></script>\r\n    <script");
@@ -689,31 +703,31 @@ WriteLiteral(" src=\"https://cdn.jsdelivr.net/npm/js-htmlencode@0.3.0/src/htmlen
 WriteLiteral("></script>\r\n");
 
             
-            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 116 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #if DEBUG 
             
             #line default
             #line hidden
 WriteLiteral("\r\n    <script");
 
-WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.5.2/dist/locust.js\"");
+WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs@v1.5.4/dist/locust.js\"");
 
 WriteLiteral("></script>\r\n");
 
             
-            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 118 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #else 
             
             #line default
@@ -725,13 +739,13 @@ WriteLiteral(" src=\"https://cdn.jsdelivr.net/gh/mansoor-omrani/locustjs/dist/lo
 WriteLiteral("></script>\r\n");
 
             
-            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 122 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
     
             
             #line default
             #line hidden
             
-            #line 120 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
+            #line 122 "..\..\Areas\CKManager\Views\Files\Index.cshtml"
        #endif 
             
             #line default

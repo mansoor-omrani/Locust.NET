@@ -538,17 +538,33 @@ namespace Locust.WebTools
                     ExceptionLogger?.LogException(e, Request.Url.AbsoluteUri);
 
                     Logger?.LogCategory($"JsonContent(): Url = {Request.Url.AbsoluteUri}");
-                    Logger?.Log($"Serializing {x.GetType().Name} Object failed.");
+                    Logger?.Log($"Serializing {x.GetType().Name} Object failed. {e.Message}");
 
                     var sr = x as ServiceResponse;
 
-                    if (sr != null && sr.Exception != null)
+                    if (sr != null)
                     {
-                        Logger?.Log("Found a ServiceResponse instance. Clearing the Exception and try to serialize again.");
+                        if (sr.Exception != null)
+                        {
+                            Logger?.Log("Found a ServiceResponse instance. Clearing the Exception and try to serialize again.");
 
-                        sr.Exception = null;
+                            sr.Exception = null;
 
-                        result = JsonConvert.SerializeObject(sr);
+                            try
+                            {
+                                result = JsonConvert.SerializeObject(sr);
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger?.Log($"Serialization failed again! {ex.Message}");
+
+                                result = JsonConvert.SerializeObject(new ServiceResponse { Status = "SerializationFailed" });
+                            }
+                        }
+                        else
+                        {
+                            result = JsonConvert.SerializeObject(new ServiceResponse { Status = "SerializationFailed" });
+                        }
                     }
                 }
 

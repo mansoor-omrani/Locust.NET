@@ -1,5 +1,5 @@
 # Locust.NET
-Locust.NET is a multi-purpose package currently containing 113 libraries.
+Locust.NET is a multi-purpose package currently containing 117 libraries.
 
 It is in essence a layer over FCL (.NET class libraries) but is a layer below .NET projects.
 

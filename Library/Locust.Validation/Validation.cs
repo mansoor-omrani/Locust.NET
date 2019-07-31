@@ -100,28 +100,51 @@ namespace Locust.Validation
         }
         public static IsNationalCodeResult IsNationalCode(string nationalCode)
         {
+            nationalCode = nationalCode?.Trim();
+
             if (String.IsNullOrEmpty(nationalCode))
                 return IsNationalCodeResult.NoCode;
 
-            if (nationalCode.Length != 10)
+            if (!(nationalCode.Length == 10 || nationalCode.Length == 11))
                 return IsNationalCodeResult.IncorrectLength;
-            
-            var regex = new Regex(@"\d{10}");
-            if (!regex.IsMatch(nationalCode))
+
+            if (!Regex.IsMatch(nationalCode, @"\d+"))
                 return IsNationalCodeResult.NotNumeric;
 
-            var allDigitEqual = new[] { "0000000000", "1111111111", "2222222222", "3333333333", "4444444444", "5555555555", "6666666666", "7777777777", "8888888888", "9999999999" };
-            if (allDigitEqual.Contains(nationalCode))
+            if (nationalCode.ToArray().All(c => c == nationalCode[0]))
                 return IsNationalCodeResult.RepeatingDigit;
 
-            var check = Convert.ToInt32(nationalCode.Substring(9, 1));
-            var result = Enumerable.Range(0, 9)
-                .Select(x => Convert.ToInt32(nationalCode.Substring(x, 1)) * (10 - x))
-                .Sum() % 11;
+            if (nationalCode == "0123456789")
+                return IsNationalCodeResult.Invalid;
+            
+            var check = nationalCode[nationalCode.Length - 1] - 48;
 
-            var remainder = result % 11;
+            if (nationalCode.Length == 10)
+            {
+                // real entities, individual persons
+                
+                var result = Enumerable.Range(0, nationalCode.Length - 1)
+                    .Select(x => (nationalCode[x] - 48) * (10 - x))
+                    .Sum() % 11;
 
-            return (check == (remainder < 2 ? remainder : 11 - remainder)) ? IsNationalCodeResult.Valid : IsNationalCodeResult.Invalid;
+                var remainder = result % 11;
+
+                return (check == (remainder < 2 ? remainder : 11 - remainder)) ? IsNationalCodeResult.Valid : IsNationalCodeResult.Invalid;
+            }
+            else
+            {
+                // legal entities, legal persons, owner of companies
+                
+                var add = nationalCode[9] - 48 + 2;
+                var sum = new int[] { 29, 27, 23, 19, 17, 29, 27, 23, 19, 17 }
+                    .Select((x, index) => (nationalCode[index] - 48 + add) * x)
+                    .Sum();
+
+                var result = sum % 11;
+                var remainder = result == 10 ? 0: result;
+
+                return check == remainder ? IsNationalCodeResult.Valid: IsNationalCodeResult.Invalid;
+            }
         }
 
         public static bool IsIPv4(string ip, bool mask = false)

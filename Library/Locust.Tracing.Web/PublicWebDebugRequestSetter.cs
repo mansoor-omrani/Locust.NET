@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Locust.Extensions;
 
-namespace Locust.Tracing
+namespace Locust.Tracing.Web
 {
     public class PublicWebDebugRequestSetter:IDebugRequestSetter
     {

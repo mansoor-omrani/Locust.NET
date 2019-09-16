@@ -70,7 +70,7 @@ namespace Locust.ServiceModel.Babbage
             if (ctx != null)
                 execMode = ctx.ExecMode;
             else
-                if (context.Log.DebugMode)
+                if (context.Log.Options.DebugMode)
                     execMode = 1;
 
             args.Add("ExecMode", execMode);
@@ -132,7 +132,7 @@ namespace Locust.ServiceModel.Babbage
 
                         args.Add(prop.Name, value);
 
-                        if (context.Log.DebugMode)
+                        if (context.Log.Options.DebugMode)
                         {
                             var _value = "";
                             var cmdIO = value as CommandInputOutputParameter;
@@ -225,7 +225,7 @@ namespace Locust.ServiceModel.Babbage
                                 }
                             }
 
-                            if (context.Log.DebugMode)
+                            if (context.Log.Options.DebugMode)
                             {
                                 responseInfo += (string.IsNullOrEmpty(responseInfo) ? "" : ", ") + item.Key + ": " + SafeClrConvert.ToString(cmdOut.Value);
                             }
@@ -255,7 +255,7 @@ namespace Locust.ServiceModel.Babbage
                                     }
                                 }
 
-                                if (prop.CanRead && context.Log.DebugMode)
+                                if (prop.CanRead && context.Log.Options.DebugMode)
                                 {
                                     responseInfo += (string.IsNullOrEmpty(responseInfo) ? "" : ", ") + prop.Name + ": " + SafeClrConvert.ToString(cmdOut.Value);
                                 }
@@ -278,7 +278,7 @@ namespace Locust.ServiceModel.Babbage
                                     }
                                 }
 
-                                if (prop.CanRead && context.Log.DebugMode)
+                                if (prop.CanRead && context.Log.Options.DebugMode)
                                 {
                                     responseInfo += (string.IsNullOrEmpty(responseInfo) ? "" : ", ") + prop.Name + ": " + SafeClrConvert.ToString(cmdIO.Value);
                                 }
@@ -288,7 +288,7 @@ namespace Locust.ServiceModel.Babbage
 
                             prop.SetValue(context.Response, value);
 
-                            if (prop.CanRead && context.Log.DebugMode)
+                            if (prop.CanRead && context.Log.Options.DebugMode)
                             {
                                 responseInfo += (string.IsNullOrEmpty(responseInfo) ? "" : ", ") + prop.Name + ": " + SafeClrConvert.ToString(value);
                             }

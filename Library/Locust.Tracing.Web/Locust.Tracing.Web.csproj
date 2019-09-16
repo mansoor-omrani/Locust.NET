@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1E872038-3073-42C3-8D88-FC9A522B6116}</ProjectGuid>
+    <ProjectGuid>{85865E20-2850-461B-9EE9-B21A3C3242DD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Locust.Formatting</RootNamespace>
-    <AssemblyName>Locust.Formatting</AssemblyName>
+    <RootNamespace>Locust.Tracing.Web</RootNamespace>
+    <AssemblyName>Locust.Tracing.Web</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,31 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DateFormatter.cs" />
-    <Compile Include="Formatter.cs" />
-    <Compile Include="FormattingExtensions.cs" />
+    <Compile Include="AuthorizedWebDebugRequestGetter.cs" />
+    <Compile Include="AuthorizedWebDebugRequestSetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicWebDebugRequestGetter.cs" />
+    <Compile Include="PublicWebDebugRequestSetter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Locust.Calendar\Locust.Calendar.csproj">
-      <Project>{35205318-046a-46ad-92f3-f1ff0cfe9de2}</Project>
-      <Name>Locust.Calendar</Name>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
+      <Name>Locust.Conversion</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
       <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
       <Name>Locust.Extensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.Language\Locust.Language.csproj">
-      <Project>{c23eb959-8681-453b-a208-b5a283eb6e8f}</Project>
-      <Name>Locust.Language</Name>
+    <ProjectReference Include="..\Locust.Tracing\Locust.Tracing.csproj">
+      <Project>{01e76980-9efb-4beb-9e01-7d4ed57e4cb7}</Project>
+      <Name>Locust.Tracing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

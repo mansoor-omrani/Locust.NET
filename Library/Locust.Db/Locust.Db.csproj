@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DA.cs" />
-    <Compile Include="DataExtensions.cs" />
     <Compile Include="DbHelper.cs" />
     <Compile Include="DbResult.cs" />
     <Compile Include="FakeDbHelper.cs" />

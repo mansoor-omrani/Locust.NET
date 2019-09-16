@@ -103,7 +103,7 @@
       <Name>Locust.Serialization</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Tracing\Locust.Tracing.csproj">
-      <Project>{01e76980-9efb-4beb-9e01-7d4ed57e4cb7}</Project>
+      <Project>{01E76980-9EFB-4BEB-9E01-7D4ED57E4CB7}</Project>
       <Name>Locust.Tracing</Name>
     </ProjectReference>
   </ItemGroup>

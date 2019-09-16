@@ -13,17 +13,34 @@ namespace Locust.Service
     {
         protected abstract void RunInternal(TRequest request, TResponse response);
         protected abstract Task RunInternalAsync(TRequest request, TResponse response, CancellationToken token);
+        protected virtual void OnError(TRequest request, TResponse response, Exception e)
+        {
+        }
+        protected virtual bool OnBeforeRun(TRequest request, TResponse response)
+        {
+            return true;
+        }
+        protected virtual void OnAfterRun(TRequest request, TResponse response)
+        {
+        }
         public virtual TResponse Run(TRequest request)
         {
             var response = new TResponse();
 
             try
             {
-                RunInternal(request, response);
+                if (OnBeforeRun(request, response))
+                {
+                    RunInternal(request, response);
+
+                    OnAfterRun(request, response);
+                }
             }
             catch (Exception e)
             {
                 response.Failed(e);
+
+                OnError(request, response, e);
             }
 
             return response;
@@ -38,11 +55,18 @@ namespace Locust.Service
 
             try
             {
-                await RunInternalAsync(request, response, token);
+                if (OnBeforeRun(request, response))
+                {
+                    await RunInternalAsync(request, response, token);
+
+                    OnAfterRun(request, response);
+                }
             }
             catch (Exception e)
             {
                 response.Failed(e);
+
+                OnError(request, response, e);
             }
 
             return response;

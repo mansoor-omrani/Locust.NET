@@ -213,6 +213,25 @@ namespace Locust.Tracing
         {
             Add(Options.DebugMode, type: MessageType.Debug, msg: msg, caller: caller, filePath: filePath, line: line);
         }
+        public void Debug(string category,
+                            string operation,
+                            string code,
+                            string info,
+                            [CallerMemberName]
+                            string caller = "",
+                            [CallerFilePath]
+                            string filePath = "",
+                            [CallerLineNumber]
+                            int line = 0)
+        {
+            Add(Options.DebugMode, type: MessageType.Debug, msg: new MessageItem
+            {
+                Category = category,
+                Operation = operation,
+                Code = code,
+                Info = info,
+            }, caller: caller, filePath: filePath, line: line);
+        }
         public void Warning(MessageItem msg,
                             [CallerMemberName]
                             string caller = "",

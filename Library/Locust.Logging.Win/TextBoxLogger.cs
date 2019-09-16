@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Locust.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace Locust.Logging.Win
 {
@@ -13,16 +14,6 @@ namespace Locust.Logging.Win
     {
         public TextBox Target { get; set; }
         
-        public void LogCategory(object category = null)
-        {
-            if (Target != null)
-            {
-                var d = DateTime.Now;
-                Action act =
-                    () => Target.Text += string.Format("\r\n{0}{1}", d, ((category != null) ? ": " + category : ""));
-                Target.Invoke(act);
-            }
-        }
         public void Log(object log)
         {
             if (Target != null)
@@ -39,6 +30,17 @@ namespace Locust.Logging.Win
                 }
                 Action act =
                     () => Target.Text += string.Format("\r\n   {0}", x);
+                Target.Invoke(act);
+            }
+        }
+
+        public void LogCategory(object category = null, [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
+        {
+            if (Target != null)
+            {
+                var d = DateTime.Now;
+                Action act =
+                    () => Target.Text += string.Format("\r\n{0}{1}", d, ((category != null) ? ": " + category : ""));
                 Target.Invoke(act);
             }
         }

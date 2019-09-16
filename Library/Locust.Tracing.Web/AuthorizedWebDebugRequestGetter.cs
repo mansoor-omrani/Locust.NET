@@ -8,7 +8,7 @@ using Locust.Conversion;
 using Locust.Extensions;
 using Locust.WebTools;
 
-namespace Locust.Tracing
+namespace Locust.Tracing.Web
 {
     public class AuthorizedWebDebugRequestGetter : PublicWebDebugRequestGetter, IAuthorizedDebugger
     {

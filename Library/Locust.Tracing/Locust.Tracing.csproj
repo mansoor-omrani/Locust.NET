@@ -48,8 +48,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthorizedWebDebugRequestGetter.cs" />
-    <Compile Include="AuthorizedWebDebugRequestSetter.cs" />
     <Compile Include="DebugLevel.cs" />
     <Compile Include="IAuthorizedDebugger.cs" />
     <Compile Include="IDebugRequestGetter.cs" />
@@ -58,9 +56,7 @@
     <Compile Include="MessageList.cs" />
     <Compile Include="MessageProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicWebDebugRequestGetter.cs" />
     <Compile Include="SqlCmdException.cs" />
-    <Compile Include="PublicWebDebugRequestSetter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
@@ -102,10 +98,6 @@
     <ProjectReference Include="..\Locust.Translation\Locust.Translation.csproj">
       <Project>{00f56929-2189-4234-a912-a2c14fa17da2}</Project>
       <Name>Locust.Translation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Locust.WebTools\Locust.WebTools.csproj">
-      <Project>{5a65db80-a515-4dcb-831a-7b13d4175054}</Project>
-      <Name>Locust.WebTools</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

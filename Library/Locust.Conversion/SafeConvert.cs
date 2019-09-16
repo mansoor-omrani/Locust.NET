@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+#pragma warning disable 219
+
 namespace Locust.Conversion
 {
     public static class SafeConvert
@@ -2214,3 +2216,5 @@ namespace Locust.Conversion
         }
     }
 }
+
+#pragma warning restore 219

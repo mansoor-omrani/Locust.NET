@@ -139,7 +139,7 @@ namespace Locust.ServiceModel
                     result.Strategy.Store.Service.Db = context.Strategy.Store.Service.Db;
                 }
 
-                if (result.Log.DebugMode)
+                if (result.Log.Options.DebugMode)
                 {
                     result.Parent = context;
                     context.Children.Add(result);
@@ -292,7 +292,7 @@ namespace Locust.ServiceModel
             }
             catch (Exception e)
             {
-                result.Log.Danger(result.ServiceName, result.Strategy.Name, "req_init_err", e, MessageSource.Framework);
+                result.Log.Danger(new MessageItem { Category = result.ServiceName, Code = "req_init_err", Exception = e, Source = MessageSource.Framework, Operation = result.Strategy.Name });
             }
 
             return result;
@@ -312,7 +312,7 @@ namespace Locust.ServiceModel
             }
             catch (Exception e)
             {
-                result.Log.Danger(result.ServiceName, result.Strategy.Name, "req_init_err", e, MessageSource.Framework);
+                result.Log.Danger(new MessageItem { Category = result.ServiceName, Code = "req_init_err", Exception = e, Source = MessageSource.Framework, Operation = result.Strategy.Name });
             }
 
             return result;
@@ -330,7 +330,7 @@ namespace Locust.ServiceModel
         {
             context.Response.Status = status;
             context.Response.Data = data;
-            context.Log.Dialog(ServiceName, Name, status.ToString(), ex, source);
+            context.Log.Dialog(new MessageItem { Category = ServiceName, Code = status.ToString(), Source = source, Operation = Name });
         }
         public void Reject(
                 TContext context,
@@ -341,7 +341,7 @@ namespace Locust.ServiceModel
         {
             context.Response.Status = status;
             context.Response.Data = data;
-            context.Log.Danger(ServiceName, Name, status.ToString(), ex, source);
+            context.Log.Danger(new MessageItem { Category = ServiceName, Code = status.ToString(), Exception = ex, Source = source, Operation = Name });
         }
     }
 }

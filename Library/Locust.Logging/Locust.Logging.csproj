@@ -55,7 +55,9 @@
     <Compile Include="DebugExceptionLogger.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="DefaultMemoryLogger.cs" />
+    <Compile Include="DynamicExceptionLogger.cs" />
     <Compile Include="DynamicLogger.cs" />
+    <Compile Include="FileExceptionLogger.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="IExceptionLogger.cs" />
     <Compile Include="ILogger.cs" />

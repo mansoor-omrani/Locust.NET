@@ -73,7 +73,7 @@ VALUES
     ,case when len(rtrim(ltrim(isnull(@Data, '')))) = 0 then null else @Data end
     ,case when len(rtrim(ltrim(isnull(@Info, '')))) = 0 then null else @Info end)";
 
-                var constr = ConnectionStringProvider?.GetConnectionString();
+                var constr = ConnectionStringProvider.GetConnectionString();
 
                 if (!string.IsNullOrEmpty(constr))
                 {

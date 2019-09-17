@@ -79,7 +79,7 @@ namespace Locust.Db.SqlServer
         protected ICircuitBreakerStore _circuitBreakerStore;
         protected ICircuitBreakerFactory _circuitBreakerFactory;
         protected ICircuitBreaker circuitBreaker;
-        protected IExceptionLogger _logger;
+        protected IExceptionLogger _exceptionLogger;
         #endregion
         #region Statics
         public static SqlDbType GetSqlDbType(int x)
@@ -129,14 +129,7 @@ namespace Locust.Db.SqlServer
         }
         public static SqlServerDbHelper GetDefault()
         {
-            var _cnn = new AppConfigConnectionStringProvider();
-            var cbf = new AppConfigCircuitBreakerFactory();
-            var cbs = new AppDomainCircuitBreakerStore();
-            var cip = new NoContextInfoProvider();
-            var memLogger = new DefaultMemoryLogger();
-            var logger = new DebugExceptionLogger();
-
-            return new SqlServerDbHelper(_cnn, cip, cbs, cbf, logger);
+            return new SqlServerDbHelper(new AppConfigConnectionStringProvider());
         }
         public static void ConfigureDA()
         {
@@ -178,23 +171,57 @@ namespace Locust.Db.SqlServer
         }
         public virtual IExceptionLogger ExceptionLogger
         {
-            get { return _logger; }
-            set { _logger = value; }
+            get { return _exceptionLogger; }
+            set { _exceptionLogger = value; }
         }
         #endregion
-        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, ICircuitBreakerStore circuitBreakerStore, ICircuitBreakerFactory circuitBreakerFactory, IExceptionLogger logger)
+        #region ctor
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider)
+        {
+            Init(cnnProvider, null, null, null, null);
+        }
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IExceptionLogger exceptionLogger)
+        {
+            Init(cnnProvider, null, null, null, exceptionLogger);
+        }
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider)
+        {
+            Init(cnnProvider, contextInfoProvider, null, null, null);
+        }
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, IExceptionLogger exceptionLogger)
+        {
+            Init(cnnProvider, contextInfoProvider, null, null, exceptionLogger);
+        }
+        public SqlServerDbHelper(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, ICircuitBreakerStore circuitBreakerStore, ICircuitBreakerFactory circuitBreakerFactory, IExceptionLogger exceptionLogger)
+        {
+            Init(cnnProvider, contextInfoProvider, circuitBreakerStore, circuitBreakerFactory, exceptionLogger);
+        }
+        protected virtual void Init(IConnectionStringProvider cnnProvider, IDbContextInfoProvider contextInfoProvider, ICircuitBreakerStore circuitBreakerStore, ICircuitBreakerFactory circuitBreakerFactory, IExceptionLogger exceptionLogger)
         {
             this._cnnProvider = cnnProvider;
-            this._contextInfoProvider = contextInfoProvider;
-            this._circuitBreakerStore = circuitBreakerStore;
-            this._circuitBreakerFactory = circuitBreakerFactory;
-            this._logger = logger;
+            if (contextInfoProvider == null)
+                this._contextInfoProvider = new NoContextInfoProvider();
+            else
+                this._contextInfoProvider = contextInfoProvider;
+            if (circuitBreakerStore == null)
+                this._circuitBreakerStore = new AppDomainCircuitBreakerStore();
+            else
+                this._circuitBreakerStore = circuitBreakerStore;
+            if (circuitBreakerFactory == null)
+                this._circuitBreakerFactory = new AppConfigCircuitBreakerFactory();
+            else
+                this._circuitBreakerFactory = circuitBreakerFactory;
+            if (exceptionLogger == null)
+                this._exceptionLogger = new DynamicExceptionLogger();
+            else
+                this._exceptionLogger = exceptionLogger;
 
             cnnProvider.ConnectionStringChanged += OnConnectionStringChanged;
+            
             var cnnstr = cnnProvider.GetConnectionString();
             cnnProvider.SetConnectionString(cnnstr);
-            //OnConnectionStringChanged(cnnstr);
         }
+        #endregion
         protected void Log(Exception ex, string info = "", object args = null)
         {
             var _args = new StringBuilder();
@@ -258,7 +285,7 @@ namespace Locust.Db.SqlServer
                 !(ex is CircuitBreakerExecutionException || ex is CircuitBreakerOpenException ||
                   ex is CircuitBreakerTimeoutException))
             {
-                _logger.LogException(ex, _info);
+                _exceptionLogger.LogException(ex, _info);
             }
         }
         private void OnConnectionStringChanged(object cnnStrProvider, ConnectionStringChangedEventArgs args)

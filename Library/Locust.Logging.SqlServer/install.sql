@@ -9,6 +9,8 @@ GO
 
 if not exists (select 1 from sys.tables where name = 'DbErrorLogs')
 begin
+	print 'Creating DbErrorLogs table ...'
+
 	CREATE TABLE [dbo].[DbErrorLogs](
 		[Id] [int] IDENTITY(1,1) NOT NULL,
 		[Command] [nvarchar](200) NULL,
@@ -23,28 +25,38 @@ begin
 	 CONSTRAINT [PK_DbErrorLogs] PRIMARY KEY CLUSTERED 
 	(
 		[Id] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [FLG_LOG]
-	) ON [FLG_LOG]
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	
+	ALTER TABLE [dbo].[DbErrorLogs] ADD CONSTRAINT [DF_DbErrorLogs_ExceptionDate]  DEFAULT (getdate()) FOR [ErrorLogDate]
+
+	print 'created'
 end
+else
+	print 'table DbErrorLogs already exists'
+	
 GO
-ALTER TABLE [dbo].[DbErrorLogs] ADD  DEFAULT (getdate()) FOR [ErrorLogDate]
-GO
+
+print 'Checking usp0_Log_error sproc existence ...'
 
 IF (OBJECT_ID('dbo.usp0_Log_error') IS NOT NULL)
 begin
-	print '''usp0_Log_error'' already exists. dropping it ...'
+	print '		Already exists. dropping it ...'
 	
-	drop procedure dbo.usp0_Audit_web_direct
+	drop procedure dbo.usp0_Log_error
+
+	print '		Dropped'
 end
 
 GO
+print 'Creating usp0_Log_error sproc existence ...'
+go
 /****** Object:  StoredProcedure [dbo].[usp0_Log_error]    Script Date: 5/13/2018 4:14:27 PM ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE PROCEDURE [dbo].[usp0_Log_error]
 (
 	@args		nvarchar(1000) out 
@@ -103,13 +115,22 @@ BEGIN
 
 	set @args = @result
 END
+go
+print '		Created'
 
+print 'Checking IsEmpty UDF existence ...'
+go
 IF (OBJECT_ID('dbo.IsEmpty') IS NOT NULL)
 begin
-	print '''IsEmpty'' already exists. dropping it ...'
+	print '		Already exists. dropping it ...'
 	
 	drop function dbo.IsEmpty
+
+	print '		Dropped'
 end
+go
+
+print 'Creating IsEmpty UDF existence ...'
 
 GO
 SET ANSI_NULLS ON
@@ -130,6 +151,8 @@ begin
 end
 GO
 
+print '		Created'
+
 SET ANSI_NULLS ON
 GO
 
@@ -138,6 +161,8 @@ GO
 
 if not exists (select 1 from sys.tables where name = 'ExceptionLog')
 begin
+	print 'Creating ExceptionLog table ...'
+
 	CREATE TABLE [dbo].[ExceptionLog](
 		[Id] [int] IDENTITY(1,1) NOT NULL,
 		[ExceptionDate] [datetime] NOT NULL,
@@ -152,11 +177,15 @@ begin
 	 CONSTRAINT [@pkConstraintName] PRIMARY KEY CLUSTERED 
 	(
 		[Id] ASC
-	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [FLG_LOG]
-	) ON [FLG_LOG] TEXTIMAGE_ON [FLG_LOG]
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+	ALTER TABLE [dbo].[ExceptionLog] ADD  CONSTRAINT [DF_ExceptionLog_ExceptionDate]  DEFAULT (getdate()) FOR [ExceptionDate]
+
+	print 'created'
 end
+else
+	print 'table ExceptionLog already exists'
 GO
 
-ALTER TABLE [dbo].[ExceptionLog] ADD  CONSTRAINT [DF_ExceptionLog_ExceptionDate]  DEFAULT (getdate()) FOR [ExceptionDate]
-GO
 

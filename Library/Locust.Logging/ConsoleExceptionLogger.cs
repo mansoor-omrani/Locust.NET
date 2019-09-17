@@ -9,23 +9,31 @@ using System.Threading.Tasks;
 
 namespace Locust.Logging
 {
-    public class ConsoleExceptionLogger : IExceptionLogger
+    public class ConsoleExceptionLogger : BaseExceptionLogger
     {
-        public void LogException(Exception ex, string info = "",
-                        [CallerMemberName] string memberName = "",
-                        [CallerFilePath] string sourceFilePath = "",
-                        [CallerLineNumber] int sourceLineNumber = 0)
+        public ConsoleExceptionLogger()
+        {
+        }
+        public ConsoleExceptionLogger(BaseExceptionLogger next) : base(next)
+        {
+        }
+
+        protected override bool LogExceptionInternal(Exception ex, string info = "", string memberName = "", string sourceFilePath = "", int sourceLineNumber = 0)
         {
             System.Console.WriteLine("{0:yyyy/MM/dd HH:mm:ss.fffffff}", DateTime.Now);
             System.Console.WriteLine($"File: {sourceFilePath}, Line: {sourceLineNumber}, Member: {memberName}");
             System.Console.WriteLine(ex.ToString("\n"));
+            System.Console.WriteLine(ex.StackTrace);
 
             if (!string.IsNullOrEmpty(info))
             {
                 System.Console.WriteLine(info);
             }
+
             System.Console.WriteLine(info);
             System.Console.WriteLine();
+
+            return true;
         }
     }
 }

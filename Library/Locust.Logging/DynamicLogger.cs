@@ -38,7 +38,7 @@ namespace Locust.Logging
 
                     if (string.IsNullOrEmpty(filename))
                     {
-                        filename = ApplicationPath.Root + "\\logger.log";
+                        filename = ApplicationPath.Root + "\\logs.log";
                     }
 
                     Instance = new FileLogger(filename);

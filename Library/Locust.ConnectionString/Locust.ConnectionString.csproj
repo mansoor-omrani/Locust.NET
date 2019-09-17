@@ -49,6 +49,7 @@
     <Compile Include="ConnectionString.cs" />
     <Compile Include="AppConfigConnectionStringProvider.cs" />
     <Compile Include="IConnectionStringProvider.cs" />
+    <Compile Include="ManualConnectionStringProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InMemoryConnectionStringProvider.cs" />
   </ItemGroup>

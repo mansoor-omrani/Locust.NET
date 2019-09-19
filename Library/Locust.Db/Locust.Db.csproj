@@ -56,9 +56,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
+      <Project>{809D809C-2FA3-4E8A-9CE6-8BCDDEA3E061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.ConnectionString\Locust.ConnectionString.csproj">
       <Project>{90A03C02-67FA-4106-BD45-A20E43CFCAFF}</Project>
       <Name>Locust.ConnectionString</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{E4622D06-601D-4F35-878A-0A0FB5D271DF}</Project>
+      <Name>Locust.Conversion</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Expressions\Locust.Expressions.csproj">
       <Project>{6DE4C138-BC57-4872-88C7-A2791EBF1D11}</Project>

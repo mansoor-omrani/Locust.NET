@@ -14,12 +14,35 @@ namespace Locust.Logging
         public string Format { get; set; }
         public FileExceptionLogger(string filename)
         {
-            FileName = filename;
-            Format = "{date}\nCalling {method} failed. Line {line} at {file}\nInfo: {info}\nSource: {source}\n{exception}\n\n{stack}\n" + new string('-', 80) + "\n";
+            Init(filename);
+        }
+        public FileExceptionLogger(string filename, string format)
+        {
+            Init(filename, format);
         }
         public FileExceptionLogger(string filename, BaseExceptionLogger next) : base(next)
         {
+            Init(filename);
+        }
+        public FileExceptionLogger(string filename, string format, BaseExceptionLogger next) : base(next)
+        {
+            Init(filename, format);
+        }
+        private void Init(string filename, string format = "")
+        {
+            if (string.IsNullOrEmpty(filename))
+                throw new ArgumentNullException(nameof(filename));
+
             FileName = filename;
+
+            if (string.IsNullOrEmpty(format))
+            {
+                Format = "{date}\nCalling {method} failed. Line {line} at {file}\nInfo: {info}\nSource: {source}\n{exception}\n\n{stacktrace}\n" + new string('-', 80) + "\n";
+            }
+            else
+            {
+                Format = format;
+            }
         }
         protected override bool LogExceptionInternal(Exception ex, string info = "", string memberName = "", string sourceFilePath = "", int sourceLineNumber = 0)
         {

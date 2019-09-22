@@ -241,3 +241,6 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+
+# Locust Ignore Dirs
+[Tt]ools/[Ll]ocust.[sS]ervice.[mM]oon.[cC]ode[gG]enerator/[Oo]utput/*

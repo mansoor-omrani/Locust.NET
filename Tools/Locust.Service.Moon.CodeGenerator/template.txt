@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-@foreach (var @using in Model.Usings)
+@foreach (var _using in Model.Usings)
 {
-using @using;
+using @(_using);
 }
 
 namespace @Model.Namespace

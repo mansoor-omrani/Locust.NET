@@ -1,0 +1,14 @@
+{
+  "Namespace": "Pafco4mMsrtConsoleHost",
+  "NoRunAsync": false,
+  "Services":
+  [
+    {
+      "Namespace": "Pafco4mMsrtConsoleHost",
+      "Usings": [ "Locust.Caching", "Locust.Db" ],
+      "Service": "Pafco4mMsrtDataExtractor",
+      "Actions": [ "ExtractStudents", "ExtractEliteStudents", "ExtractStudentTerms" ],
+      "NoRunAsync": false
+    }
+  ]
+}

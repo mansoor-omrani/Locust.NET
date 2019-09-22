@@ -269,6 +269,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Locust.Application.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Locust.Application.Base", "Application\Locust.Application.Base\Locust.Application.Base.csproj", "{846132FF-673C-4F7F-8323-6CE5C80ACAA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Locust.Service.Moon.CodeGenerator", "Tools\Locust.Service.Moon.CodeGenerator\Locust.Service.Moon.CodeGenerator.csproj", "{7CA93094-A535-4209-9461-24212656A3A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Locust.Service.Moon", "Library\Locust.Service.Moon\Locust.Service.Moon.csproj", "{C78DD037-3F5D-420C-975E-F623389568E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -787,6 +791,14 @@ Global
 		{846132FF-673C-4F7F-8323-6CE5C80ACAA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{846132FF-673C-4F7F-8323-6CE5C80ACAA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{846132FF-673C-4F7F-8323-6CE5C80ACAA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA93094-A535-4209-9461-24212656A3A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA93094-A535-4209-9461-24212656A3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA93094-A535-4209-9461-24212656A3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA93094-A535-4209-9461-24212656A3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78DD037-3F5D-420C-975E-F623389568E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78DD037-3F5D-420C-975E-F623389568E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78DD037-3F5D-420C-975E-F623389568E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78DD037-3F5D-420C-975E-F623389568E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -920,6 +932,8 @@ Global
 		{ED2AAB0E-D94D-45EC-B03A-147F1C07A62C} = {2F4BFA73-8E86-4A9D-B03C-6C4D3708D4BE}
 		{D3BA5C9A-A3DD-4529-A5A7-4E8D1A6EA82A} = {7304A9C6-3B38-48B7-ACDD-7CE283BE14B5}
 		{846132FF-673C-4F7F-8323-6CE5C80ACAA8} = {7304A9C6-3B38-48B7-ACDD-7CE283BE14B5}
+		{7CA93094-A535-4209-9461-24212656A3A4} = {2302F4A4-140D-40F9-9E27-FEE15D20C695}
+		{C78DD037-3F5D-420C-975E-F623389568E3} = {707D3DF5-18A2-41AC-A8F0-2120DB398C79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19801042-8A47-4E4A-A221-6FCBBB76BFFD}

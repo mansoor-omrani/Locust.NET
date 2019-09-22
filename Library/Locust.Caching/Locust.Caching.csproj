@@ -52,6 +52,7 @@
     <Compile Include="CachingExtensions.cs" />
     <Compile Include="ICacheFactory.cs" />
     <Compile Include="ICacheManager.cs" />
+    <Compile Include="NullCacheManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

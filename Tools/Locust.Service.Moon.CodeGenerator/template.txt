@@ -1,0 +1,88 @@
+﻿using Locust.Service;
+using Locust.Service.Moon;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+@foreach (var @using in Model.Usings)
+{
+using @using;
+}
+
+namespace @Model.Namespace
+{
+    public interface I@Model.ServiceName
+    {
+        @(Model.ServiceName)Config Config { get; }
+@foreach (var action in Model.Actions)
+{
+        @(Model.ServiceName + action)BaseAction @action { get; }
+}
+    }
+    public partial class @(Model.ServiceName)Config: BaseConfig
+    {
+    }
+	public abstract partial class @(Model.ServiceName)Base : BaseActionBasedService<@(Model.ServiceName)Config>, I@Model.ServiceName
+    {
+@foreach (var action in Model.Actions)
+{
+        public abstract @(Model.ServiceName + action)BaseAction @action { get; protected set; }
+}
+        public @(Model.ServiceName)Base(@(Model.ServiceName)Config config): base(config)
+        {
+        }
+    }
+    public partial class @(Model.ServiceName + "Default") : @(Model.ServiceName + "Default")Base
+    {
+@foreach (var action in Model.Actions)
+{
+        public override @(Model.ServiceName + action)BaseAction @action { get; protected set; }
+}
+        public @(Model.ServiceName + "Default")(@(Model.ServiceName)Config config): base(config)
+        {
+@foreach (var action in Model.Actions)
+{
+            @action = new @(Model.ServiceName + "Default")@(action)Action(this);
+            Actions.Add("@action", @action);
+}
+        }
+    }
+@foreach (var action in Model.Actions)
+{
+    #region @action
+    public partial class @(Model.ServiceName + action)Request : ServiceRequest
+    { }
+    public partial class @(Model.ServiceName + action)Response : ServiceResponse
+    { }
+    
+    public abstract partial class @(Model.ServiceName + action)BaseAction:
+        BaseServiceAction<@(Model.ServiceName)Base, @(Model.ServiceName + action)Request, @(Model.ServiceName + action)Response>
+    {
+        public @(Model.ServiceName + action)BaseAction(@(Model.ServiceName)Base owner) : base(owner)
+        {
+        }
+    }
+    public partial class @(Model.ServiceName + "Default" + action)Action : @(Model.ServiceName + action)BaseAction
+    {
+        public @(Model.ServiceName + "Default" + action)Action(@(Model.ServiceName)Base owner) : base(owner)
+        {
+        }
+		partial void runInternal(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response);
+        protected override void RunInternal(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response)
+        {
+        }
+@if (!Model.NoRunAsync)
+{
+        protected override Task RunInternalAsync(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response, CancellationToken token)
+        {
+			RunInternal(request, response);
+
+			return Task.CompletedTask;
+        }
+    }
+}
+    #endregion
+}
+}

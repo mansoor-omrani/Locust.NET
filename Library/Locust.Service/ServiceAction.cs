@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Locust.Service
 {
-    public abstract class ServiceAction<TRequest, TResponse>
+    public interface IServiceAction<TRequest, TResponse>
+    {
+        TResponse Run(TRequest request);
+        Task<TResponse> RunAsync(TRequest request, CancellationToken token);
+    }
+    public abstract class ServiceAction<TRequest, TResponse>: IServiceAction<TRequest, TResponse>
         where TRequest : ServiceRequest
         where TResponse : ServiceResponse, new()
     {

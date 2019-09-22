@@ -13,6 +13,17 @@ namespace Locust.Extensions
 {
     public static class TypeExtensions
     {
+        public static Type FindFirstGenericAncestor(this Type type)
+        {
+            var _type = type?.BaseType;
+
+            while (_type != null && !_type.IsGenericType)
+            {
+                _type = _type.BaseType;
+            }
+
+            return _type;
+        }
         public static object ReadProperty(this object x, string name)
         {
             return GlobalPropertyProvider.Read(x, name);

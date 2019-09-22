@@ -22,6 +22,19 @@ namespace Locust.Logging
     public class DynamicLogger : ILogger
     {
         public ILogger Instance { get; protected set; }
+        protected virtual ILogger GetFileLogger()
+        {
+            var filename = ConfigurationManager.AppSettings["Logger.File"];
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                filename = ApplicationPath.Root + "\\logs.log";
+            }
+
+            var result = new FileLogger(filename);
+
+            return result;
+        }
         public DynamicLogger()
         {
             var type = ConfigHelper.AppSetting("Logger.Type", LoggerType.Null);
@@ -33,16 +46,7 @@ namespace Locust.Logging
                 case LoggerType.Debug: Instance = new DebugLogger(); break;
                 case LoggerType.Trace: Instance = new TraceLogger(); break;
                 case LoggerType.String: Instance = new StringLogger(); break;
-                case LoggerType.File:
-                    var filename = ConfigurationManager.AppSettings["Logger.File"];
-
-                    if (string.IsNullOrEmpty(filename))
-                    {
-                        filename = ApplicationPath.Root + "\\logs.log";
-                    }
-
-                    Instance = new FileLogger(filename);
-                    break;
+                case LoggerType.File: Instance = GetFileLogger(); break;
                 default:
                     throw new Exception("invalid logger type: " + type);
             }

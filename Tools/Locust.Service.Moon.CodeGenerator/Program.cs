@@ -542,10 +542,10 @@ namespace Locust.Service.Moon.CodeGenerator
 
                     var gcsr = GenerateCode(logPrefix,
                                         config.Service,
-                                        $"{concrete}Service",
+                                        $"{concrete.Suffix}Service",
                                         options.Templates.ServiceTemplate,
                                         new { config.Usings, config.Namespace, config.Service, config.Actions, concrete.Suffix, concrete.ActionSuffix },
-                                        serviceDir + $"\\{concrete}Service.cs",
+                                        serviceDir + $"\\{concrete.Suffix}Service.cs",
                                         options.Overwrite);
                     if (!string.IsNullOrEmpty(gcsr))
                     {

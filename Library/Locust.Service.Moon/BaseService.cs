@@ -19,6 +19,16 @@ namespace Locust.Service.Moon
         public IExceptionLogger ExceptionLogger { get; set; }
         public IDbHelper Db { get; set; }
         public ICacheManager Cache { get; set; }
+        public BaseConfig()
+        {
+        }
+        public BaseConfig(ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache)
+        {
+            Logger = logger;
+            ExceptionLogger = exceptionLogger;
+            Db = db;
+            Cache = cache;
+        }
     }
     public abstract class BaseService
     {
@@ -167,6 +177,18 @@ namespace Locust.Service.Moon
             }
             set { _db = value; }
         }
+        private ICacheManager _cache;
+        public ICacheManager Cache
+        {
+            get
+            {
+                if (_cache == null)
+                    _cache = new NullCacheManager();
+
+                return _cache;
+            }
+            set { _cache = value; }
+        }
         #endregion
         public BaseServiceAction(TBaseService owner)
         {
@@ -174,6 +196,7 @@ namespace Locust.Service.Moon
             Logger = owner.Logger;
             ExceptionLogger = owner.ExceptionLogger;
             Db = owner.Db;
+            Cache = owner.Cache;
         }
         #region Logging
         protected override void OnError(TRequest request, TResponse response, Exception e)

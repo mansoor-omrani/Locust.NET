@@ -1,0 +1,31 @@
+{
+  "Version": "1.0",
+  "Namespace": "MyProgram",
+  "NoRunAsync": false,
+  "Services": [
+    {
+      "Folder": "MyService",
+      "Namespace": ".MyService",
+      "Usings": [ "Locust.Caching", "Locust.Db" ],
+      "Service": "MyProgramMyService",
+      "NoRunAsync": false,
+      "Concretes": [
+        {
+          "Suffix": "Default",
+          "ActionSuffix": "Default"
+        }
+      ],
+      "Actions": [
+        {
+          "Name": "FirstAction",
+          "Concretes": [ "Default" ]
+        },
+        {
+          "Name": "SecondAction",
+          "DataType": "List<string>",
+          "Concretes": [ "Default" ]
+        }
+      ]
+    }
+  ]
+}

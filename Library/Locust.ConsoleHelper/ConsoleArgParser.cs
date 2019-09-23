@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Locust.Console
+namespace Locust.ConsoleHelper
 {
     public class ConsoleArgParser
     {
@@ -118,21 +118,11 @@ namespace Locust.Console
 
                 foreach (var _cmd in Commands)
                 {
-                    if (Config.CaseSensitive)
+                    if (string.Compare(_cmd, cmd, (Config.CaseSensitive ? StringComparison.InvariantCulture: StringComparison.InvariantCultureIgnoreCase)) == 0)
                     {
-                        if (string.Compare(_cmd, cmd, StringComparison.InvariantCulture) == 0)
-                        {
-                            cmdFound = true;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (string.Compare(_cmd, cmd, StringComparison.InvariantCultureIgnoreCase) == 0)
-                        {
-                            cmdFound = true;
-                            break;
-                        }
+                        cmdFound = true;
+                        cmd = _cmd;
+                        break;
                     }
 
                     cmdIndex++;
@@ -147,31 +137,32 @@ namespace Locust.Console
                 }
                 else
                 {
+                    cmdIndex = 0;
+
                     foreach (var _cmd in CommandShortNames)
                     {
-                        if (Config.CaseSensitive)
+                        if (string.Compare(_cmd, cmd, (Config.CaseSensitive ? StringComparison.InvariantCulture : StringComparison.InvariantCultureIgnoreCase)) == 0)
                         {
-                            if (string.Compare(_cmd, cmd, StringComparison.InvariantCulture) == 0)
-                            {
-                                cmdFound = true;
-                                break;
-                            }
+                            cmdFound = true;
+                            cmdShortName = cmd;
+                            break;
                         }
-                        else
-                        {
-                            if (string.Compare(_cmd, cmd, StringComparison.InvariantCultureIgnoreCase) == 0)
-                            {
-                                cmdFound = true;
-                                break;
-                            }
-                        }
+
+                        cmdIndex++;
                     }
 
-                    cmdShortName = cmd;
+                    if (cmdFound)
+                    {
+                        if (Commands.Length > 0 && cmdIndex >= 0 && cmdIndex < Commands.Length)
+                        {
+                            cmd = Commands[cmdIndex];
+                        }
+                    }
 
                     if (!cmdFound)
                     {
                         valid = !Config.IgnoreInvalidCommands;
+                        cmd = valid ? cmdShortName: "";
                     }
                 }
             }

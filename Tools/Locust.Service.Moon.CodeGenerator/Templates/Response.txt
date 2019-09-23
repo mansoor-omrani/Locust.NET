@@ -1,0 +1,9 @@
+﻿using Locust.Service;
+using System;
+using System.Collections.Generic;
+
+namespace @Model.Namespace
+{
+    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.DataType) ? "ServiceResponse": Raw("ServiceResponse<" + Model.DataType + ">"))
+    { }
+}

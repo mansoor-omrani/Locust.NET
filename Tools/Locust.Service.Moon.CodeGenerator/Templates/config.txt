@@ -1,0 +1,10 @@
+﻿using Locust.Service;
+using Locust.Service.Moon;
+using System;
+
+namespace @Model.Namespace
+{
+	public partial class @(Model.Service)Config: BaseConfig
+    {
+    }
+}

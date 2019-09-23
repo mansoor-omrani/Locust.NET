@@ -13,6 +13,28 @@ namespace Locust.Extensions
 {
     public static class TypeExtensions
     {
+        public static Type FindNthGenericAncestor(this Type type, int order)
+        {
+            /*
+            var _type = type?.BaseType;
+            var prevType = null as Type;
+            var i = 1;
+
+            while (true)
+            {
+                if (_type == null) break;
+                if (_type.IsGenericType)
+                {
+                    if (i == order) break;
+                }
+                _type = _type.BaseType;
+                i++;
+            }
+
+            return _type;
+            */
+            throw new NotImplementedException();
+        }
         public static Type FindFirstGenericAncestor(this Type type)
         {
             var _type = type?.BaseType;

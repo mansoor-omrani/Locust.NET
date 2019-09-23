@@ -1,0 +1,24 @@
+﻿using Locust.Service;
+using Locust.Service.Moon;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace @Model.Namespace
+{
+	public partial interface I@(Model.Service)
+    {
+        @(Model.Service)Config Config { get; }
+
+@foreach (var action in Model.Actions)
+{
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+        <text>@(Model.Service + action.Name)BaseAction @action.Name { get; }</text>
+	}
+}
+    }
+}

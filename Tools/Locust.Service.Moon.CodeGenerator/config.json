@@ -1,14 +1,27 @@
 {
+  "Version": "1.0",
   "Namespace": "Pafco4mMsrtConsoleHost",
   "NoRunAsync": false,
-  "Services":
-  [
+  "Services": [
     {
-      "Namespace": "Pafco4mMsrtConsoleHost",
+      "Folder": "DataExtractor",
+      "Namespace": ".DataExtractor",
       "Usings": [ "Locust.Caching", "Locust.Db" ],
       "Service": "Pafco4mMsrtDataExtractor",
-      "Actions": [ "ExtractStudents", "ExtractEliteStudents", "ExtractStudentTerms" ],
-      "NoRunAsync": false
+      "Actions": [
+        {
+          "Name": "ExtractStudents",
+          "DataType": "List<Student>"
+        },
+        {
+          "Name": "ExtractEliteStudents",
+          "DataType": "List<EliteStudent>"
+        },
+        {
+          "Name": "ExtractStudentTerms",
+          "DataType": "List<StudentTerm>"
+        }
+      ]
     }
   ]
 }

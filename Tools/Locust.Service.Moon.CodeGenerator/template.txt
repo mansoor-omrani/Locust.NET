@@ -8,81 +8,102 @@ using System.Threading;
 using System.Threading.Tasks;
 @foreach (var _using in Model.Usings)
 {
-using @(_using);
+<text>using @(_using);</text>
 }
 
 namespace @Model.Namespace
 {
-    public interface I@Model.ServiceName
+	public partial interface I@(Model.Service)
     {
-        @(Model.ServiceName)Config Config { get; }
+        @(Model.Service)Config Config { get; }
 @foreach (var action in Model.Actions)
 {
-        @(Model.ServiceName + action)BaseAction @action { get; }
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+        <text>@(Model.Service + action.Name)BaseAction @action.Name { get; }</text>
+	}
 }
     }
-    public partial class @(Model.ServiceName)Config: BaseConfig
+    public partial class @(Model.Service)Config: BaseConfig
     {
     }
-	public abstract partial class @(Model.ServiceName)Base : BaseActionBasedService<@(Model.ServiceName)Config>, I@Model.ServiceName
-    {
-@foreach (var action in Model.Actions)
-{
-        public abstract @(Model.ServiceName + action)BaseAction @action { get; protected set; }
-}
-        public @(Model.ServiceName)Base(@(Model.ServiceName)Config config): base(config)
-        {
-        }
-    }
-    public partial class @(Model.ServiceName + "Default") : @(Model.ServiceName + "Default")Base
-    {
-@foreach (var action in Model.Actions)
-{
-        public override @(Model.ServiceName + action)BaseAction @action { get; protected set; }
-}
-        public @(Model.ServiceName + "Default")(@(Model.ServiceName)Config config): base(config)
-        {
-@foreach (var action in Model.Actions)
-{
-            @action = new @(Model.ServiceName + "Default")@(action)Action(this);
-            Actions.Add("@action", @action);
-}
-        }
-    }
-@foreach (var action in Model.Actions)
-{
-    #region @action
-    public partial class @(Model.ServiceName + action)Request : ServiceRequest
-    { }
-    public partial class @(Model.ServiceName + action)Response : ServiceResponse
-    { }
-    
-    public abstract partial class @(Model.ServiceName + action)BaseAction:
-        BaseServiceAction<@(Model.ServiceName)Base, @(Model.ServiceName + action)Request, @(Model.ServiceName + action)Response>
-    {
-        public @(Model.ServiceName + action)BaseAction(@(Model.ServiceName)Base owner) : base(owner)
-        {
-        }
-    }
-    public partial class @(Model.ServiceName + "Default" + action)Action : @(Model.ServiceName + action)BaseAction
-    {
-        public @(Model.ServiceName + "Default" + action)Action(@(Model.ServiceName)Base owner) : base(owner)
-        {
-        }
-		partial void runInternal(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response);
-        protected override void RunInternal(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response)
-        {
-        }
-@if (!Model.NoRunAsync)
-{
-        protected override Task RunInternalAsync(@(Model.ServiceName + action)Request request, @(Model.ServiceName + action)Response response, CancellationToken token)
-        {
-			RunInternal(request, response);
 
-			return Task.CompletedTask;
+	public abstract partial class @(Model.Service)Base : BaseActionBasedService<@(Model.Service)Config>, I@(Model.Service)
+    {
+@foreach (var action in Model.Actions)
+{
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+        <text>public abstract @(Model.Service + action.Name)BaseAction @action.Name { get; protected set; }</text>
+	}
+}
+
+        public @(Model.Service)Base(@(Model.Service)Config config): base(config)
+        {
         }
     }
+
+	public partial class @(Model.Service + "Default") : @(Model.Service)Base
+    {
+@foreach (var action in Model.Actions)
+{
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+        <text>public override @(Model.Service + action.Name)BaseAction @action.Name { get; protected set; }</text>
+	}
 }
-    #endregion
+
+        public @(Model.Service + "Default")(@(Model.Service)Config config): base(config)
+        {
+@foreach (var action in Model.Actions)
+{
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+            <text>@action.Name = new @(Model.Service + "Default" + action.Name)Action(this);</text>
+            <text>Actions.Add("@action.Name", @action.Name);</text>
+	}
+}
+        }
+    }
+
+@foreach (var action in Model.Actions)
+{
+	if (!string.IsNullOrEmpty(action.Name))
+	{
+    <text>#region @action.Name</text>
+    <text>public partial class @(Model.Service + action.Name)Request : ServiceRequest</text>
+    <text>{ }</text>
+    <text>public partial class @(Model.Service + action.Name)Response : @(string.IsNullOrEmpty(action.DataType) ? "ServiceResponse": Raw("ServiceResponse<" + action.DataType + ">"))</text>
+    <text>{ }</text>
+    
+    <text>public abstract partial class @(Model.Service + action.Name)BaseAction:</text>
+    <text>    BaseServiceAction<@(Model.Service)Base, @(Model.Service + action.Name)Request, @(Model.Service + action.Name)Response></text>
+    <text>{</text>
+    <text>    public @(Model.Service + action.Name)BaseAction(@(Model.Service)Base owner) : base(owner)</text>
+    <text>    {</text>
+    <text>    }</text>
+    <text>}</text>
+    <text>public partial class @(Model.Service + "Default" + action.Name)Action : @(Model.Service + action.Name)BaseAction</text>
+    <text>{</text>
+    <text>    public @(Model.Service + "Default" + action.Name)Action(@(Model.Service)Base owner) : base(owner)</text>
+    <text>    {</text>
+    <text>    }</text>
+	<text>	partial void runInternal(@(Model.Service + action.Name)Request request, @(Model.Service + action.Name)Response response);</text>
+    <text>    protected override void RunInternal(@(Model.Service + action.Name)Request request, @(Model.Service + action.Name)Response response)</text>
+    <text>    {</text>
+	<text>		runInternal(request, response);</text>
+    <text>    }</text>
+if (!Model.NoRunAsync)
+{
+    <text>    protected override Task RunInternalAsync(@(Model.Service + action.Name)Request request, @(Model.Service + action.Name)Response response, CancellationToken token)</text>
+    <text>    {</text>
+	<text>		RunInternal(request, response);</text>
+
+	<text>		return Task.CompletedTask;</text>
+    <text>    }</text>
+}
+	<text>}</text>
+    <text>#endregion</text>
+	}
 }
 }

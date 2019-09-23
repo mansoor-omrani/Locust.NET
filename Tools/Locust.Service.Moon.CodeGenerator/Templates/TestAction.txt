@@ -1,0 +1,36 @@
+﻿using Locust.Service;
+using Locust.Service.Moon;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+@foreach (var _using in Model.Usings)
+{
+<text>using @(_using);</text>
+}
+
+namespace @Model.Namespace
+{
+	public partial class @(Model.Service + Model.Suffix + Model.Action)Action : @(Model.Service + Model.Action)BaseAction
+    {
+        public @(Model.Service + Model.Suffix + Model.Action)Action(@(Model.Service)Base owner) : base(owner)
+        {
+        }
+		partial void runInternal(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response);
+        protected override void RunInternal(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response)
+        {
+			runInternal(request, response);
+        }
+@if (!Model.NoRunAsync)
+{
+        protected override Task RunInternalAsync(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, CancellationToken token)
+        {
+			RunInternal(request, response);
+
+			return Task.CompletedTask;
+        }
+}
+	}
+}

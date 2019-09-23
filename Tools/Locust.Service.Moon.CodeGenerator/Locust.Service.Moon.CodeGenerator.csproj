@@ -57,20 +57,31 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="config.sample.json" />
     <None Include="config.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="template.txt" />
+    <EmbeddedResource Include="Templates\Response.txt" />
+    <EmbeddedResource Include="Templates\Request.txt" />
+    <EmbeddedResource Include="Templates\Config.txt" />
+    <EmbeddedResource Include="Templates\Interface.txt" />
+    <EmbeddedResource Include="Templates\BaseService.txt" />
+    <EmbeddedResource Include="Templates\Service.txt" />
+    <EmbeddedResource Include="Templates\BaseAction.txt" />
+    <EmbeddedResource Include="Templates\Action.txt" />
+    <EmbeddedResource Include="Templates\TestService.txt" />
+    <EmbeddedResource Include="Templates\TestAction.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
       <Project>{2B5A6741-635A-406D-8AF9-FD74FF54B1D4}</Project>
       <Name>Locust.AppPath</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.Console\Locust.Console.csproj">
-      <Project>{FD262778-F48A-451B-8D20-F55C078E4380}</Project>
-      <Name>Locust.Console</Name>
+    <ProjectReference Include="..\..\Library\Locust.ConsoleHelper\Locust.ConsoleHelper.csproj">
+      <Project>{572501dc-d5c2-49d3-8e7f-3f92acd8e381}</Project>
+      <Name>Locust.ConsoleHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Library\Locust.Conversion\Locust.Conversion.csproj">
       <Project>{E4622D06-601D-4F35-878A-0A0FB5D271DF}</Project>
@@ -89,5 +100,6 @@
       <Name>Locust.Service</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

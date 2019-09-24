@@ -13,10 +13,7 @@ using System.Threading.Tasks;
 
 namespace @Model.Namespace
 {
-	public partial class @(Model.Service + Model.Suffix + Model.Action)Action : @(Model.Service + Model.Action)BaseAction
+	public abstract partial class @(Model.Service)Base : BaseActionBasedService<@(Model.Service)Config>, I@(Model.Service)
     {
-        public @(Model.Service + Model.Suffix + Model.Action)Action(@(Model.Service)Base owner) : base(owner)
-        {
-        }
-	}
+    }
 }

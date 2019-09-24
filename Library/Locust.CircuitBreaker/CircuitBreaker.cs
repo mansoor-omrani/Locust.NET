@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace Locust.CircuitBreaker
 {
-    public class CircuitBreakerOpenException: Exception
+    public class CircuitBreakerOpenedException: Exception
     {
-        public CircuitBreakerOpenException()
+        public CircuitBreakerOpenedException()
         {
         }
-        public CircuitBreakerOpenException(Exception inner): base("CircuitBreaker is open", inner)
+        public CircuitBreakerOpenedException(Exception inner): base("CircuitBreaker is open", inner)
         {
         }
     }
-    public class CircuitBreakerTimeoutException : Exception
+    public class CircuitBreakerTimedOutException : Exception
     {
-        public CircuitBreakerTimeoutException()
+        public CircuitBreakerTimedOutException()
         {
         }
-        public CircuitBreakerTimeoutException(Exception inner) : base("executing action timed out. CircuitBreaker opened.", inner)
+        public CircuitBreakerTimedOutException(Exception inner) : base("executing action timed out. CircuitBreaker opened.", inner)
         {
         }
     }
@@ -58,7 +58,7 @@ namespace Locust.CircuitBreaker
                 throw new ArgumentException(nameof(action));
 
             if (Open)
-                throw new CircuitBreakerOpenException();
+                throw new CircuitBreakerOpenedException();
 
             try
             {
@@ -92,7 +92,7 @@ namespace Locust.CircuitBreaker
         {
             if (action == null) throw new ArgumentNullException("action");
             if (Open)
-                throw new CircuitBreakerOpenException();
+                throw new CircuitBreakerOpenedException();
 
             Task task = null;
 
@@ -109,19 +109,19 @@ namespace Locust.CircuitBreaker
             {
                 onError();
 
-                throw new CircuitBreakerOpenException(e.InnerException);
+                throw new CircuitBreakerOpenedException(e.InnerException);
             }
             catch (Exception e)
             {
                 onError();
 
-                throw new CircuitBreakerOpenException(e);
+                throw new CircuitBreakerOpenedException(e);
             }
 
             if (task.IsFaulted)
-                throw new CircuitBreakerOpenException(task.Exception.InnerException);
+                throw new CircuitBreakerOpenedException(task.Exception.InnerException);
             else
-                throw new CircuitBreakerTimeoutException();
+                throw new CircuitBreakerTimedOutException();
         }
     }
 }

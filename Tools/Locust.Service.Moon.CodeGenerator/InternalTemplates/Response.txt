@@ -1,9 +1,13 @@
 ﻿using Locust.Service;
 using System;
 using System.Collections.Generic;
+@foreach (var _using in Model.Usings)
+{
+<text>using @(_using);</text>
+}
 
 namespace @Model.Namespace
 {
-    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.DataType) ? "ServiceResponse": Raw("ServiceResponse<" + Model.DataType + ">"))
+    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.Response) ? "ServiceResponse": Raw("ServiceResponse<" + Model.Response + ">"))
     { }
 }

@@ -1,29 +1,39 @@
 {
   "Version": "1.0",
   "Namespace": "MyProgram",
-  "NoRunAsync": false,
   "Services": [
     {
       "Folder": "MyService",
       "Namespace": ".MyService",
       "Usings": [ "Locust.Caching", "Locust.Db" ],
       "Service": "MyProgramMyService",
-      "NoRunAsync": false,
+      "PartialConfig": true,
+      "PartialServiceBase": false,
+      "PartialInterface": false,
       "Concretes": [
         {
           "Suffix": "Default",
-          "ActionSuffix": "Default"
+          "ActionSuffix": "Default",
+          "Partial": true
         }
       ],
       "Actions": [
         {
           "Name": "FirstAction",
-          "Concretes": [ "Default" ]
+          "Concretes": [ "Default" ],
+          "NoDefaultAsync": null,
+          "PartialBase":  false,
+          "PartialRequest": false,
+          "PartialResponse": true
         },
         {
           "Name": "SecondAction",
           "DataType": "List<string>",
-          "Concretes": [ "Default" ]
+          "Concretes": [ "Default" ],
+          "NoDefaultAsync": true,
+          "PartialBase": false,
+          "PartialRequest": true,
+          "PartialResponse": false
         }
       ]
     }

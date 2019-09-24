@@ -56,6 +56,42 @@ namespace Locust.Extensions
             else
                 throw new ArgumentException("Argument is not an enum");
         }
+        public static void ForEach(this IEnumerable list, Action<object> action)
+        {
+            foreach (var item in list)
+            {
+                action?.Invoke(item);
+            }
+        }
+        public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
+        {
+            foreach (var item in list)
+            {
+                action?.Invoke(item);
+            }
+        }
+        public static void ForEach(this IEnumerable list, Action<int, object> action)
+        {
+            var i = 0;
+
+            foreach (var item in list)
+            {
+                action?.Invoke(i, item);
+
+                i++;
+            }
+        }
+        public static void ForEach<T>(this IEnumerable<T> list, Action<int, T> action)
+        {
+            var i = 0;
+
+            foreach (var item in list)
+            {
+                action?.Invoke(i, item);
+
+                i++;
+            }
+        }
         public static string Join<T>(this IEnumerable<T> list, string separator)
         {
             var sb = new StringBuilder();

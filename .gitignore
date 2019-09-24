@@ -244,3 +244,5 @@ ModelManifest.xml
 
 # Locust Ignore Dirs
 [Tt]ools/[Ll]ocust.[sS]ervice.[mM]oon.[cC]ode[gG]enerator/[Oo]utput/*
+[Tt]ools/[Ll]ocust.[sS]ervice.[mM]oon.[cC]ode[gG]enerator/exceptions.log
+[Tt]ools/[Ll]ocust.[sS]ervice.[mM]oon.[cC]ode[gG]enerator/merge.log

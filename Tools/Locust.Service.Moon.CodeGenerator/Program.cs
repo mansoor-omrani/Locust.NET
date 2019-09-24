@@ -38,7 +38,7 @@ namespace Locust.Service.Moon.CodeGenerator
     public class GeneratorOptions
     {
         public GeneratorConfig Config { get; set; }
-        public string Template { get; set; }
+        public string TemplateFolder { get; set; }
         public GeneratorTemplates Templates { get; set; }
         public string OutputDir { get; set; }
         public bool Overwrite { get; set; }
@@ -171,10 +171,110 @@ namespace Locust.Service.Moon.CodeGenerator
 
             return result;
         }
+        static void GenerateTemplates(string folder = "templates")
+        {
+            Action<string> generateTemplate = name =>
+            {
+                var template = ReadTemplate($"{name}.txt");
+
+                try
+                {
+                    var filepath = $"{ApplicationPath.Root}\\templates\\{name}.txt";
+
+                    if (!File.Exists(filepath))
+                    {
+                        File.WriteAllText(filepath, template);
+                        logger.Log($"Template {name} generated.");
+                    }
+                    else
+                    {
+                        logger.Log($"Template {name} already exists in templates folder");
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Log($"Creating template {name} failed");
+                    exceptionLogger.LogException(e, $"name: {name}");
+                }
+            };
+
+            var dir = Path.IsPathRooted(folder) ? folder : ApplicationPath.Root + "\\" + folder;
+
+            logger.Log($"Creating directory {folder} ...");
+
+            if (!Directory.Exists(dir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(dir);
+                    logger.Log($"created.");
+                }
+                catch (Exception e)
+                {
+                    logger.Log($"Creating template folder {folder} failed");
+                    exceptionLogger.LogException(e, dir);
+
+                    return;
+                }
+            }
+            else
+            {
+                logger.Log($"Directory {folder} already exists.");
+            }
+
+            logger.Log($"Generating templates ...");
+
+            generateTemplate("Config");
+            generateTemplate("Interface");
+            generateTemplate("BaseService");
+            generateTemplate("Service");
+            generateTemplate("Request");
+            generateTemplate("Response");
+            generateTemplate("BaseAction");
+            generateTemplate("Action");
+            generateTemplate("TestAction");
+            generateTemplate("TestService");
+
+            logger.Log($"Finished");
+        }
+        static void GenerateSampleConfig(string name = "config.sample.json")
+        {
+            var a = Assembly.GetExecutingAssembly();
+
+            try
+            {
+                var result = a.GetResourceString("Locust.Service.Moon.CodeGenerator", $"config.sample.json");
+
+                try
+                {
+                    var filepath = ApplicationPath.Root + $"\\{name}";
+
+                    if (!File.Exists(filepath))
+                    {
+                        File.WriteAllText(filepath, result);
+                        logger.Log($"sample config file created as {name}");
+                    }
+                    else
+                    {
+                        logger.Log($"config.sample.json already exists.");
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Log($"generating sample config failed. see error logs.");
+                    exceptionLogger.LogException(e, $"Writing config.sample.json failed");
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Log($"reading sample config resource failed. see logs.");
+                exceptionLogger.LogException(e, $"resource error: config.sample.json");
+            }
+        }
         static Program()
         {
-            logger = new DynamicLogger();
-            exceptionLogger = new DynamicExceptionLogger();
+            logger = new ConsoleLogger(); //new DynamicLogger();
+            exceptionLogger = new FileExceptionLogger("exceptions.log"); // new DynamicExceptionLogger();
         }
         static ServiceResponse<GeneratorOptions> GetOptions(string[] args)
         {
@@ -185,8 +285,8 @@ namespace Locust.Service.Moon.CodeGenerator
             var cap = new ConsoleArgParser(
                 new ConsoleArgParserConfig
                 {
-                    Commands = "templates,config,output,folderized,overwrite,rows,skips,generatetemplates,generateconfig",
-                    CommandShortNames = "t,c,o,f,w,r,s,gt,gc"
+                    Commands = "version,ver,templates,config,output,overwrite,rows,skips,generatetemplates,generateconfig",
+                    CommandShortNames = "v,ver,t,c,o,w,r,s,gt,gc"
                 });
 
             try
@@ -195,13 +295,18 @@ namespace Locust.Service.Moon.CodeGenerator
                 {
                     System.Console.WriteLine(@"Syntax: lsmcg [[options]...]
     options:
-        -templates          or -t: specify templates folder (default = internal templates)
-        -config             or -c: specify config file (default = config.json)
-        -outputdir          or -o: specify output dir (default = /output)
-        -overwrite          or -w: overwrite output (default = false)
-        -rows               or -r: specify config rows, generate only for specified rows (default = 'all')
-        -skip               or -s: skip rows e.g. 1, 5, 11, 15 (default = '')
-        -generatetemplate   or -gt: generate sample templates in '/templates' folder
+        - version           or -v : show version
+        -templates          or -t : specify external templates folder
+                                    (default = don't use external templates, use internal templates)
+        -config             or -c : specify config file (relative or absolute path with filename)
+                                    (default = config.json)
+        -outputdir          or -o : specify output dir (default = /output)
+        -overwrite          or -w : overwrite output (default = false)
+        -rows               or -r : specify config rows, generate only for specified rows
+                                    (default = 'all': generate all services)
+        -skips              or -s : skip rows e.g. 1, 5, 11, 15 (default = '')
+        -generatetemplates  or -gt: {folder} generate sample templates in {folder} (relative or absolute path).
+                                    default folder = /templates
         -generateconfig     or -gc: generate sample config e.g. /gc:myconfig.json (does not overwrite if exists)
 ");
                     result.SetStatus("ShowHelp");
@@ -210,20 +315,59 @@ namespace Locust.Service.Moon.CodeGenerator
                 {
                     var _args = cap.Parse(args);
 
+                    //logger.Log(JsonConvert.SerializeObject(_args, Formatting.Indented));
+
                     do
                     {
+                        if (_args.FirstOrDefault(ca => ca.Command[0] == 'v' || ca.Command[0] == 'V') != null)
+                        {
+                            logger.Log($"Locust Service Moon Code Generator version {Assembly.GetExecutingAssembly().GetVersion()}");
+                            break;
+                        }
+                        var gc = _args.FirstOrDefault(ca => string.Compare(ca.Command, "generateconfig", true) == 0);
+                        if (gc != null)
+                        {
+                            if (!string.IsNullOrEmpty(gc.Arg))
+                            {
+                                GenerateSampleConfig(gc.Arg);
+                            }
+                            else
+                            {
+                                GenerateSampleConfig();
+                            }
+                            break;
+                        }
+
+                        var gt = _args.FirstOrDefault(ca => string.Compare(ca.Command, "generatetemplates", true) == 0);
+                        if (gt != null)
+                        {
+                            if (!string.IsNullOrEmpty(gt.Arg))
+                            {
+                                GenerateTemplates(gt.Arg);
+                            }
+                            else
+                            {
+                                GenerateTemplates();
+                            }
+                            break;
+                        }
+
+                        gt = _args.FirstOrDefault(ca => string.Compare(ca.Command, "templates", true) == 0);
+                        if (gt != null)
+                        {
+                            result.Data.TemplateFolder = gt.Arg;
+                        }
+                        else
+                        {
+                            result.Data.TemplateFolder = "templates";
+                        }
+
                         var config = _args.FirstOrDefault(ca => ca.Command == "config")?.Arg;
-                        var template = _args.FirstOrDefault(ca => ca.Command == "template")?.Arg;
                         var outputDir = _args.FirstOrDefault(ca => ca.Command == "output")?.Arg;
 
                         if (string.IsNullOrWhiteSpace(config))
                         {
                             config = "config.json";
-                        }
-
-                        if (string.IsNullOrWhiteSpace(template))
-                        {
-                            template = "template.txt";
                         }
 
                         if (string.IsNullOrWhiteSpace(outputDir))
@@ -232,7 +376,6 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
 
                         var configPath = ApplicationPath.Root + "\\" + config;
-                        var templatePath = ApplicationPath.Root + "\\" + template;
 
                         if (!File.Exists(configPath))
                         {
@@ -241,27 +384,6 @@ namespace Locust.Service.Moon.CodeGenerator
                             break;
                         }
 
-                        if (!File.Exists(templatePath))
-                        {
-                            logger.Log($"template file {templatePath} not found");
-                            result.SetStatus("TemplateNotFound");
-                            break;
-                        }
-
-                        try
-                        {
-                            result.Data.Template = File.ReadAllText(templatePath);
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Log("Reading template file failed");
-
-                            exceptionLogger.LogException(e);
-
-                            result.SetStatus("TemplateError");
-
-                            break;
-                        }
                         var gcr = GetConfig(configPath);
 
                         if (!gcr.IsSucceeded())
@@ -299,7 +421,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 exceptionLogger.LogException(e);
             }
-            
+
             return result;
         }
         static string CreateOutputDir(string outputDir)
@@ -365,7 +487,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             return result;
         }
-        static string GenerateCode(string logPrefix, string service, string name, string template, object model, string outputPath, bool overwrite)
+        static string GenerateCode(string logPrefix, string service, string name, string template, object model, string outputPath, bool overwrite, ref int warning)
         {
             var result = "";
             var output = "";
@@ -380,12 +502,16 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 exceptionLogger.LogException(e, $"{logPrefix}: {name} CodeGenerationFailed");
 
+                warning++;
+
                 return result;
             }
 
             if (File.Exists(outputPath) && !overwrite)
             {
                 logger.Log($"{logPrefix}: file {name}.cs exists. writing skipped.");
+
+                warning++;
 
                 return result;
             }
@@ -398,6 +524,8 @@ namespace Locust.Service.Moon.CodeGenerator
             {
                 logger.Log($"{logPrefix}: writing output failed");
 
+                warning++;
+
                 exceptionLogger.LogException(e, $"{logPrefix}: {name} WriteError");
             }
 
@@ -406,7 +534,7 @@ namespace Locust.Service.Moon.CodeGenerator
         static ServiceResponse Generate(GeneratorOptions options)
         {
             var result = new ServiceResponse();
-            var outputDir = Path.IsPathRooted(options.OutputDir) ? options.OutputDir: ApplicationPath.Root + "\\" + options.OutputDir;
+            var outputDir = Path.IsPathRooted(options.OutputDir) ? options.OutputDir : ApplicationPath.Root + "\\" + options.OutputDir;
             var cor = CreateOutputDir(outputDir);
 
             if (!string.IsNullOrEmpty(cor))
@@ -420,32 +548,37 @@ namespace Locust.Service.Moon.CodeGenerator
 
             var row = 0;
             var success = 0;
-            var failed = 0;
-            var warning = 0;
-            var prevWarning = 0;
+            var partialSuccess = 0;
+            var failures = 0;
+            var skips = 0;
+            var warnings = new int[options.Config.Services.Count];
 
             foreach (var config in options.Config.Services)
             {
                 var logPrefix = $"row = {row}, service = {config.Service}";
                 var serviceDir = outputDir + "\\" + config.Folder;
+                warnings[row] = 0;
 
                 #region Validating Service Config
 
                 if (!(options.Rows.Contains(row) || options.All) || options.Skips.Contains(row))
                 {
                     logger.Log($"{logPrefix}: skipped.");
+                    skips++;
                     continue;
                 }
 
                 if (string.IsNullOrEmpty(config.Service))
                 {
                     logger.Log($"{logPrefix}: No service specified");
+                    failures++;
                     continue;
                 }
 
                 if (string.IsNullOrEmpty(config.Folder))
                 {
                     logger.Log($"{logPrefix}: No folder specified");
+                    failures++;
                     continue;
                 }
 
@@ -470,6 +603,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 if (string.IsNullOrEmpty(config.Namespace) || config.Namespace == ".")
                 {
                     logger.Log($"{logPrefix}: Namespace is empty and no default namespace is specified.");
+                    failures++;
                     continue;
                 }
 
@@ -483,47 +617,36 @@ namespace Locust.Service.Moon.CodeGenerator
                 if (!string.IsNullOrEmpty(csr))
                 {
                     result.SetStatus(csr);
-
+                    failures++;
                     continue;
                 }
 
                 #endregion
 
-                var gcr = GenerateCode(logPrefix,
-                                        config.Service,
-                                        "Config",
-                                        options.Templates.ConfigTemplate,
-                                        new { config.Namespace, config.Service },
-                                        serviceDir + "\\Config.cs",
-                                        options.Overwrite);
-                if (!string.IsNullOrEmpty(gcr))
-                {
-                    prevWarning++;
-                }
-
-                var gir = GenerateCode(logPrefix,
-                                        config.Service,
-                                        "Interface",
-                                        options.Templates.InterfaceTemplate,
-                                        config,
-                                        serviceDir + "\\Interface.cs",
-                                        options.Overwrite);
-                if (!string.IsNullOrEmpty(gir))
-                {
-                    prevWarning++;
-                }
-
-                var gbsr = GenerateCode(logPrefix,
-                                        config.Service,
-                                        "BaseService",
-                                        options.Templates.BaseServiceTemplate,
-                                        config,
-                                        serviceDir + "\\BaseService.cs",
-                                        options.Overwrite);
-                if (!string.IsNullOrEmpty(gbsr))
-                {
-                    prevWarning++;
-                }
+                GenerateCode(logPrefix,
+                             config.Service,
+                             "Config",
+                             options.Templates.ConfigTemplate,
+                             new { config.Namespace, config.Service },
+                             serviceDir + "\\Config.cs",
+                             options.Overwrite,
+                             ref warnings[row]);
+                GenerateCode(logPrefix,
+                             config.Service,
+                             "Interface",
+                             options.Templates.InterfaceTemplate,
+                             config,
+                             serviceDir + "\\Interface.cs",
+                             options.Overwrite,
+                             ref warnings[row]);
+                GenerateCode(logPrefix,
+                             config.Service,
+                             "BaseService",
+                             options.Templates.BaseServiceTemplate,
+                             config,
+                             serviceDir + "\\BaseService.cs",
+                             options.Overwrite,
+                             ref warnings[row]);
 
                 var i = 0;
 
@@ -540,17 +663,14 @@ namespace Locust.Service.Moon.CodeGenerator
                         concrete.ActionSuffix = "Default";
                     }
 
-                    var gcsr = GenerateCode(logPrefix,
-                                        config.Service,
-                                        $"{concrete.Suffix}Service",
-                                        options.Templates.ServiceTemplate,
-                                        new { config.Usings, config.Namespace, config.Service, config.Actions, concrete.Suffix, concrete.ActionSuffix },
-                                        serviceDir + $"\\{concrete.Suffix}Service.cs",
-                                        options.Overwrite);
-                    if (!string.IsNullOrEmpty(gcsr))
-                    {
-                        prevWarning++;
-                    }
+                    GenerateCode(logPrefix,
+                                 config.Service,
+                                 $"{concrete.Suffix}Service",
+                                 options.Templates.ServiceTemplate,
+                                 new { config.Usings, config.Namespace, config.Service, config.Actions, concrete.Suffix, concrete.ActionSuffix },
+                                 serviceDir + $"\\{concrete.Suffix}Service.cs",
+                                 options.Overwrite,
+                                 ref warnings[row]);
 
                     i++;
                 }
@@ -570,41 +690,32 @@ namespace Locust.Service.Moon.CodeGenerator
 
                     if (string.IsNullOrEmpty(car))
                     {
-                        var grqr = GenerateCode(logPrefix,
-                                            config.Service,
-                                            "Request",
-                                            options.Templates.RequestTemplate,
-                                            new { config.Namespace, config.Service, Action = action.Name },
-                                            actionDir + "\\Request.cs",
-                                            options.Overwrite);
-                        if (!string.IsNullOrEmpty(grqr))
-                        {
-                            prevWarning++;
-                        }
+                        GenerateCode(logPrefix,
+                                     config.Service,
+                                     "Request",
+                                     options.Templates.RequestTemplate,
+                                     new { config.Namespace, config.Service, Action = action.Name },
+                                     actionDir + "\\Request.cs",
+                                     options.Overwrite,
+                                     ref warnings[row]);
 
-                        var grsr = GenerateCode(logPrefix,
-                                            config.Service,
-                                            "Response",
-                                            options.Templates.ResponseTemplate,
-                                            new { config.Namespace, config.Service, Action = action.Name, action.DataType },
-                                            actionDir + "\\Response.cs",
-                                            options.Overwrite);
-                        if (!string.IsNullOrEmpty(grsr))
-                        {
-                            prevWarning++;
-                        }
+                        GenerateCode(logPrefix,
+                                     config.Service,
+                                     "Response",
+                                     options.Templates.ResponseTemplate,
+                                     new { config.Namespace, config.Service, Action = action.Name, action.DataType },
+                                     actionDir + "\\Response.cs",
+                                     options.Overwrite,
+                                     ref warnings[row]);
 
-                        var gbar = GenerateCode(logPrefix,
-                                            config.Service,
-                                            "BaseAction",
-                                            options.Templates.BaseActionTemplate,
-                                            new { config.Namespace, config.Service, Action = action.Name, config.Usings },
-                                            actionDir + "\\BaseAction.cs",
-                                            options.Overwrite);
-                        if (!string.IsNullOrEmpty(gbar))
-                        {
-                            prevWarning++;
-                        }
+                        GenerateCode(logPrefix,
+                                     config.Service,
+                                     "BaseAction",
+                                     options.Templates.BaseActionTemplate,
+                                     new { config.Namespace, config.Service, Action = action.Name, config.Usings },
+                                     actionDir + "\\BaseAction.cs",
+                                     options.Overwrite,
+                                     ref warnings[row]);
 
                         var j = 0;
 
@@ -616,25 +727,31 @@ namespace Locust.Service.Moon.CodeGenerator
                                 continue;
                             }
 
-                            var gar = GenerateCode(logPrefix,
-                                                config.Service,
-                                                $"{concrete}Action",
-                                                options.Templates.BaseActionTemplate,
-                                                new { config.Namespace, config.Service, Action = action.Name, config.Usings, Suffix = concrete },
-                                                actionDir + $"\\{concrete}Action.cs",
-                                                options.Overwrite);
-                            if (!string.IsNullOrEmpty(gar))
-                            {
-                                prevWarning++;
-                            }
+                            GenerateCode(logPrefix,
+                                         config.Service,
+                                         $"{concrete}Action",
+                                         options.Templates.BaseActionTemplate,
+                                         new { config.Namespace, config.Service, Action = action.Name, config.Usings, Suffix = concrete },
+                                         actionDir + $"\\{concrete}Action.cs",
+                                         options.Overwrite,
+                                         ref warnings[row]);
                         }
                     }
                     else
                     {
-                        prevWarning++;
+                        warnings[row]++;
                     }
 
                     i++;
+                }
+
+                if (warnings[row] == 0)
+                {
+                    success++;
+                }
+                else
+                {
+                    partialSuccess++;
                 }
 
                 row++;
@@ -642,9 +759,12 @@ namespace Locust.Service.Moon.CodeGenerator
 
             logger.Log("Code generation finished.\n");
             logger.Log($"Succeeded: {success}");
-            logger.Log($"Failed: {failed}");
-            logger.Log($"Warnings: {warning}");
-            logger.Log($"Skipped: {options.Config.Services.Count - (success + failed + warning)}");
+            logger.Log($"Failed: {failures}");
+            logger.Log($"Warnings:");
+
+            warnings.ForEach((i, n) => logger.Log($"    {i}. warnings: {n}"));
+
+            logger.Log($"Skipped: {skips}");
 
             if (options.InvalidRows.Count > 0)
             {
@@ -666,7 +786,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             try
             {
-                result = a.GetResourceString($"Templates.{name}");
+                result = a.GetResourceString("Locust.Service.Moon.CodeGenerator", $"InternalTemplates.{name}");
             }
             catch (Exception e)
             {
@@ -675,10 +795,10 @@ namespace Locust.Service.Moon.CodeGenerator
             }
             return result;
         }
-        static string ReadTemplateFileOrResource(string name)
+        static string ReadTemplateFileOrResource(string templatePath, string name)
         {
             var result = "";
-            var path = ApplicationPath.Root + "\\templates\\" + name;
+            var path = templatePath + "\\" + name;
 
             if (File.Exists(path))
             {
@@ -704,18 +824,20 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static void InitTemplates(GeneratorOptions options)
         {
-            if (Directory.Exists(ApplicationPath.Root + "\\" + "templates"))
+            var templatePath = Path.IsPathRooted(options.TemplateFolder) ? options.TemplateFolder: ApplicationPath.Root + "\\" + options.TemplateFolder;
+
+            if (Directory.Exists(templatePath))
             {
-                options.Templates.ActionTemplate = ReadTemplateFileOrResource("Action.txt");
-                options.Templates.BaseActionTemplate = ReadTemplateFileOrResource("BaseAction.txt");
-                options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource("BaseService.txt");
-                options.Templates.ConfigTemplate = ReadTemplateFileOrResource("Config.txt");
-                options.Templates.InterfaceTemplate = ReadTemplateFileOrResource("Interface.txt");
-                options.Templates.RequestTemplate = ReadTemplateFileOrResource("Request.txt");
-                options.Templates.ResponseTemplate = ReadTemplateFileOrResource("Response.txt");
-                options.Templates.ServiceTemplate = ReadTemplateFileOrResource("Service.txt");
-                options.Templates.TestActionTemplate = ReadTemplateFileOrResource("TestAction.txt");
-                options.Templates.TestServiceTemplate = ReadTemplateFileOrResource("TestService.txt");
+                options.Templates.ActionTemplate = ReadTemplateFileOrResource(templatePath, "Action.txt");
+                options.Templates.BaseActionTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction.txt");
+                options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.txt");
+                options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config.txt");
+                options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface.txt");
+                options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request.txt");
+                options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response.txt");
+                options.Templates.ServiceTemplate = ReadTemplateFileOrResource(templatePath, "Service.txt");
+                options.Templates.TestActionTemplate = ReadTemplateFileOrResource(templatePath, "TestAction.txt");
+                options.Templates.TestServiceTemplate = ReadTemplateFileOrResource(templatePath, "TestService.txt");
             }
             else
             {
@@ -742,9 +864,35 @@ namespace Locust.Service.Moon.CodeGenerator
                 var gr = Generate(gor.Data);
             }
         }
+        static void test1(string[] args)
+        {
+            if (args != null && args.Length > 0)
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                var resources = assembly.GetManifestResourceNames();
+
+                Console.WriteLine($"Resources: {resources.Length}");
+
+                foreach (var rn in resources)
+                {
+                    Console.WriteLine(rn);
+                }
+
+                try
+                {
+                    Console.WriteLine(assembly.GetResourceString("Locust.Service.Moon.CodeGenerator", args[0]));
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+        }
         static void Main(string[] args)
         {
             Start(args);
+            //test1(args);
+
 #if DEBUG
             System.Console.ReadKey();
 #endif

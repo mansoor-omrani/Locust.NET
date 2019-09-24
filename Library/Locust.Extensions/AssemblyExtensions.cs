@@ -48,9 +48,23 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static Stream GetResourceStream(this Assembly assembly, string overrideAssemblyName, string name)
+        {
+            var result = assembly.GetManifestResourceStream(overrideAssemblyName + "." + name);
+
+            return result;
+        }
         public static string GetResourceString(this Assembly assembly, string name)
         {
             var stream = assembly.GetResourceStream(name);
+            var reader = new StreamReader(stream);
+            var result = reader.ReadToEnd();
+
+            return result;
+        }
+        public static string GetResourceString(this Assembly assembly, string overrideAssemblyName, string name)
+        {
+            var stream = assembly.GetResourceStream(overrideAssemblyName, name);
             var reader = new StreamReader(stream);
             var result = reader.ReadToEnd();
 
@@ -93,6 +107,12 @@ namespace Locust.Extensions
             var assemblyName = GetAssemblyName(assembly);
 
             return resourceNames.Contains(assemblyName + "." + name);
+        }
+        public static string GetVersion(this Assembly assembly)
+        {
+            var fvi = System.Diagnostics.FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            return fvi.FileVersion;
         }
     }
 }

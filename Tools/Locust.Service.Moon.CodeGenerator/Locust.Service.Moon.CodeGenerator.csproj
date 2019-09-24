@@ -12,6 +12,23 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,17 +79,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="template.txt" />
-    <EmbeddedResource Include="Templates\Response.txt" />
-    <EmbeddedResource Include="Templates\Request.txt" />
-    <EmbeddedResource Include="Templates\Config.txt" />
-    <EmbeddedResource Include="Templates\Interface.txt" />
-    <EmbeddedResource Include="Templates\BaseService.txt" />
-    <EmbeddedResource Include="Templates\Service.txt" />
-    <EmbeddedResource Include="Templates\BaseAction.txt" />
-    <EmbeddedResource Include="Templates\Action.txt" />
-    <EmbeddedResource Include="Templates\TestService.txt" />
-    <EmbeddedResource Include="Templates\TestAction.txt" />
+    <EmbeddedResource Include="InternalTemplates\Response.txt" />
+    <EmbeddedResource Include="InternalTemplates\Request.txt" />
+    <EmbeddedResource Include="InternalTemplates\Config.txt" />
+    <EmbeddedResource Include="InternalTemplates\Interface.txt" />
+    <EmbeddedResource Include="InternalTemplates\BaseService.txt" />
+    <EmbeddedResource Include="InternalTemplates\Service.txt" />
+    <EmbeddedResource Include="InternalTemplates\BaseAction.txt" />
+    <EmbeddedResource Include="InternalTemplates\Action.txt" />
+    <EmbeddedResource Include="InternalTemplates\TestService.txt" />
+    <EmbeddedResource Include="InternalTemplates\TestAction.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
@@ -100,6 +116,21 @@
       <Name>Locust.Service</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

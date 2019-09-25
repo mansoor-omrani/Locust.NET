@@ -38,7 +38,9 @@ namespace Locust.Service.Moon.CodeGenerator
         public string ActionPartialTemplate { get; set; }
         public string TestActionTemplate { get; set; }
         public string RequestTemplate { get; set; }
+        public string RequestPartialTemplate { get; set; }
         public string ResponseTemplate { get; set; }
+        public string ResponsePartialTemplate { get; set; }
     }
     public class GeneratorOptions
     {
@@ -46,7 +48,10 @@ namespace Locust.Service.Moon.CodeGenerator
         public string TemplateFolder { get; set; }
         public GeneratorTemplates Templates { get; set; }
         public string OutputDir { get; set; }
+        public bool GeneratePartials { get; set; }
         public bool Overwrite { get; set; }
+        public string Extension { get; set; }
+        public string TemplateExtension { get; set; }
         public List<int> Rows { get; set; }
         public List<string> InvalidRows { get; set; }
         public List<int> Skips { get; set; }
@@ -100,19 +105,23 @@ namespace Locust.Service.Moon.CodeGenerator
     public class GeneratorConfigItemActionItem
     {
         public string Name { get; set; }
-        public string Request { get; set; }
-        public string Response { get; set; }
-        public bool? NoDefaultAsync { get; set; }
+        public string RequestModel { get; set; }
+        public Dictionary<string, string> RequestProps { get; set; }
+        public string ResponseData { get; set; }
+        public Dictionary<string, string> ResponseProps { get; set; }
+        public bool? DefaultAsync { get; set; }
         public bool PartialBase { get; set; }
         public bool PartialRequest { get; set; }
         public bool PartialResponse { get; set; }
         public string[] Concretes { get; set; }
+        public string[] Usings { get; set; }
     }
     public class GeneratorConfigItem
     {
         public string Folder { get; set; }
         public string Namespace { get; set; }
         public bool PartialConfig { get; set; }
+        public Dictionary<string, string> ConfigProps { get; set; }
         public bool PartialInterface { get; set; }
         public bool PartialService { get; set; }
         public bool PartialServiceBase { get; set; }
@@ -132,6 +141,8 @@ namespace Locust.Service.Moon.CodeGenerator
         static string ConfigVersion => "1.0";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
+        static GeneratorOptions Options { get; set; }
+        static string[] SupportedExtensions => new string[] { ".cs" };
         static ServiceResponse<GeneratorConfig> GetConfig(string configFilename)
         {
             var result = new ServiceResponse<GeneratorConfig>();
@@ -154,15 +165,31 @@ namespace Locust.Service.Moon.CodeGenerator
                         {
                             service.Usings = new string[0];
                         }
+                        if (service.ConfigProps == null)
+                        {
+                            service.ConfigProps = new Dictionary<string, string>();
+                        }
                         if (service.Actions == null)
                         {
                             service.Actions = new List<GeneratorConfigItemActionItem>();
                         }
                         foreach (var action in service.Actions)
                         {
+                            if (action.Usings == null)
+                            {
+                                action.Usings = new string[0];
+                            }
                             if (action.Concretes == null || action.Concretes.Length == 0)
                             {
                                 action.Concretes = new string[] { "Default" };
+                            }
+                            if (action.RequestProps == null)
+                            {
+                                action.RequestProps = new Dictionary<string, string>();
+                            }
+                            if (action.ResponseProps == null)
+                            {
+                                action.ResponseProps = new Dictionary<string, string>();
                             }
                         }
                     }
@@ -184,34 +211,9 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static void GenerateTemplates(string folder = "templates")
         {
-            Action<string> generateTemplate = name =>
-            {
-                var template = ReadTemplate($"{name}.txt");
+            var dir = Path.IsPathRooted(folder) ? folder : Environment.CurrentDirectory + "\\" + folder;
 
-                try
-                {
-                    var filepath = $"{ApplicationPath.Root}\\templates\\{name}.txt";
-
-                    if (!File.Exists(filepath))
-                    {
-                        File.WriteAllText(filepath, template);
-                        logger.Log($"Template {name} generated.");
-                    }
-                    else
-                    {
-                        logger.Log($"Template {name} already exists in templates folder");
-                    }
-                }
-                catch (Exception e)
-                {
-                    logger.Log($"Creating template {name} failed");
-                    exceptionLogger.LogException(e, $"name: {name}");
-                }
-            };
-
-            var dir = Path.IsPathRooted(folder) ? folder : ApplicationPath.Root + "\\" + folder;
-
-            logger.Log($"Creating directory {folder} ...");
+            logger.Log($"Creating templates directory {folder} ...");
 
             if (!Directory.Exists(dir))
             {
@@ -222,7 +224,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 }
                 catch (Exception e)
                 {
-                    logger.Log($"Creating template folder {folder} failed");
+                    logger.Log($"Creating templates folder {folder} failed");
                     exceptionLogger.LogException(e, dir);
 
                     return;
@@ -230,8 +232,35 @@ namespace Locust.Service.Moon.CodeGenerator
             }
             else
             {
-                logger.Log($"Directory {folder} already exists.");
+                logger.Log($"already exists.");
             }
+
+            Action<string> generateTemplate = name =>
+            {
+                var template = ReadTemplate($"{name}.txt");
+
+                try
+                {
+                    var filepath = $"{dir}\\{name}{Options.TemplateExtension}";
+
+                    if (!File.Exists(filepath))
+                    {
+                        File.WriteAllText(filepath, template);
+                        logger.Log($"Template {name} generated.");
+                    }
+                    else
+                    {
+                        logger.Log($"Template {name}{Options.TemplateExtension} already exists in templates folder");
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Log($"Creating template {name}{Options.TemplateExtension} failed");
+                    exceptionLogger.LogException(e, $"name: {name}{Options.TemplateExtension}");
+                }
+            };
+
+            
 
             logger.Log($"Generating templates ...");
 
@@ -242,7 +271,9 @@ namespace Locust.Service.Moon.CodeGenerator
             generateTemplate("Service");
             generateTemplate("Service.Partial");
             generateTemplate("Request");
+            generateTemplate("Request.Partial");
             generateTemplate("Response");
+            generateTemplate("Response.Partial");
             generateTemplate("BaseAction");
             generateTemplate("BaseAction.Partial");
             generateTemplate("Action");
@@ -262,7 +293,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 try
                 {
-                    var filepath = ApplicationPath.Root + $"\\{name}";
+                    var filepath = Environment.CurrentDirectory + $"\\{name}";
 
                     if (!File.Exists(filepath))
                     {
@@ -300,8 +331,8 @@ namespace Locust.Service.Moon.CodeGenerator
             var cap = new ConsoleArgParser(
                 new ConsoleArgParserConfig
                 {
-                    Commands = "version,ver,templates,config,output,overwrite,rows,skips,generatetemplates,generateconfig",
-                    CommandShortNames = "v,ver,t,c,o,w,r,s,gt,gc"
+                    Commands = "version,ver,templates,config,extension,templateextension,output,generatepartials,overwrite,rows,skips,generatetemplates,generateconfig",
+                    CommandShortNames = "v,ver,t,c,e,te,o,cp,w,r,s,gt,gc"
                 });
 
             try
@@ -310,19 +341,24 @@ namespace Locust.Service.Moon.CodeGenerator
                 {
                     System.Console.WriteLine(@"Syntax: lsmcg [[options]...]
     options:
-        - version           or -v : show version
+        -version or -ver or or -v : show version
         -templates          or -t : specify external templates folder
                                     (default = don't use external templates, use internal templates)
         -config             or -c : specify config file (relative or absolute path with filename)
                                     (default = config.json)
+        -extension          or -e : generated files extension (default = .cs)
+        -templateextension  or -te: external template file extension (default = .txt)
         -outputdir          or -o : specify output dir (default = /output)
+        -generatepartials     or -cp: create .Partial files (default = false)
         -overwrite          or -w : overwrite output (default = false)
         -rows               or -r : specify config rows, generate only for specified rows
                                     (default = 'all': generate all services)
         -skips              or -s : skip rows e.g. 1, 5, 11, 15 (default = '')
         -generatetemplates  or -gt: {folder} generate sample templates in {folder} (relative or absolute path).
                                     default folder = /templates
-        -generateconfig     or -gc: generate sample config e.g. /gc:myconfig.json (does not overwrite if exists)
+                                    this switch ignores other switches and their args.
+        -generateconfig     or -gc: generate sample config e.g. /gc:myconfig.json (does not overwrite existing config)
+                                    this switch ignores other switches and their args.
 ");
                     result.SetStatus("ShowHelp");
                 }
@@ -390,7 +426,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             outputDir = "output";
                         }
 
-                        var configPath = ApplicationPath.Root + "\\" + config;
+                        var configPath = Environment.CurrentDirectory + "\\" + config;
 
                         if (!File.Exists(configPath))
                         {
@@ -415,9 +451,74 @@ namespace Locust.Service.Moon.CodeGenerator
                             break;
                         }
 
+                        var ea = _args.FirstOrDefault(ca => ca.Command == "extension");
+
+                        if (ea != null)
+                        {
+                            if (string.IsNullOrEmpty(ea.Arg))
+                            {
+                                logger.Log("no extension is specified. used default (.cs)");
+                                result.Data.Extension = ".cs";
+                            }
+                            else
+                            {
+                                if (ea.Arg[0] != '.')
+                                {
+                                    logger.Log("extension should start with dot (.), e.g. .cs, .vb, etc.");
+                                    break;
+                                }
+
+                                if (SupportedExtensions.FindIndexOf(ea.Arg, StringComparison.CurrentCultureIgnoreCase) < 0)
+                                {
+                                    logger.Log($"Currently internal templates are supported only for {SupportedExtensions.Join(',')}. No internal template found for {ea.Arg}. Use custom external templates.");
+                                    break;
+                                }
+                                else
+                                {
+                                    result.Data.Extension = ea.Arg.ToLower();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.Data.Extension = ".cs";
+                        }
+
+                        var ta = _args.FirstOrDefault(ca => ca.Command == "templateextension");
+
+                        if (ta != null)
+                        {
+                            if (string.IsNullOrEmpty(ta.Arg))
+                            {
+                                logger.Log("no extension is specified for external templates. used default (.txt)");
+                                result.Data.Extension = ".txt";
+                            }
+                            else
+                            {
+                                if (ta.Arg[0] != '.')
+                                {
+                                    logger.Log("external template extension should start with dot (.), e.g. .txt, .cshtml");
+                                    break;
+                                }
+                                else
+                                {
+                                    result.Data.TemplateExtension = ta.Arg.ToLower();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            result.Data.TemplateExtension = ".txt";
+                        }
+
                         result.Data.OutputDir = outputDir;
                         result.Data.Config = gcr.Data;
                         result.Data.Overwrite = SafeClrConvert.ToBoolean(_args.FirstOrDefault(ca => ca.Command == "overwrite")?.Arg);
+                        var cpa = _args.FirstOrDefault(ca => ca.Command == "generatepartials");
+                        if (cpa != null)
+                        {
+                            result.Data.GeneratePartials = string.IsNullOrEmpty(cpa.Arg) || SafeClrConvert.ToBoolean(cpa.Arg);
+                        }
                         result.Data.All = string.Compare(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg, "all") == 0;
                         if (!result.Data.All)
                         {
@@ -502,7 +603,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             return result;
         }
-        static string GenerateCode(string logPrefix, string service, string name, string template, object model, string outputPath, bool overwrite, ref int warning)
+        static string GenerateCode(string logPrefix, string service, string name, string ext, string template, object model, string outputPath, bool overwrite, ref int warning)
         {
             var result = "";
             var output = "";
@@ -524,7 +625,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             if (File.Exists(outputPath) && !overwrite)
             {
-                logger.Log($"{logPrefix}: file {name}.cs exists. writing skipped.");
+                logger.Log($"{logPrefix}: file {name}.{ext} exists. writing skipped.");
 
                 warning++;
 
@@ -549,7 +650,7 @@ namespace Locust.Service.Moon.CodeGenerator
         static ServiceResponse Generate(GeneratorOptions options)
         {
             var result = new ServiceResponse();
-            var outputDir = Path.IsPathRooted(options.OutputDir) ? options.OutputDir : ApplicationPath.Root + "\\" + options.OutputDir;
+            var outputDir = Path.IsPathRooted(options.OutputDir) ? options.OutputDir : Environment.CurrentDirectory + "\\" + options.OutputDir;
             var cor = CreateOutputDir(outputDir);
 
             if (!string.IsNullOrEmpty(cor))
@@ -638,20 +739,22 @@ namespace Locust.Service.Moon.CodeGenerator
                 GenerateCode(logPrefix,
                              config.Service,
                              "Config",
+                             options.Extension,
                              options.Templates.ConfigTemplate,
-                             new { config.Namespace, config.Service },
-                             serviceDir + "\\Config.cs",
+                             new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps },
+                             $"{serviceDir}\\Config.{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
-                if (config.PartialConfig)
+                if (config.PartialConfig && options.GeneratePartials)
                 {
                     GenerateCode(logPrefix,
                              config.Service,
                              "Config.Partial",
+                             options.Extension,
                              options.Templates.ConfigTemplate,
                              new { config.Namespace, config.Service },
-                             serviceDir + "\\Config.Partial.cs",
+                             $"{serviceDir}\\Config.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -659,20 +762,22 @@ namespace Locust.Service.Moon.CodeGenerator
                 GenerateCode(logPrefix,
                              config.Service,
                              "Interface",
+                             options.Extension,
                              options.Templates.InterfaceTemplate,
                              config,
-                             serviceDir + "\\Interface.cs",
+                             $"{serviceDir}\\Interface{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
-                if (config.PartialInterface)
+                if (config.PartialInterface && options.GeneratePartials)
                 {
                     GenerateCode(logPrefix,
                              config.Service,
                              "Interface.Partial",
+                             options.Extension,
                              options.Templates.InterfaceTemplate,
                              config,
-                             serviceDir + "\\Interface.Partial.cs",
+                             $"{serviceDir}\\Interface.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -680,20 +785,22 @@ namespace Locust.Service.Moon.CodeGenerator
                 GenerateCode(logPrefix,
                              config.Service,
                              "BaseService",
+                             options.Extension,
                              options.Templates.BaseServiceTemplate,
                              config,
-                             serviceDir + "\\BaseService.cs",
+                             $"{serviceDir}\\BaseService{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
-                if (config.PartialServiceBase)
+                if (config.PartialServiceBase && options.GeneratePartials)
                 {
                     GenerateCode(logPrefix,
                              config.Service,
                              "BaseService.Partial",
+                             options.Extension,
                              options.Templates.BaseServicePartialTemplate,
                              config,
-                             serviceDir + "\\BaseService.Partial.cs",
+                             $"{serviceDir}\\BaseService.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -716,20 +823,22 @@ namespace Locust.Service.Moon.CodeGenerator
                     GenerateCode(logPrefix,
                                  config.Service,
                                  $"{concrete.Suffix}Service",
+                                 options.Extension,
                                  options.Templates.ServiceTemplate,
                                  new { config.Usings, config.Namespace, config.Service, config.Actions, concrete.Suffix, concrete.ActionSuffix },
-                                 serviceDir + $"\\{concrete.Suffix}Service.cs",
+                                 serviceDir + $"\\{concrete.Suffix}Service{options.Extension}",
                                  options.Overwrite,
                                  ref warnings[row]);
 
-                    if (concrete.Partial)
+                    if (concrete.Partial && options.GeneratePartials)
                     {
                         GenerateCode(logPrefix,
                                  config.Service,
                                  $"{concrete.Suffix}Service.Partial",
+                                 options.Extension,
                                  options.Templates.ServicePartialTemplate,
                                  new { config.Usings, config.Namespace, config.Service, concrete.Suffix },
-                                 serviceDir + $"\\{concrete.Suffix}Service.Partial.cs",
+                                 serviceDir + $"\\{concrete.Suffix}Service.Partial{options.Extension}",
                                  false,
                                  ref temp);
                     }
@@ -747,7 +856,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         continue;
                     }
 
-                    var actionDir = serviceDir + "\\" + action.Name;
+                    var actionDir = $"{serviceDir}\\{action.Name}";
                     var car = CreateActionDir(config.Service, action.Name, actionDir);
 
                     if (string.IsNullOrEmpty(car))
@@ -755,20 +864,22 @@ namespace Locust.Service.Moon.CodeGenerator
                         GenerateCode(logPrefix,
                                      config.Service,
                                      "Request",
+                                     options.Extension,
                                      options.Templates.RequestTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Request, config.Usings },
-                                     actionDir + "\\Request.cs",
+                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings, Props = action.RequestProps },
+                                     $"{actionDir}\\Request{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
 
-                        if (action.PartialRequest)
+                        if (action.PartialRequest && options.GeneratePartials)
                         {
                             GenerateCode(logPrefix,
                                      config.Service,
                                      "Request.Partial",
-                                     options.Templates.RequestTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Request, config.Usings },
-                                     actionDir + "\\Request.Partial.cs",
+                                     options.Extension,
+                                     options.Templates.RequestPartialTemplate,
+                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings },
+                                     $"{actionDir}\\Request.Partial{options.Extension}",
                                      false,
                                      ref temp);
                         }
@@ -776,20 +887,22 @@ namespace Locust.Service.Moon.CodeGenerator
                         GenerateCode(logPrefix,
                                      config.Service,
                                      "Response",
+                                     options.Extension,
                                      options.Templates.ResponseTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Response, config.Usings },
-                                     actionDir + "\\Response.cs",
+                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.Usings, Props = action.ResponseProps },
+                                     $"{actionDir}\\Response{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
 
-                        if (action.PartialResponse)
+                        if (action.PartialResponse && options.GeneratePartials)
                         {
                             GenerateCode(logPrefix,
                                      config.Service,
                                      "Response.Partial",
-                                     options.Templates.ResponseTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Response, config.Usings },
-                                     actionDir + "\\Response.Partial.cs",
+                                     options.Extension,
+                                     options.Templates.ResponsePartialTemplate,
+                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.Usings },
+                                     $"{actionDir}\\Response.Partial{options.Extension}",
                                      false,
                                      ref warnings[row]);
                         }
@@ -797,20 +910,22 @@ namespace Locust.Service.Moon.CodeGenerator
                         GenerateCode(logPrefix,
                                      config.Service,
                                      "BaseAction",
+                                     options.Extension,
                                      options.Templates.BaseActionTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, config.Usings },
-                                     actionDir + "\\BaseAction.cs",
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings },
+                                     $"{actionDir}\\BaseAction{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
 
-                        if (action.PartialBase)
+                        if (action.PartialBase && options.GeneratePartials)
                         {
                             GenerateCode(logPrefix,
                                      config.Service,
                                      "BaseAction.Partial",
+                                     options.Extension,
                                      options.Templates.BaseActionPartialTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, config.Usings },
-                                     actionDir + "\\BaseAction.Partial.cs",
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings },
+                                     $"{actionDir}\\BaseAction.Partial{options.Extension}",
                                      false,
                                      ref temp);
                         }
@@ -828,20 +943,25 @@ namespace Locust.Service.Moon.CodeGenerator
                             GenerateCode(logPrefix,
                                          config.Service,
                                          $"{concrete}Action",
+                                         options.Extension,
                                          options.Templates.ActionTemplate,
-                                         new { config.Namespace, config.Service, Action = action.Name, config.Usings, Suffix = concrete },
-                                         actionDir + $"\\{concrete}Action.cs",
+                                         new { config.Namespace, config.Service, Action = action.Name, action.Usings, Suffix = concrete },
+                                         $"{actionDir}\\{concrete}Action{options.Extension}",
                                          options.Overwrite,
                                          ref warnings[row]);
 
-                            GenerateCode(logPrefix,
-                                         config.Service,
-                                         $"{concrete}Action.Partial",
-                                         options.Templates.ActionPartialTemplate,
-                                         new { config.Namespace, config.Service, Action = action.Name, config.Usings, Suffix = concrete, action.NoDefaultAsync },
-                                         actionDir + $"\\{concrete}Action.Partial.cs",
-                                         false,
-                                         ref temp);
+                            if (options.GeneratePartials)
+                            {
+                                GenerateCode(logPrefix,
+                                             config.Service,
+                                             $"{concrete}Action.Partial",
+                                             options.Extension,
+                                             options.Templates.ActionPartialTemplate,
+                                             new { config.Namespace, config.Service, Action = action.Name, action.Usings, Suffix = concrete, action.DefaultAsync },
+                                             $"{actionDir}\\{concrete}Action.Partial{options.Extension}",
+                                             false,
+                                             ref warnings[row]);
+                            }
                         }
                     }
                     else
@@ -898,7 +1018,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             try
             {
-                result = a.GetResourceString("Locust.Service.Moon.CodeGenerator", $"InternalTemplates.{name}");
+                result = a.GetResourceString("Locust.Service.Moon.CodeGenerator", $"InternalTemplates{Options.Extension}.{name}");
             }
             catch (Exception e)
             {
@@ -910,7 +1030,7 @@ namespace Locust.Service.Moon.CodeGenerator
         static string ReadTemplateFileOrResource(string templatePath, string name)
         {
             var result = "";
-            var path = templatePath + "\\" + name;
+            var path = templatePath + "\\" + name + Options.TemplateExtension;
 
             if (File.Exists(path))
             {
@@ -920,40 +1040,42 @@ namespace Locust.Service.Moon.CodeGenerator
                 }
                 catch (Exception e)
                 {
-                    logger.Log($"Error reading template file {name}");
-                    exceptionLogger.LogException(e, $"template file error: {name}");
-                    logger.Log("Revert to internal template ...");
+                    logger.Log($"Error reading template file {name}{Options.TemplateExtension}");
+                    exceptionLogger.LogException(e, $"template file error: {name}{Options.TemplateExtension}");
+                    logger.Log("Reverting to internal template ...");
 
-                    result = ReadTemplate(name);
+                    result = ReadTemplate(name + ".txt");
                 }
             }
             else
             {
-                result = ReadTemplate(name);
+                result = ReadTemplate(name + ".txt");
             }
 
             return result;
         }
         static void InitTemplates(GeneratorOptions options)
         {
-            var templatePath = Path.IsPathRooted(options.TemplateFolder) ? options.TemplateFolder: ApplicationPath.Root + "\\" + options.TemplateFolder;
+            var templatePath = Path.IsPathRooted(options.TemplateFolder) ? options.TemplateFolder: Environment.CurrentDirectory + "\\" + options.TemplateFolder;
 
             if (Directory.Exists(templatePath))
             {
-                options.Templates.ActionTemplate = ReadTemplateFileOrResource(templatePath, "Action.txt");
-                options.Templates.ActionPartialTemplate = ReadTemplateFileOrResource(templatePath, "Action.Partial.txt");
-                options.Templates.BaseActionTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction.txt");
-                options.Templates.BaseActionPartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction.Partial.txt");
-                options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.txt");
-                options.Templates.BaseServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.Partial.txt");
-                options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config.txt");
-                options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface.txt");
-                options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request.txt");
-                options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response.txt");
-                options.Templates.ServiceTemplate = ReadTemplateFileOrResource(templatePath, "Service.txt");
-                options.Templates.ServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "Service.Partial.txt");
-                options.Templates.TestActionTemplate = ReadTemplateFileOrResource(templatePath, "TestAction.txt");
-                options.Templates.TestServiceTemplate = ReadTemplateFileOrResource(templatePath, "TestService.txt");
+                options.Templates.ActionTemplate = ReadTemplateFileOrResource(templatePath, "Action");
+                options.Templates.ActionPartialTemplate = ReadTemplateFileOrResource(templatePath, "Action.Partial");
+                options.Templates.BaseActionTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction");
+                options.Templates.BaseActionPartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction.Partial");
+                options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource(templatePath, "BaseService");
+                options.Templates.BaseServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.Partial");
+                options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config");
+                options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface");
+                options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request");
+                options.Templates.RequestPartialTemplate = ReadTemplateFileOrResource(templatePath, "Request.Partial");
+                options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response");
+                options.Templates.ResponsePartialTemplate = ReadTemplateFileOrResource(templatePath, "Response.Partial");
+                options.Templates.ServiceTemplate = ReadTemplateFileOrResource(templatePath, "Service");
+                options.Templates.ServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "Service.Partial");
+                options.Templates.TestActionTemplate = ReadTemplateFileOrResource(templatePath, "TestAction");
+                options.Templates.TestServiceTemplate = ReadTemplateFileOrResource(templatePath, "TestService");
             }
             else
             {
@@ -966,7 +1088,9 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.ConfigTemplate = ReadTemplate("Config.txt");
                 options.Templates.InterfaceTemplate = ReadTemplate("Interface.txt");
                 options.Templates.RequestTemplate = ReadTemplate("Request.txt");
+                options.Templates.RequestPartialTemplate = ReadTemplate("Request.Partial.txt");
                 options.Templates.ResponseTemplate = ReadTemplate("Response.txt");
+                options.Templates.ResponsePartialTemplate = ReadTemplate("Response.Partial.txt");
                 options.Templates.ServiceTemplate = ReadTemplate("Service.txt");
                 options.Templates.ServicePartialTemplate = ReadTemplate("Service.Partial.txt");
                 options.Templates.TestActionTemplate = ReadTemplate("TestAction.txt");
@@ -981,6 +1105,8 @@ namespace Locust.Service.Moon.CodeGenerator
 
             if (gor.IsSucceeded())
             {
+                Options = gor.Data;
+
                 var gr = Generate(gor.Data);
             }
         }

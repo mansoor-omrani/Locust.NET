@@ -1,0 +1,18 @@
+﻿using Locust.Service;
+using System;
+using System.Collections.Generic;
+@foreach (var _using in Model.Usings)
+{
+<text>using @(_using);</text>
+}
+
+namespace @Model.Namespace
+{
+    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.ResponseData) ? "ServiceResponse": Raw("ServiceResponse<" + Model.ResponseData + ">"))
+    {
+@foreach (var prop in Model.Props)
+{
+	<text>	public @prop.Value @prop.Key { get; set; }</text>
+}
+	}
+}

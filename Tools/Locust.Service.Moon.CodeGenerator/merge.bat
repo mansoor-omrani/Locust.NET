@@ -1,4 +1,4 @@
-ECHO OFF
+@ECHO OFF
 
 IF "%~1"=="" (
 	ECHO Please Specify version
@@ -28,7 +28,10 @@ IF "%~1"=="" (
 		./bin/release/System.Web.Razor.dll
 
 	move /Y lsmcg.* Releases\%1
-
+	IF NOT "%LOCUST_TOOLS%" == "" (
+		copy /Y Releases\%1\lsmcg.exe %LOCUST_TOOLS%
+		copy /Y Releases\%1\lsmcg.pdb %LOCUST_TOOLS%
+	)
 	ECHO Done!
 )
 

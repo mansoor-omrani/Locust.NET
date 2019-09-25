@@ -18,17 +18,19 @@ namespace @Model.Namespace
 		protected override void RunInternal(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response)
 		{
 		}
-        protected override Task RunInternalAsync(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, CancellationToken cancellation)
+        protected override async Task RunInternalAsync(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, CancellationToken cancellation)
         {
-@if ((object)Model.NoDefaultAsync == null || !Model.NoDefaultAsync)
+@if ((object)Model.DefaultAsync != null && Model.DefaultAsync)
 {
-		<text>RunInternal(request, response);</text>
+		<text>	RunInternal(request, response);</text>
 		<text></text>
-		<text>return Task.CompletedTask;</text>
+		<text>	return await Task.CompletedTask;</text>
 }
 else
 {
-		<text>throw new NotImplementedException();</text>
+		<text>	await Task.CompletedTask;</text>
+		<text></text>
+		<text>	throw new NotImplementedException();</text>
 }
 		}
 	}

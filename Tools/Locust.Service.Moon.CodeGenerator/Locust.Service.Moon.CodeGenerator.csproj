@@ -79,16 +79,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalTemplates\Response.txt" />
-    <EmbeddedResource Include="InternalTemplates\Request.txt" />
-    <EmbeddedResource Include="InternalTemplates\Config.txt" />
-    <EmbeddedResource Include="InternalTemplates\Interface.txt" />
-    <EmbeddedResource Include="InternalTemplates\BaseService.txt" />
-    <EmbeddedResource Include="InternalTemplates\Service.txt" />
-    <EmbeddedResource Include="InternalTemplates\BaseAction.txt" />
-    <EmbeddedResource Include="InternalTemplates\Action.txt" />
-    <EmbeddedResource Include="InternalTemplates\TestService.txt" />
-    <EmbeddedResource Include="InternalTemplates\TestAction.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Response.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Request.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Config.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Interface.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\BaseService.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Service.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\BaseAction.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Action.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\TestService.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\TestAction.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
@@ -129,16 +129,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalTemplates\Action.Partial.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Action.Partial.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalTemplates\Service.Partial.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\Service.Partial.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalTemplates\BaseService.Partial.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\BaseService.Partial.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="InternalTemplates\BaseAction.Partial.txt" />
+    <EmbeddedResource Include="InternalTemplates\cs\BaseAction.Partial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="InternalTemplates\cs\Request.Partial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="InternalTemplates\cs\Response.Partial.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

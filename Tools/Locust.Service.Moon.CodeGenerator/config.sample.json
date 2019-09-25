@@ -7,6 +7,10 @@
       "Namespace": ".MyService",
       "Usings": [ "Locust.Caching", "Locust.Db" ],
       "Service": "MyProgramMyService",
+      "ConfigProps": {
+        "UseCache": "bool",
+        "PageSize": "int"
+      },
       "PartialConfig": true,
       "PartialServiceBase": false,
       "PartialInterface": false,
@@ -19,21 +23,27 @@
       ],
       "Actions": [
         {
-          "Name": "FirstAction",
+          "Name": "SaveAction",
+          "Usings": [ "MyProgram.Services.MyService.ViewModels" ],
+          "RequestModel": "MyViewModel",
           "Concretes": [ "Default" ],
-          "NoDefaultAsync": null,
-          "PartialBase":  false,
+          "DefaultAsync": true,
+          "PartialBase": false,
           "PartialRequest": false,
           "PartialResponse": true
         },
         {
-          "Name": "SecondAction",
-          "DataType": "List<string>",
+          "Name": "SearchAction",
+          "Usings": [ "MyProgram.Services.MyService.Models" ],
+          "RequestProps": {
+            "SearchKey": "string",
+            "Ascending": "bool"
+          },
+          "ResponseData": "List<MyModel>",
           "Concretes": [ "Default" ],
-          "NoDefaultAsync": true,
           "PartialBase": false,
-          "PartialRequest": true,
-          "PartialResponse": false
+          "PartialRequest": false,
+          "PartialResponse": true
         }
       ]
     }

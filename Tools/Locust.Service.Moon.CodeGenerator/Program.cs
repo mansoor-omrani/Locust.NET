@@ -26,6 +26,7 @@ namespace Locust.Service.Moon.CodeGenerator
     public class GeneratorTemplates
     {
         public string ConfigTemplate { get; set; }
+        public string ConfigPartialTemplate { get; set; }
         public string InterfaceTemplate { get; set; }
         public string BaseServiceTemplate { get; set; }
         public string BaseServicePartialTemplate { get; set; }
@@ -116,7 +117,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string[] Concretes { get; set; }
         public string[] Usings { get; set; }
     }
-    public class GeneratorConfigItem
+    public class GeneratorConfigServiceItem
     {
         public string Folder { get; set; }
         public string Namespace { get; set; }
@@ -134,7 +135,7 @@ namespace Locust.Service.Moon.CodeGenerator
     {
         public string Version { get; set; }
         public string Namespace { get; set; }
-        public List<GeneratorConfigItem> Services { get; set; }
+        public List<GeneratorConfigServiceItem> Services { get; set; }
     }
     class Program
     {
@@ -752,7 +753,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              config.Service,
                              "Config.Partial",
                              options.Extension,
-                             options.Templates.ConfigTemplate,
+                             options.Templates.ConfigPartialTemplate,
                              new { config.Namespace, config.Service },
                              $"{serviceDir}\\Config.Partial{options.Extension}",
                              false,
@@ -1067,6 +1068,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource(templatePath, "BaseService");
                 options.Templates.BaseServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.Partial");
                 options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config");
+                options.Templates.ConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "Config.Partial");
                 options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface");
                 options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request");
                 options.Templates.RequestPartialTemplate = ReadTemplateFileOrResource(templatePath, "Request.Partial");
@@ -1086,6 +1088,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseServiceTemplate = ReadTemplate("BaseService.txt");
                 options.Templates.BaseServicePartialTemplate = ReadTemplate("BaseService.Partial.txt");
                 options.Templates.ConfigTemplate = ReadTemplate("Config.txt");
+                options.Templates.ConfigPartialTemplate = ReadTemplate("Config.Partial.txt");
                 options.Templates.InterfaceTemplate = ReadTemplate("Interface.txt");
                 options.Templates.RequestTemplate = ReadTemplate("Request.txt");
                 options.Templates.RequestPartialTemplate = ReadTemplate("Request.Partial.txt");

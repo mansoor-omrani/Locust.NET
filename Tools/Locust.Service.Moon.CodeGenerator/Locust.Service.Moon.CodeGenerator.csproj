@@ -146,6 +146,9 @@
   <ItemGroup>
     <EmbeddedResource Include="InternalTemplates\cs\Response.Partial.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="InternalTemplates\cs\Config.Partial.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

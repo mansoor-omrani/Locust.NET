@@ -514,7 +514,11 @@ namespace Locust.Service.Moon.CodeGenerator
 
                         result.Data.OutputDir = outputDir;
                         result.Data.Config = gcr.Data;
-                        result.Data.Overwrite = SafeClrConvert.ToBoolean(_args.FirstOrDefault(ca => ca.Command == "overwrite")?.Arg);
+                        var oa = _args.FirstOrDefault(ca => ca.Command == "overwrite");
+                        if (oa != null)
+                        {
+                            result.Data.Overwrite = string.IsNullOrEmpty(oa.Arg) || SafeClrConvert.ToBoolean(oa.Arg);
+                        }
                         var cpa = _args.FirstOrDefault(ca => ca.Command == "generatepartials");
                         if (cpa != null)
                         {

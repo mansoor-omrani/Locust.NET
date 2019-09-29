@@ -36,12 +36,7 @@ namespace Locust.Logging.SqlServer
         }
         private void Init(IConnectionStringProvider constrProvider)
         {
-            if (constrProvider == null)
-            {
-                throw new ArgumentNullException("constrProvider");
-            }
-
-            ConnectionStringProvider = constrProvider;
+            ConnectionStringProvider = constrProvider ?? throw new ArgumentNullException("constrProvider");
 
             LogTableName = "[dbo].[ExceptionLog]";
         }

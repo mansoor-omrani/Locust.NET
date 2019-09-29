@@ -10,13 +10,17 @@ using System.Runtime.CompilerServices;
 
 namespace Locust.Logging
 {
-    public class FileLogger:BaseLogger
+    public class FileLogger: BaseLogger
     {
-        public string FileName { get; set; }
         public FileLogger(string filename)
         {
             FileName = filename;
         }
+        public FileLogger(string filename, BaseLogger next) : base(next)
+        {
+            FileName = filename;
+        }
+        public string FileName { get; set; }
         protected override void LogCategoryInternal(string data)
         {
             File.AppendAllText(FileName, data);

@@ -14,6 +14,10 @@ namespace Locust.Translation
         private FileBasedTranslator textTranslator;
         private ResourceBasedTranslator resourceTranslator;
         private List<ITranslator> translators;
+        public List<ITranslator> Translators
+        {
+            get { return translators; }
+        }
         public FileBasedTranslator File
         {
             get { return textTranslator; }

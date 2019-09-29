@@ -16,12 +16,17 @@ namespace Locust.Formatting
             {
                 if (_translator == null)
                 {
-                    _translator = new FileBasedTranslator();
+                    _translator = new HybridTranslator();
                 }
 
                 return _translator;
             }
             set { _translator = value; }
+        }
+        public static string Format(string format, object data)
+        {
+            var result = "";
+            return result;
         }
     }
 }

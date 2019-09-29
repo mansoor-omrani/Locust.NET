@@ -12,6 +12,12 @@ namespace Locust.Logging
 {
     public class DebugLogger:BaseLogger
     {
+        public DebugLogger()
+        {
+        }
+        public DebugLogger(BaseLogger next) : base(next)
+        {
+        }
         protected override void LogCategoryInternal(string data)
         {
             Debug.Write(data);

@@ -189,3 +189,39 @@ else
 GO
 
 
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+if not exists (select 1 from sys.tables where name = 'ApplicationLogs')
+begin
+	print 'Creating ApplicationLogs table ...'
+
+	CREATE TABLE [dbo].[ApplicationLogs](
+		[Id] [int] IDENTITY(1,1) NOT NULL,
+		[LogDate] [datetime] NOT NULL,
+		[Member] [nvarchar](200) NULL,
+		[Line] [int] NULL,
+		[FilePath] [nvarchar](2000) NULL,
+		[Category] [nvarchar](4000) NULL,
+		[Message] [nvarchar](max) NULL,
+	 CONSTRAINT [PK_ApplicationLogs] PRIMARY KEY CLUSTERED 
+	(
+		[Id] ASC
+	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+	) ON [PRIMARY]
+	
+	ALTER TABLE [dbo].[ApplicationLogs] ADD CONSTRAINT [DF_ApplicationLogs_LogDate]  DEFAULT (getdate()) FOR [LogDate]
+
+	print 'created'
+end
+else
+	print 'table ApplicationLogs already exists'
+	
+GO

@@ -17,7 +17,10 @@ namespace Locust.Logging
         {
             sb = new StringBuilder();
         }
-        
+        public StringLogger(BaseLogger next):base(next)
+        {
+
+        }
         public override string ToString()
         {
             var result = sb.ToString();

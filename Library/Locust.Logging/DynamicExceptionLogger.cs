@@ -31,7 +31,7 @@ namespace Locust.Logging
     }
     public class DynamicExceptionLogger : IExceptionLogger
     {
-        protected virtual string SqlServerEceptionLoggerType
+        protected virtual string SqlServerExceptionLoggerType
         {
             get { return "Locust.Logging.SqlServer.SqlServerExceptionLogger"; }
         }
@@ -56,13 +56,13 @@ namespace Locust.Logging
         }
         protected virtual void CreateSqlServerExceptionLogger(params object[] args)
         {
-            var _type = Type.GetType(SqlServerEceptionLoggerType);
+            var _type = Type.GetType(SqlServerExceptionLoggerType);
 
             if (_type == null)
             {
                 foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    _type = asm.GetType(SqlServerEceptionLoggerType);
+                    _type = asm.GetType(SqlServerExceptionLoggerType);
 
                     if (_type != null)
                         break;
@@ -75,7 +75,7 @@ namespace Locust.Logging
             }
             else
             {
-                throw new Exception($"{SqlServerEceptionLoggerType} was not found");
+                throw new Exception($"{SqlServerExceptionLoggerType} was not found");
             }
         }
         protected virtual IMemoryLogger CreateMemoryLogger()

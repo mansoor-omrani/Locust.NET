@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Locust.Date;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,14 +8,39 @@ using System.Threading.Tasks;
 
 namespace Locust.Logging
 {
+    public class ExceptionLoggerException : Exception
+    {
+        public ExceptionLoggerException() : base()
+        {
+        }
+        public ExceptionLoggerException(string message) : base(message)
+        {
+        }
+        public ExceptionLoggerException(string message, Exception inner) : base(message, inner)
+        {
+        }
+    }
     public abstract class BaseExceptionLogger : IExceptionLogger
     {
         public BaseExceptionLogger Next { get; private set; }
         public BaseExceptionLogger Prev { get; private set; }
         public bool ThrowIfNoNext { get; set; }
+        private INow now;
+        public INow Now
+        {
+            get
+            {
+                if (now == null)
+                {
+                    now = new DateTimeNow();
+                }
+
+                return now;
+            }
+            set { now = value; }
+        }
         public BaseExceptionLogger()
         {
-            
         }
         public BaseExceptionLogger(BaseExceptionLogger next)
         {
@@ -24,9 +50,16 @@ namespace Locust.Logging
             Next = next;
             next.Prev = this;
         }
-        protected void Throw(string message)
+        protected void Throw(string message, Exception inner = null)
         {
-            throw new Exception(message);
+            if (inner != null)
+            {
+                throw new ExceptionLoggerException(message, inner);
+            }
+            else
+            {
+                throw new ExceptionLoggerException(message);
+            }
         }
         public void LogException(Exception ex, string info = "",
                 [CallerMemberName] string memberName = "",

@@ -7,17 +7,28 @@ using System.Threading.Tasks;
 
 namespace Locust.Logging
 {
-    public class NullLogger:ILogger
+    public class NullLogger:BaseLogger
     {
-        public void LogCategory(object category = null,
-                        [CallerMemberName] string memberName = "",
-                        [CallerFilePath] string sourceFilePath = "",
-                        [CallerLineNumber] int sourceLineNumber = 0)
+        public NullLogger()
+        {
+        }
+        public NullLogger(BaseLogger next) : base(next)
+        {
+        }
+        protected override void LogCategoryInternal(string data)
         {
         }
 
-        public void Log(object log)
+        protected override void LogInternal(string data)
         {
+        }
+        protected override string SerializeLog(object log)
+        {
+            return null;
+        }
+        protected override string SerializeLogCategory(object category)
+        {
+            return null;
         }
     }
 }

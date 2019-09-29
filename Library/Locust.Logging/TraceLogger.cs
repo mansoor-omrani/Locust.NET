@@ -12,6 +12,12 @@ namespace Locust.Logging
 {
     public class TraceLogger : BaseLogger
     {
+        public TraceLogger()
+        {
+        }
+        public TraceLogger(BaseLogger next) : base(next)
+        {
+        }
         protected override void LogCategoryInternal(string data)
         {
             Trace.Write(data);

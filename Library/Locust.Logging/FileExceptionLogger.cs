@@ -47,7 +47,7 @@ namespace Locust.Logging
         protected override bool LogExceptionInternal(Exception ex, string info = "", string memberName = "", string sourceFilePath = "", int sourceLineNumber = 0)
         {
             var data = Format
-                             .Replace("{date}", string.Format("{0:yyyy/MM/dd HH:mm:ss.fffffff}", DateTime.Now))
+                             .Replace("{date}", string.Format("{0:yyyy/MM/dd HH:mm:ss.fffffff}", Now.Value))
                              .Replace("{method}", memberName)
                              .Replace("{line}", sourceLineNumber.ToString())
                              .Replace("{file}", sourceFilePath)

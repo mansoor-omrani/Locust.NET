@@ -19,7 +19,7 @@ namespace Locust.Logging
         }
         protected override bool LogExceptionInternal(Exception ex, string info = "", string memberName = "", string sourceFilePath = "", int sourceLineNumber = 0)
         {
-            Debug.WriteLine("{0:yyyy/MM/dd HH:mm:ss.fffffff}", DateTime.Now);
+            Debug.WriteLine("{0:yyyy/MM/dd HH:mm:ss.fffffff}", Now.Value);
             Debug.WriteLine($"File: {sourceFilePath}, Line: {sourceLineNumber}, Member: {memberName}");
             Debug.WriteLine(ex.ToString("\n"));
             Debug.WriteLine(ex.StackTrace);

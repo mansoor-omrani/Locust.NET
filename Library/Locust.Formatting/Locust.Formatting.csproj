@@ -58,6 +58,10 @@
       <Project>{c23eb959-8681-453b-a208-b5a283eb6e8f}</Project>
       <Name>Locust.Language</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Locust.Translation\Locust.Translation.csproj">
+      <Project>{00f56929-2189-4234-a912-a2c14fa17da2}</Project>
+      <Name>Locust.Translation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

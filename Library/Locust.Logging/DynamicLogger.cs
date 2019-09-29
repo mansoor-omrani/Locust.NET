@@ -17,13 +17,107 @@ namespace Locust.Logging
         Debug,
         Trace,
         String,
-        File
+        File,
+        SqlServer,
+        ConsoleDebug,
+        FileConsole,
+        FileDebug,
+        FileConsoleDebug,
+        SqlServerFile,
+        SqlServerFileConsole,
+        SqlServerFileDebug,
+        SqlServerFileConsoleDebug,
+        ConsoleSqlServer,
+        DebugSqlServer,
+        ConsoleDebugSqlServer,
+        ConsoleFileSqlServer,
+        DebugFileSqlServer,
+        ConsoleDebugFileSqlServer
     }
     public class DynamicLogger : ILogger
     {
         public ILogger Instance { get; protected set; }
-        protected virtual ILogger GetFileLogger()
+        public DynamicLogger()
         {
+            var type = ConfigHelper.AppSetting("Logger.Type", LoggerType.Null);
+
+            switch (type)
+            {
+                case LoggerType.Null:
+                    Instance = new NullLogger();
+                    break;
+                case LoggerType.Console:
+                    Instance = new ConsoleLogger();
+                    break;
+                case LoggerType.Debug:
+                    Instance = new DebugLogger();
+                    break;
+                case LoggerType.Trace:
+                    Instance = new TraceLogger();
+                    break;
+                case LoggerType.String:
+                    Instance = new StringLogger();
+                    break;
+                case LoggerType.File:
+                    Instance = CreateFileLogger();
+                    break;
+                case LoggerType.SqlServer:
+                    Instance = CreateSqlServerLogger();
+                    break;
+                case LoggerType.ConsoleDebug:
+                    Instance = new ConsoleLogger(new DebugLogger());
+                    break;
+                case LoggerType.FileConsole:
+                    Instance = CreateFileLogger(new ConsoleLogger());
+                    break;
+                case LoggerType.FileDebug:
+                    Instance = CreateFileLogger(new DebugLogger());
+                    break;
+                case LoggerType.FileConsoleDebug:
+                    Instance = CreateFileLogger(new ConsoleLogger(new DebugLogger()));
+                    break;
+                case LoggerType.SqlServerFile:
+                    Instance = CreateSqlServerLogger(CreateFileLogger());
+                    break;
+                case LoggerType.SqlServerFileConsole:
+                    Instance = CreateSqlServerLogger(CreateFileLogger(new ConsoleLogger()));
+                    break;
+                case LoggerType.SqlServerFileDebug:
+                    Instance = CreateSqlServerLogger(CreateFileLogger(new DebugLogger()));
+                    break;
+                case LoggerType.SqlServerFileConsoleDebug:
+                    Instance = CreateSqlServerLogger(CreateFileLogger(new ConsoleLogger(new DebugLogger())));
+                    break;
+                case LoggerType.ConsoleSqlServer:
+                    Instance = new ConsoleLogger(CreateSqlServerLogger());
+                    break;
+                case LoggerType.DebugSqlServer:
+                    Instance = new DebugLogger(CreateSqlServerLogger());
+                    break;
+                case LoggerType.ConsoleDebugSqlServer:
+                    Instance = new ConsoleLogger(new DebugLogger(CreateSqlServerLogger()));
+                    break;
+                case LoggerType.ConsoleFileSqlServer:
+                    Instance = new ConsoleLogger(CreateFileLogger(CreateSqlServerLogger()));
+                    break;
+                case LoggerType.DebugFileSqlServer:
+                    Instance = new DebugLogger(CreateFileLogger(CreateSqlServerLogger()));
+                    break;
+                case LoggerType.ConsoleDebugFileSqlServer:
+                    Instance = new ConsoleLogger(new DebugLogger(CreateFileLogger(CreateSqlServerLogger())));
+                    break;
+                default:
+                    throw new Exception("invalid logger type: " + type);
+            }
+        }
+        protected virtual string SqlServerLoggerType
+        {
+            get { return "Locust.Logging.SqlServer.SqlServerLogger"; }
+        }
+        protected virtual BaseLogger CreateFileLogger(BaseLogger next = null)
+        {
+            BaseLogger result;
+
             var filename = ConfigurationManager.AppSettings["Logger.File"];
 
             if (string.IsNullOrEmpty(filename))
@@ -31,25 +125,39 @@ namespace Locust.Logging
                 filename = ApplicationPath.Root + "\\logs.log";
             }
 
-            var result = new FileLogger(filename);
+            if (next == null)
+                result = new FileLogger(filename);
+            else
+                result = new FileLogger(filename, next);
 
             return result;
         }
-        public DynamicLogger()
+        protected virtual BaseLogger CreateSqlServerLogger(params object[] args)
         {
-            var type = ConfigHelper.AppSetting("Logger.Type", LoggerType.Null);
+            BaseLogger result = null;
+            var _type = Type.GetType(SqlServerLoggerType);
 
-            switch (type)
+            if (_type == null)
             {
-                case LoggerType.Null: Instance = new NullLogger(); break;
-                case LoggerType.Console: Instance = new ConsoleLogger(); break;
-                case LoggerType.Debug: Instance = new DebugLogger(); break;
-                case LoggerType.Trace: Instance = new TraceLogger(); break;
-                case LoggerType.String: Instance = new StringLogger(); break;
-                case LoggerType.File: Instance = GetFileLogger(); break;
-                default:
-                    throw new Exception("invalid logger type: " + type);
+                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    _type = asm.GetType(SqlServerLoggerType);
+
+                    if (_type != null)
+                        break;
+                }
             }
+
+            if (_type != null)
+            {
+                result = (Activator.CreateInstance(_type, args)) as BaseLogger;
+            }
+            else
+            {
+                throw new Exception($"{SqlServerLoggerType} was not found");
+            }
+
+            return result;
         }
         public void Log(object log)
         {

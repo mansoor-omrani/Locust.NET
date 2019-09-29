@@ -45,11 +45,16 @@
   <ItemGroup>
     <Compile Include="SqlServerExceptionLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlServerLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Locust.ConnectionString\Locust.ConnectionString.csproj">
       <Project>{90A03C02-67FA-4106-BD45-A20E43CFCAFF}</Project>
       <Name>Locust.ConnectionString</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Date\Locust.Date.csproj">
+      <Project>{9B5F295E-BF3F-4C5A-A5AD-8DF3A36EBA0D}</Project>
+      <Name>Locust.Date</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
       <Project>{1F214C8E-C72F-4EB3-956A-058C16D3A640}</Project>

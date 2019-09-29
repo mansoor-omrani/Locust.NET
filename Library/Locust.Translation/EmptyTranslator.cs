@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Locust.Translation
 {
-    public class EmptyTranslator: ITranslator
+    public class NullTranslator: ITranslator
     {
         public Dictionary<string, string[]> GetAll(string storename = "")
         {

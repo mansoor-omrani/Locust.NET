@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Locust.Date;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,23 @@ namespace Locust.Logging
         public string Member { get; set; }
         public string File { get; set; }
         public int Line { get; set; }
+        private INow now;
+        public INow Now
+        {
+            get
+            {
+                if (now == null)
+                {
+                    now = new DateTimeNow();
+                }
 
+                return now;
+            }
+            set { now = value; }
+        }
         public MemoryLogEntry()
         {
-            LogDate = DateTime.Now;
+            LogDate = Now.Value;
         }
         public MemoryLogEntry(object data, string member, string file, int line):this()
         {

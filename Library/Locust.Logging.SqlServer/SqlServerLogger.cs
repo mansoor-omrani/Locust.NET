@@ -45,13 +45,9 @@ namespace Locust.Logging.SqlServer
         protected override void LogInternal(string data)
         {
         }
-        protected void Log(string category, string message, string member, int line, string filePath)
+        protected virtual string GetInsertSql()
         {
-            if (ConnectionStringProvider != null)
-            {
-                try
-                {
-                    var query =
+            return
     $@"INSERT INTO {LogTableName}
     ([LogDate]
     ,[Member]
@@ -66,6 +62,17 @@ VALUES
     ,case when len(rtrim(ltrim(isnull(@FilePath, '')))) = 0 then null else @FilePath end
     ,case when len(rtrim(ltrim(isnull(@Category, '')))) = 0 then null else @Category end
     ,case when len(rtrim(ltrim(isnull(@Message, '')))) = 0 then null else @Message end)";
+        }
+        protected virtual void FinalizeCommand(SqlCommand cmd)
+        {
+        }
+        protected virtual void Log(string category, string message, string member, int line, string filePath)
+        {
+            if (ConnectionStringProvider != null)
+            {
+                try
+                {
+                    var query = GetInsertSql();
 
                     var constr = ConnectionStringProvider.GetConnectionString();
 
@@ -83,6 +90,8 @@ VALUES
                                 cmd.Parameters.AddWithValue("@Category", category ?? "");
                                 cmd.Parameters.AddWithValue("@FilePath", filePath ?? "");
                                 cmd.Parameters.AddWithValue("@Line", line);
+
+                                FinalizeCommand(cmd);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();

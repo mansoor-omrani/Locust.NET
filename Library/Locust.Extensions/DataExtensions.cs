@@ -182,7 +182,24 @@ namespace Locust.Extensions
 
             spc.Add(param);
         }
-        public static void AddValue(this SqlParameterCollection spc, string name, object value)
+        public static SqlParameter AddInputOutput(this SqlParameterCollection spc, string name, object value)
+        {
+            SqlParameter result;
+
+            if (value == null)
+            {
+                result = spc.AddWithValue(name, DBNull.Value);
+            }
+            else
+            {
+                result = spc.AddWithValue(name, value);
+            }
+
+            result.Direction = ParameterDirection.InputOutput;
+
+            return result;
+        }
+        public static void AddInput(this SqlParameterCollection spc, string name, object value)
         {
             if (value == null)
             {

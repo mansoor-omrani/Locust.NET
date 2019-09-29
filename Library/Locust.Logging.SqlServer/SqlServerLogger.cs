@@ -1,4 +1,7 @@
 ﻿using Locust.ConnectionString;
+using Locust.Conversion;
+using Locust.Extensions;
+using Locust.Service;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace Locust.Logging.SqlServer
 {
-    public class SqlServerLogger : BaseLogger
+    
+    public class SqlServerLogger : BaseLogger, ILogManager
     {
         public IConnectionStringProvider ConnectionStringProvider { get; set; }
         public string LogTableName { get; set; }
@@ -63,7 +67,7 @@ VALUES
     ,case when len(rtrim(ltrim(isnull(@Category, '')))) = 0 then null else @Category end
     ,case when len(rtrim(ltrim(isnull(@Message, '')))) = 0 then null else @Message end)";
         }
-        protected virtual void FinalizeCommand(SqlCommand cmd)
+        protected virtual void FinalizeInsertCommand(SqlCommand cmd)
         {
         }
         protected virtual void Log(string category, string message, string member, int line, string filePath)
@@ -91,7 +95,7 @@ VALUES
                                 cmd.Parameters.AddWithValue("@FilePath", filePath ?? "");
                                 cmd.Parameters.AddWithValue("@Line", line);
 
-                                FinalizeCommand(cmd);
+                                FinalizeInsertCommand(cmd);
 
                                 con.Open();
                                 cmd.ExecuteNonQuery();
@@ -140,6 +144,165 @@ VALUES
                     Next.LogCategory(category, memberName, sourceFilePath, sourceLineNumber);
                 }
             }
+        }
+        protected virtual string GetPagingSql()
+        {
+            return "usp1_ApplicationLogs_get_page";
+        }
+        protected virtual string GetPurgeSql()
+        {
+            return "usp1_ApplicationLogs_purge";
+        }
+        protected virtual void FinalizePagingCommand(SqlCommand cmd)
+        {
+        }
+        protected virtual void FinalizePurgeCommand(SqlCommand cmd)
+        {
+        }
+        protected virtual LogItem Transform(IDataReader reader)
+        {
+            var result = new LogItem
+            {
+                Row = SafeClrConvert.ToLong(reader["Row"]),
+                Id = SafeClrConvert.ToInt(reader["Id"]),
+                Member = SafeClrConvert.ToString(reader["Member"]),
+                Category = SafeClrConvert.ToString(reader["Category"]),
+                Message = SafeClrConvert.ToString(reader["Message"]),
+                FilePath = SafeClrConvert.ToString(reader["FilePath"]),
+                LogDate = SafeClrConvert.ToDateTime(reader["LogDate"]),
+                Line = SafeClrConvert.ToInt(reader["Line"]),
+            };
+
+            return result;
+        }
+        public virtual LoggerGetPageResponse GetPage(LoggerGetPageRequest request)
+        {
+            var response = new LoggerGetPageResponse();
+
+            if (ConnectionStringProvider != null)
+            {
+                try
+                {
+                    var query = GetPagingSql();
+
+                    var constr = ConnectionStringProvider.GetConnectionString();
+
+                    if (!string.IsNullOrEmpty(constr))
+                    {
+                        using (var con = new SqlConnection(constr))
+                        {
+                            using (var cmd = new SqlCommand(query, con))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+
+                                cmd.Parameters.AddInputOutput("@CurrentPage", request.CurrentPage);
+                                cmd.Parameters.AddInputOutput("@PageSize", request.PageSize);
+                                cmd.Parameters.AddOutput("@RecordCount", SqlDbType.Int);
+                                cmd.Parameters.AddOutput("@PageCount", SqlDbType.Int);
+                                cmd.Parameters.AddInput("@Member", request.Member);
+                                cmd.Parameters.AddInput("@Category", request.Category);
+                                cmd.Parameters.AddInput("@Message", request.Message);
+                                cmd.Parameters.AddInput("@FromDate", request.FromDate);
+                                cmd.Parameters.AddInput("@ToDate", request.ToDate);
+                                cmd.Parameters.AddInput("@OrderBy", request.OrderBy);
+                                cmd.Parameters.AddInput("@OrderDir", request.OrderDir);
+
+                                FinalizePagingCommand(cmd);
+
+                                con.Open();
+                                var reader = cmd.ExecuteReader();
+
+                                response.Data.CurrentPage = SafeClrConvert.ToInt(cmd.Parameters[0].Value);
+                                response.Data.PageSize = SafeClrConvert.ToInt(cmd.Parameters[1].Value);
+                                response.Data.RecordCount = SafeClrConvert.ToLong(cmd.Parameters[2].Value);
+                                response.Data.PageCount = SafeClrConvert.ToInt(cmd.Parameters[3].Value);
+                                response.Data.Items = new List<LogItem>();
+
+                                while (reader.Read())
+                                {
+                                    var item = Transform(reader);
+
+                                    response.Data.Items.Add(item);
+                                }
+                            }
+                        }
+
+                        response.Succeeded();
+                    }
+                    else
+                    {
+                        response.Message = "ConnectionStringProvider has no connection string";
+                        response.Info = $"Provider = {ConnectionStringProvider.GetType().Name}";
+                        response.SetStatus("NoConStr");
+                    }
+                }
+                catch (Exception e)
+                {
+                    response.Failed(e);
+                }
+            }
+            else
+            {
+                response.Message = "No ConnectionStringProvider is specified";
+                response.SetStatus("NoConStrProvider");
+            }
+
+            return response;
+        }
+        public virtual LoggerPurgeResponse Purge(LoggerPurgeRequest request)
+        {
+            var response = new LoggerPurgeResponse();
+
+            if (ConnectionStringProvider != null)
+            {
+                try
+                {
+                    var query = GetPurgeSql();
+
+                    var constr = ConnectionStringProvider.GetConnectionString();
+
+                    if (!string.IsNullOrEmpty(constr))
+                    {
+                        using (var con = new SqlConnection(constr))
+                        {
+                            using (var cmd = new SqlCommand(query, con))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+
+                                cmd.Parameters.AddOutput("@Result", SqlDbType.NVarChar, 100);
+                                cmd.Parameters.AddOutput("@Info", SqlDbType.NVarChar);
+                                cmd.Parameters.AddInput("@FromDate", request.FromDate);
+                                cmd.Parameters.AddInput("@ToDate", request.ToDate);
+
+                                FinalizePurgeCommand(cmd);
+
+                                con.Open();
+                                cmd.ExecuteNonQuery();
+
+                                response.SetStatus(cmd.Parameters[0].Value);
+                                response.Info = SafeClrConvert.ToString(cmd.Parameters[1].Value);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        response.Message = "ConnectionStringProvider has no connection string";
+                        response.Info = $"Provider = {ConnectionStringProvider.GetType().Name}";
+                        response.SetStatus("NoConStr");
+                    }
+                }
+                catch (Exception e)
+                {
+                    response.Failed(e);
+                }
+            }
+            else
+            {
+                response.Message = "No ConnectionStringProvider is specified";
+                response.SetStatus("NoConStrProvider");
+            }
+
+            return response;
         }
     }
 }

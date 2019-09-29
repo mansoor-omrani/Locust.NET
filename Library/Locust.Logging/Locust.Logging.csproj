@@ -90,6 +90,10 @@
       <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
       <Name>Locust.Extensions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Locust.Service\Locust.Service.csproj">
+      <Project>{E40A0CC9-4224-452D-B2AB-C62FF9B0F9C8}</Project>
+      <Name>Locust.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

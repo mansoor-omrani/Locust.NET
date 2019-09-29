@@ -329,4 +329,16 @@ namespace Locust.Service
             Succeeded();
         }
     }
+    
+    public class PagingResult<T>
+    {
+        public int CurrentPage { get; set; }
+        public int PageSize { get; set; }
+        public int PageCount { get; set; }
+        public long RecordCount { get; set; }
+        public List<T> Items { get; set; }
+    }
+    public class ServicePagingResponse<T>: ServiceResponse<PagingResult<T>>
+    {
+    }
 }

@@ -52,6 +52,10 @@
       <Project>{90A03C02-67FA-4106-BD45-A20E43CFCAFF}</Project>
       <Name>Locust.ConnectionString</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Locust.Conversion\Locust.Conversion.csproj">
+      <Project>{E4622D06-601D-4F35-878A-0A0FB5D271DF}</Project>
+      <Name>Locust.Conversion</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.Date\Locust.Date.csproj">
       <Project>{9B5F295E-BF3F-4C5A-A5AD-8DF3A36EBA0D}</Project>
       <Name>Locust.Date</Name>
@@ -63,6 +67,10 @@
     <ProjectReference Include="..\Locust.Logging\Locust.Logging.csproj">
       <Project>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</Project>
       <Name>Locust.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Service\Locust.Service.csproj">
+      <Project>{E40A0CC9-4224-452D-B2AB-C62FF9B0F9C8}</Project>
+      <Name>Locust.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

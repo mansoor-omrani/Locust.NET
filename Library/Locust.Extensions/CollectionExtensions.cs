@@ -250,11 +250,14 @@ namespace Locust.Extensions
                 }
             }
         }
-        public static void MergeWith<T>(this T[] array1, T[] array2)
+        public static T[] MergeWith<T>(this T[] array1, T[] array2)
         {
-            int array1OriginalLength = array1.Length;
-            Array.Resize<T>(ref array1, array1OriginalLength + array2.Length);
-            Array.Copy(array2, 0, array1, array1OriginalLength, array2.Length);
+            var result = new T[array1.Length + array2.Length];
+
+            Array.Copy(array1, 0, result, 0, array1.Length);
+            Array.Copy(array2, 0, result, array1.Length, array2.Length);
+
+            return result;
         }
         public static IDictionary<TKey, TValue> Merge<TKey, TValue>(this IDictionary<TKey, TValue> to, IDictionary<TKey, TValue> from)
         {

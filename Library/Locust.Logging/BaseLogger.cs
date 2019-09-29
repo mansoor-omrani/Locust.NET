@@ -63,6 +63,8 @@ namespace Locust.Logging
         }
         public BaseLogger(BaseLogger next)
         {
+            LogFormat = "{0:yyyy/MM/dd HH:mm:ss.fffffff}       {1}\n";
+
             this.Next = next ?? throw new ArgumentNullException("next");
             next.Prev = this;
         }

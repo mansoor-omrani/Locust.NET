@@ -23,6 +23,7 @@ namespace Locust.Logging
         FileConsole,
         FileDebug,
         FileConsoleDebug,
+        FileSqlServer,
         SqlServerFile,
         SqlServerFileConsole,
         SqlServerFileDebug,
@@ -63,6 +64,9 @@ namespace Locust.Logging
                     break;
                 case LoggerType.SqlServer:
                     Instance = CreateSqlServerLogger();
+                    break;
+                case LoggerType.FileSqlServer:
+                    Instance = CreateFileLogger(CreateSqlServerLogger());
                     break;
                 case LoggerType.ConsoleDebug:
                     Instance = new ConsoleLogger(new DebugLogger());

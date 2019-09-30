@@ -28,21 +28,20 @@ namespace Locust.Extensions
 
             return result;
         }
-        public static string GetFullPath(string defaultRoot, string defaultPath, string defaultFileName, string path, string filename)
+        public static string GetFullPath(string defaultRoot, string defaultBasePath, string defaultPath, string defaultFileName, string path, string filename)
         {
             var result = "";
-            var root = @"c:\data";
+            var root = defaultRoot;
 
             if (!Path.IsPathRooted(path))
             {
-
-                if (string.IsNullOrEmpty(defaultRoot))
+                if (string.IsNullOrEmpty(defaultBasePath))
                 {
                     result = root;
                 }
                 else
                 {
-                    result = defaultRoot;
+                    result = defaultBasePath;
                 }
 
                 if (string.IsNullOrEmpty(path))

@@ -15,8 +15,13 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service + Model.Suffix + Model.Action)Action : @(Model.Service + Model.Action)BaseAction
     {
+		private async Task DoRun(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, bool async, CancellationToken cancellation)
+		{
+			await Task.CompletedTask;
+		}
 		protected override void RunInternal(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response)
 		{
+			DoRun(request, response, false, CancellationToken.None).Wait();
 		}
         protected override async Task RunInternalAsync(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, CancellationToken cancellation)
         {
@@ -28,9 +33,7 @@ namespace @Model.Namespace
 }
 else
 {
-		<text>	await Task.CompletedTask;</text>
-		<text></text>
-		<text>	throw new NotImplementedException();</text>
+		<text>	await DoRun(request, response, true, cancellation);</text>
 }
 		}
 	}

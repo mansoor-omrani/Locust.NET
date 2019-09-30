@@ -28,6 +28,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string ConfigTemplate { get; set; }
         public string ConfigPartialTemplate { get; set; }
         public string InterfaceTemplate { get; set; }
+        public string InterfacePartialTemplate { get; set; }
         public string BaseServiceTemplate { get; set; }
         public string BaseServicePartialTemplate { get; set; }
         public string ServiceTemplate { get; set; }
@@ -780,7 +781,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              config.Service,
                              "Interface.Partial",
                              options.Extension,
-                             options.Templates.InterfaceTemplate,
+                             options.Templates.InterfacePartialTemplate,
                              config,
                              $"{serviceDir}\\Interface.Partial{options.Extension}",
                              false,
@@ -1074,6 +1075,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config");
                 options.Templates.ConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "Config.Partial");
                 options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface");
+                options.Templates.InterfacePartialTemplate = ReadTemplateFileOrResource(templatePath, "Interface.Partial");
                 options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request");
                 options.Templates.RequestPartialTemplate = ReadTemplateFileOrResource(templatePath, "Request.Partial");
                 options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response");
@@ -1094,6 +1096,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.ConfigTemplate = ReadTemplate("Config.txt");
                 options.Templates.ConfigPartialTemplate = ReadTemplate("Config.Partial.txt");
                 options.Templates.InterfaceTemplate = ReadTemplate("Interface.txt");
+                options.Templates.InterfacePartialTemplate = ReadTemplate("Interface.Partial.txt");
                 options.Templates.RequestTemplate = ReadTemplate("Request.txt");
                 options.Templates.RequestPartialTemplate = ReadTemplate("Request.Partial.txt");
                 options.Templates.ResponseTemplate = ReadTemplate("Response.txt");

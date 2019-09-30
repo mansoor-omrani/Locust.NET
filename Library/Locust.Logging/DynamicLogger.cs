@@ -38,9 +38,22 @@ namespace Locust.Logging
     public class DynamicLogger : ILogger
     {
         public ILogger Instance { get; protected set; }
+        protected virtual LoggerType GetLogType()
+        {
+            var value = ConfigurationManager.AppSettings["Logger.Type"];
+
+            LoggerType result;
+
+            if (!Enum.TryParse(value, out result))
+            {
+                result = LoggerType.Null;
+            }
+
+            return result;
+        }
         public DynamicLogger()
         {
-            var type = ConfigHelper.AppSetting("Logger.Type", LoggerType.Null);
+            var type = GetLogType();
 
             switch (type)
             {

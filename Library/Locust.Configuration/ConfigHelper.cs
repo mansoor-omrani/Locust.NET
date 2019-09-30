@@ -36,7 +36,7 @@ namespace Locust.Configuration
             {
                 if (type.IsBasicType())
                 {
-                    for (var i = 0; i < 1; i++)
+                    do
                     {
                         if (type == TypeHelper.TypeOfBool)
                         {
@@ -124,6 +124,7 @@ namespace Locust.Configuration
                             break;
                         }
                     }
+                    while (false);
                 }
             }
 

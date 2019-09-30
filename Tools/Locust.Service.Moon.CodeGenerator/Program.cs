@@ -350,7 +350,7 @@ namespace Locust.Service.Moon.CodeGenerator
         -extension          or -e : generated files extension (default = .cs)
         -templateextension  or -te: external template file extension (default = .txt)
         -outputdir          or -o : specify output dir (default = /output)
-        -generatepartials     or -cp: create .Partial files (default = false)
+        -generatepartials   or -cp: create .Partial files (default = false)
         -overwrite          or -w : overwrite output (default = false)
         -rows               or -r : specify config rows, generate only for specified rows
                                     (default = 'all': generate all services)

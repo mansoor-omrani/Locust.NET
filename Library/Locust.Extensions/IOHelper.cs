@@ -57,7 +57,7 @@ namespace Locust.Extensions
             {
                 if (path.IndexOf(':') < 0)
                 {
-                    result = root.Left(root.IndexOf(':') + 1);
+                    result = root.Left(root.IndexOf(':') + 1) + path;
                 }
                 else
                 {

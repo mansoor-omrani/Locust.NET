@@ -28,5 +28,57 @@ namespace Locust.Extensions
 
             return result;
         }
+        public static string GetFullPath(string defaultRoot, string defaultPath, string defaultFileName, string path, string filename)
+        {
+            var result = "";
+            var root = @"c:\data";
+
+            if (!Path.IsPathRooted(path))
+            {
+
+                if (string.IsNullOrEmpty(defaultRoot))
+                {
+                    result = root;
+                }
+                else
+                {
+                    result = defaultRoot;
+                }
+
+                if (string.IsNullOrEmpty(path))
+                {
+                    result += "\\" + defaultPath;
+                }
+                else
+                {
+                    result += "\\" + path;
+                }
+            }
+            else
+            {
+                if (path.IndexOf(':') < 0)
+                {
+                    result = root.Left(root.IndexOf(':') + 1);
+                }
+                else
+                {
+                    result = path;
+                }
+            }
+
+
+            if (string.IsNullOrEmpty(filename))
+            {
+                result += "\\" + defaultFileName;
+            }
+            else
+            {
+                result += "\\" + filename;
+            }
+
+            result = Path.GetFullPath(result);
+
+            return result;
+        }
     }
 }

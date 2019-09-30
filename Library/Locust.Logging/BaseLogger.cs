@@ -60,10 +60,12 @@ namespace Locust.Logging
         public BaseLogger()
         {
             LogFormat = "{0:yyyy/MM/dd HH:mm:ss.fffffff}       {1}\n";
+            LogCategoryFormat = "{0:yyyy/MM/dd HH:mm:ss.fffffff} {1}       {2}\n";
         }
         public BaseLogger(BaseLogger next)
         {
             LogFormat = "{0:yyyy/MM/dd HH:mm:ss.fffffff}       {1}\n";
+            LogCategoryFormat = "{0:yyyy/MM/dd HH:mm:ss.fffffff} {1}       {2}\n";
 
             this.Next = next ?? throw new ArgumentNullException("next");
             next.Prev = this;
@@ -101,15 +103,23 @@ namespace Locust.Logging
         {
             if (log != null)
             {
-                var x = SerializeLog(log);
-
-                var data = string.Format(LogFormat, Now.Value, x);
-
-                LogInternal(data);
+                LogInternal(log);
 
                 if (Next != null)
                 {
                     Next.Log(log);
+                }
+            }
+        }
+        public virtual void Log(object category, object log)
+        {
+            if (log != null)
+            {
+                LogInternal(category, log);
+
+                if (Next != null)
+                {
+                    Next.Log(category, log);
                 }
             }
         }
@@ -131,6 +141,23 @@ namespace Locust.Logging
             }
         }
         protected abstract void LogInternal(string data);
+        protected virtual void LogInternal(object log)
+        {
+            var x = SerializeLog(log);
+
+            var data = string.Format(LogFormat, Now.Value, x);
+
+            LogInternal(data);
+        }
+        protected virtual void LogInternal(object category, object log)
+        {
+            var x = SerializeLog(log);
+            var y = SerializeLogCategory(category);
+
+            var data = string.Format(LogCategoryFormat, Now.Value, x, y);
+
+            LogInternal(data);
+        }
         public virtual void Success(object log)
         {
             Log(log);

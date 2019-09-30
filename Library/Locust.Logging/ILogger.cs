@@ -15,6 +15,7 @@ namespace Locust.Logging
                         [CallerFilePath] string sourceFilePath = "",
                         [CallerLineNumber] int sourceLineNumber = 0);
         void Log(object log);
+        void Log(object category, object log);
     }
     public class LogItem
     {

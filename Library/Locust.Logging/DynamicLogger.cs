@@ -188,5 +188,10 @@ namespace Locust.Logging
         {
             Instance.LogCategory(category, memberName, sourceFilePath, sourceLineNumber);
         }
+
+        public void Log(object category, object log)
+        {
+            Instance.Log(category, log);
+        }
     }
 }

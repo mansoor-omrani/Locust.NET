@@ -131,6 +131,21 @@ VALUES
                 }
             }
         }
+        public override void Log(object category, object log)
+        {
+            if (log != null)
+            {
+                var x = SerializeLog(log);
+                var y = SerializeLogCategory(category);
+
+                Log(y, x, null, 0, null);
+
+                if (Next != null)
+                {
+                    Next.Log(category, log);
+                }
+            }
+        }
         public override void LogCategory(object category = null, [CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
             if (category != null)

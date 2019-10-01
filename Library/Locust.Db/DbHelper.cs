@@ -138,7 +138,60 @@ namespace Locust.Db
                                 }
                                 else
                                 {
-                                    prop.SetValue(result, value);
+                                    object convertedValue = null;
+
+                                    var propType = prop.PropertyType;
+
+                                    if (propType == TypeHelper.TypeOfByte)
+                                        convertedValue = SafeClrConvert.ToByte(value);
+                                    else
+                                    if (propType == TypeHelper.TypeOfInt16)
+                                        convertedValue = SafeClrConvert.ToInt16(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfInt32)
+                                        convertedValue = SafeClrConvert.ToInt32(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfInt64)
+                                        convertedValue = SafeClrConvert.ToInt64(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfSByte)
+                                        convertedValue = SafeClrConvert.ToSByte(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfUInt16)
+                                        convertedValue = SafeClrConvert.ToUInt16(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfUInt32)
+                                        convertedValue = SafeClrConvert.ToUInt32(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfUInt64)
+                                        convertedValue = SafeClrConvert.ToUInt64(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfSingle)
+                                        convertedValue = SafeClrConvert.ToSingle(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfDouble)
+                                        convertedValue = SafeClrConvert.ToDouble(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfDecimal)
+                                        convertedValue = SafeClrConvert.ToDecimal(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfString)
+                                        convertedValue = SafeClrConvert.ToString(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfDateTime)
+                                        convertedValue = SafeClrConvert.ToDateTime(value);
+                                    else
+                                        if (propType == TypeHelper.TypeOfBool)
+                                            convertedValue = SafeClrConvert.ToBoolean(value);
+
+                                    if (convertedValue != null)
+                                    {
+                                        prop.SetValue(result, convertedValue);
+                                    }
+                                    else
+                                    {
+                                        prop.SetValue(result, value);
+                                    }
                                 }
                             }
                             catch (Exception e)

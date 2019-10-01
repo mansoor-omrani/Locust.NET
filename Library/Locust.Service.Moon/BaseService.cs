@@ -123,6 +123,9 @@ namespace Locust.Service.Moon
             set { _config = value; }
         }
         public IDictionary<string, object> Actions { get; private set; }
+        public BaseActionBasedService()
+        {
+        }
         public BaseActionBasedService(TConfig config)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));

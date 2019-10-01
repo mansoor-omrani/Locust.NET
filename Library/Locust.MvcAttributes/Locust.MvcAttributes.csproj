@@ -74,6 +74,7 @@
     <Compile Include="ControllerNameAttribute.cs" />
     <Compile Include="CORSAttribute.cs" />
     <Compile Include="ETag.cs" />
+    <Compile Include="LocalOnlyAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestBody.cs" />
     <Compile Include="RestrictHeaderAttribute.cs" />

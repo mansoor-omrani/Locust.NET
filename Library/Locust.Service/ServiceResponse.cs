@@ -123,18 +123,13 @@ namespace Locust.Service
         }
         public virtual void SetStatus(object value, Exception e = null)
         {
-            if (value != null)
-            {
-                Status = value.ToString();
+            Success = false;
 
-                if (Status.ToLower().Contains("success") || Status.ToLower().Contains("succeed"))
-                {
-                    Success = true;
-                }
-                else
-                {
-                    Success = false;
-                }
+            Status = value?.ToString() ?? "";
+
+            if (Status.ToLower().Contains("success") || Status.ToLower().Contains("succeed"))
+            {
+                Success = true;
             }
 
             Exception = e;

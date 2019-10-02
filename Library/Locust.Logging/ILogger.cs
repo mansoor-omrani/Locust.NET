@@ -16,7 +16,8 @@ namespace Locust.Logging
         Debug = 2,
         Trace = 4,
         Sys = 8,
-        AllButNormal = 14,
+        DebugTraceSys = 14,
+        AllButApp = 14,
         All = 15
     }
     public interface ILogger

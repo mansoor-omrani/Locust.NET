@@ -131,6 +131,19 @@ namespace Locust.Logging
         {
             get { return "Locust.Logging.SqlServer.SqlServerLogger"; }
         }
+
+        public LogMode Mode
+        {
+            get
+            {
+                return Instance.Mode;
+            }
+            set
+            {
+                Instance.Mode = value;
+            }
+        }
+
         protected virtual BaseLogger CreateFileLogger(BaseLogger next = null)
         {
             BaseLogger result;
@@ -192,6 +205,46 @@ namespace Locust.Logging
         public void Log(object category, object log)
         {
             Instance.Log(category, log);
+        }
+
+        public void Debug(object log)
+        {
+            Instance.Debug(log);
+        }
+
+        public void Trace(object log)
+        {
+            Instance.Trace(log);
+        }
+
+        public void Sys(object log)
+        {
+            Instance.Sys(log);
+        }
+
+        public void Debug(object category, object log)
+        {
+            Instance.Debug(category, log);
+        }
+
+        public void Trace(object category, object log)
+        {
+            Instance.Trace(category, log);
+        }
+
+        public void Sys(object category, object log)
+        {
+            Instance.Sys(category, log);
+        }
+
+        public void App(object log)
+        {
+            Instance.App(log);
+        }
+
+        public void App(object category, object log)
+        {
+            Instance.App(category, log);
         }
     }
 }

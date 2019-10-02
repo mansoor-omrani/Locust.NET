@@ -20,12 +20,12 @@ namespace Locust.Logging
         }
         protected override void LogCategoryInternal(string data)
         {
-            Debug.Write(data);
+            System.Diagnostics.Debug.Write(data);
         }
 
         protected override void LogInternal(string data)
         {
-            Debug.Write(data);
+            System.Diagnostics.Debug.Write(data);
         }
     }
 }

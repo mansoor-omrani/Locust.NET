@@ -24,6 +24,7 @@ namespace Locust.Logging
     }
     public abstract class BaseLogger : ILogger
     {
+        public LogMode Mode { get; set; }
         public BaseLogger Next { get; private set; }
         public BaseLogger Prev { get; private set; }
         public bool DontThrowExceptions { get; set; }
@@ -129,15 +130,18 @@ namespace Locust.Logging
                 [CallerFilePath] string sourceFilePath = "",
                 [CallerLineNumber] int sourceLineNumber = 0)
         {
-            var d = Now.Value;
-            var data = string.Format("\n{0:yyyy/MM/dd HH:mm:ss.fffffff}   {1}\n", d, ((category != null) ? category + ":" : "")) +
-                        $"  Member: {memberName}\n  File: {sourceFilePath}\n  Line: {sourceLineNumber}\n";
-
-            LogCategoryInternal(data);
-
-            if (Next != null)
+            if (category != null)
             {
-                Next.LogCategory(category, memberName, sourceFilePath, sourceLineNumber);
+                var d = Now.Value;
+                var data = string.Format("\n{0:yyyy/MM/dd HH:mm:ss.fffffff}   {1}\n", d, ((category != null) ? category + ":" : "")) +
+                            $"  Member: {memberName}\n  File: {sourceFilePath}\n  Line: {sourceLineNumber}\n";
+
+                LogCategoryInternal(data);
+
+                if (Next != null)
+                {
+                    Next.LogCategory(category, memberName, sourceFilePath, sourceLineNumber);
+                }
             }
         }
         protected abstract void LogInternal(string data);
@@ -158,6 +162,7 @@ namespace Locust.Logging
 
             LogInternal(data);
         }
+        #region Helper Methods
         public virtual void Success(object log)
         {
             Log(log);
@@ -177,6 +182,70 @@ namespace Locust.Logging
         public virtual void Secondary(object log)
         {
             Log(log);
+        }
+        #endregion
+        public void Debug(object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Debug)
+            {
+                Log(log);
+            }
+        }
+
+        public void Trace(object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Trace)
+            {
+                Log(log);
+            }
+        }
+
+        public void Sys(object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Sys)
+            {
+                Log(log);
+            }
+        }
+
+        public void Debug(object category, object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Debug)
+            {
+                Log(category, log);
+            }
+        }
+
+        public void Trace(object category, object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Trace)
+            {
+                Log(category, log);
+            }
+        }
+
+        public void Sys(object category, object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.Sys)
+            {
+                Log(category, log);
+            }
+        }
+
+        public void App(object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.App)
+            {
+                Log(log);
+            }
+        }
+
+        public void App(object category, object log)
+        {
+            if ((Mode & LogMode.Debug) == LogMode.App)
+            {
+                Log(category, log);
+            }
         }
     }
 }

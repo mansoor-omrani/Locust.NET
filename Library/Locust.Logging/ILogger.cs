@@ -8,14 +8,34 @@ using System.Threading.Tasks;
 
 namespace Locust.Logging
 {
+    [Flags]
+    public enum LogMode
+    {
+        None = 0,
+        App = 1,
+        Debug = 2,
+        Trace = 4,
+        Sys = 8,
+        AllButNormal = 14,
+        All = 15
+    }
     public interface ILogger
     {
+        LogMode Mode { get; set; }
         void LogCategory(object category = null,
                         [CallerMemberName] string memberName = "",
                         [CallerFilePath] string sourceFilePath = "",
                         [CallerLineNumber] int sourceLineNumber = 0);
         void Log(object log);
+        void App(object log);
+        void Debug(object log);
+        void Trace(object log);
+        void Sys(object log);
         void Log(object category, object log);
+        void App(object category, object log);
+        void Debug(object category, object log);
+        void Trace(object category, object log);
+        void Sys(object category, object log);
     }
     public class LogItem
     {

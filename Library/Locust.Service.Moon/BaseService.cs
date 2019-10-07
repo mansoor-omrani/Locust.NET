@@ -204,26 +204,16 @@ namespace Locust.Service.Moon
         #region Logging
         protected override void OnError(TRequest request, TResponse response, Exception e)
         {
-            Owner.Logger.Sys($"Execution failed. {e.Message}");
+            Owner.Logger.Sys($"Action execution failed. {e.Message}");
 
             var info = "";
 
-            try
-            {
-                info = JsonConvert.SerializeObject(request);
-            }
-            catch
-            {
-                info = $"Serializing {request.GetType().Name} failed";
-
-                Owner.Logger.Sys(info);
-            }
-            
             Owner.ExceptionLogger.LogException(e, info);
         }
         protected override bool OnBeforeRun(TRequest request, TResponse response)
         {
-            Owner.Logger.Sys($"Executing {Owner.Name}.{Name}");
+            Owner.Logger.Sys($"Executing action {Owner.Name}.{Name}");
+            Owner.Logger.Debug($"{Owner.Name}.{Name}", request);
 
             return true;
         }
@@ -231,17 +221,14 @@ namespace Locust.Service.Moon
         {
             if (response.IsSucceeded())
             {
-                Owner.Logger.Sys($"Execution succeeded.");
+                Owner.Logger.Sys($"Action execution succeeded.");
             }
             else
             {
-                Owner.Logger.Sys($"Execution error.");
-
-                if (response.Exception != null)
-                {
-                    Owner.ExceptionLogger.LogException(response.Exception);
-                }
+                Owner.Logger.Sys($"Action execution failed.");
             }
+
+            Owner.Logger.Debug($"{Owner.Name}.{Name}", response);
         }
         #endregion
     }

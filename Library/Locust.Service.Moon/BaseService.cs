@@ -33,7 +33,7 @@ namespace Locust.Service.Moon
     public abstract class BaseService
     {
         #region Properties
-        public string Name { get { return this.GetType().Name; } }
+        public virtual string Name { get { return this.GetType().Name; } }
         private ILogger _logger;
         public ILogger Logger
         {
@@ -143,7 +143,7 @@ namespace Locust.Service.Moon
     {
         #region Props
         public TBaseService Owner { get; private set; }
-        public string Name { get { return this.GetType().Name; } }
+        public virtual string Name { get { return this.GetType().Name; } }
         private ILogger _logger;
         public ILogger Logger
         {
@@ -213,7 +213,7 @@ namespace Locust.Service.Moon
         protected override bool OnBeforeRun(TRequest request, TResponse response)
         {
             Owner.Logger.Sys($"Executing action {Owner.Name}.{Name}");
-            Owner.Logger.Debug($"{Owner.Name}.{Name}", request);
+            Owner.Logger.Sys($"{Owner.Name}.{Name}", request);
 
             return true;
         }
@@ -228,7 +228,7 @@ namespace Locust.Service.Moon
                 Owner.Logger.Sys($"Action execution failed.");
             }
 
-            Owner.Logger.Debug($"{Owner.Name}.{Name}", response);
+            Owner.Logger.Sys($"{Owner.Name}.{Name}", response);
         }
         #endregion
     }

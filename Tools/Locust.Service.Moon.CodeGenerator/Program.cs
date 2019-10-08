@@ -140,7 +140,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0";
+        static string ConfigVersion => "1.0.1";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -748,7 +748,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.ConfigTemplate,
                              new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps },
-                             $"{serviceDir}\\Config.{options.Extension}",
+                             $"{serviceDir}\\Config{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 

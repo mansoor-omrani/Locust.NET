@@ -208,5 +208,48 @@ namespace Locust.Base
 
             return result;
         }
+        public static Type FindType(string typename)
+        {
+            var result = Type.GetType(typename);
+
+            if (result == null)
+            {
+                foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    result = asm.GetType(typename);
+
+                    if (result != null)
+                        break;
+                }
+            }
+
+            return result;
+        }
+        public static object FindTypeAndInstantiate(string typename, params object[] args)
+        {
+            var result = null as object;
+            var type = FindType(typename);
+            
+            if (type != null)
+            {
+                result = Activator.CreateInstance(type, args);
+            }
+
+            return result;
+        }
+        public static object FindTypeAndTryInstantiate(string typename, params object[] args)
+        {
+            var result = null as object;
+
+            try
+            {
+                result = FindTypeAndInstantiate(typename, args);
+            }
+            catch (Exception)
+            {
+            }
+
+            return result;
+        }
     }
 }

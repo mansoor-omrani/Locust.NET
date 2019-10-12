@@ -336,7 +336,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 new ConsoleArgParserConfig
                 {
                     Commands = "version,ver,templates,config,extension,templateextension,output,generatepartials,overwrite,rows,skips,generatetemplates,generateconfig",
-                    CommandShortNames = "v,ver,t,c,e,te,o,cp,w,r,s,gt,gc"
+                    CommandShortNames = "v,ver,t,c,e,te,o,gp,w,r,s,gt,gc"
                 });
 
             try
@@ -353,7 +353,7 @@ namespace Locust.Service.Moon.CodeGenerator
         -extension          or -e : generated files extension (default = .cs)
         -templateextension  or -te: external template file extension (default = .txt)
         -outputdir          or -o : specify output dir (default = /output)
-        -generatepartials   or -cp: create .Partial files (default = false)
+        -generatepartials   or -gp: generate .Partial files (default = false)
         -overwrite          or -w : overwrite output (default = false)
         -rows               or -r : specify config rows, generate only for specified rows
                                     (default = 'all': generate all services)

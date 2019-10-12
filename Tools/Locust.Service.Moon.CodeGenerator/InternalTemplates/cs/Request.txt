@@ -12,7 +12,7 @@ namespace @Model.Namespace
     {
 @foreach (var prop in Model.Props)
 {
-	<text>	public @prop.Value @prop.Key { get; set; }</text>
+	<text>	public @Raw(prop.Value) @Raw(prop.Key) { get; set; }</text>
 }
 	}
 }

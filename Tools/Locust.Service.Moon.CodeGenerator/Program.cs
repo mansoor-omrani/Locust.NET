@@ -155,7 +155,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 result.Data = JsonConvert.DeserializeObject<GeneratorConfig>(content);
 
-                if (string.Compare(result.Data.Version, ConfigVersion, true) == 0)
+                if (string.IsNullOrEmpty(result.Data.Version) || string.Compare(result.Data.Version, ConfigVersion, true) == 0)
                 {
                     foreach (var service in result.Data.Services)
                     {
@@ -321,11 +321,13 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static Program()
         {
-            logger = new ConsoleLogger(); //new DynamicLogger();
-            exceptionLogger = new FileExceptionLogger("exceptions.log"); // new DynamicExceptionLogger();
+            logger = new DynamicLogger();
+            exceptionLogger = new DynamicExceptionLogger();
         }
         static ServiceResponse<GeneratorOptions> GetOptions(string[] args)
         {
+            logger.Trace("Processing specified command-line arguments ...");
+
             var result = new ServiceResponse<GeneratorOptions>();
 
             result.Data = new GeneratorOptions();
@@ -368,7 +370,15 @@ namespace Locust.Service.Moon.CodeGenerator
                 {
                     var _args = cap.Parse(args);
 
-                    //logger.Log(JsonConvert.SerializeObject(_args, Formatting.Indented));
+                    logger.Trace($"Found {_args.Count} command line arguments");
+
+                    foreach (var _arg in _args)
+                    {
+                        logger.Debug($"\targ name: {_arg.Command}\targ value: {_arg.Arg}");
+                    }
+
+                    logger.Log("\n");
+                    logger.Sys(_args);
 
                     do
                     {
@@ -442,7 +452,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         if (!gcr.IsSucceeded())
                         {
                             logger.Log("Reading config file was not successful");
-                            result.SetStatus("ConfigError");
+                            result.SetStatus(gcr.Status);
                             break;
                         }
 
@@ -531,6 +541,9 @@ namespace Locust.Service.Moon.CodeGenerator
                             result.Data.SetRows(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg);
                         }
                         result.Data.SetSkips(_args.FirstOrDefault(ca => ca.Command == "skips")?.Arg);
+
+                        logger.Debug("Final generator options:");
+                        logger.Debug(result.Data);
 
                         result.Succeeded();
                     }
@@ -1109,6 +1122,8 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static void Start(string[] args)
         {
+            logger.Log($"Locust Service Moon Code Generator v{ConfigVersion}");
+
             var gor = GetOptions(args);
 
             //logger.Log(JsonConvert.SerializeObject(gor, Formatting.Indented));
@@ -1148,7 +1163,6 @@ namespace Locust.Service.Moon.CodeGenerator
         {
             Start(args);
             //test1(args);
-
 #if DEBUG
             System.Console.ReadKey();
 #endif

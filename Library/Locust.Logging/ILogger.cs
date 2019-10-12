@@ -16,18 +16,54 @@ namespace Locust.Logging
         Debug = 2,
         Trace = 4,
         Sys = 8,
+
         AppDebug = 3,
         DebugApp = 3,
+
         AppTrace = 5,
         TraceApp = 5,
-        AppSys = 9,
-        SysApp = 9,
+
         DebugTrace = 6,
         TraceDebug = 6,
+
+        AppDebugTrace = 7,
+        AppTraceDebug = 7,
+        DebugAppTrace = 7,
+        DebugTraceApp = 7,
+        TraceDebugApp = 7,
+        TraceAppDebug = 7,
+
+        AppSys = 9,
+        SysApp = 9,
+
+        DebugSys = 10,
+        SysDebug = 10,
+
+        AppDebugSys = 11,
+        AppSysDebug = 11,
+        DebugAppSys = 11,
+        DebugSysApp = 11,
+        SysDebugApp = 11,
+        SysAppDebug = 11,
+
         TraceSys = 12,
+        SysTrace = 12,
+
+        AppTraceSys = 13,
+        AppSysTrace = 13,
+        TraceAppSys = 13,
+        TraceSysApp = 13,
+        SysTraceApp = 13,
+        SysAppTrace = 13,
+
         DebugTraceSys = 14,
+        DebugSysTrace = 14,
         TraceDebugSys = 14,
+        TraceSysDebug = 14,
+        SysTraceDebug = 14,
+        SysDebugTrace = 14,
         AllButApp = 14,
+
         All = 15
     }
     public interface ILogger

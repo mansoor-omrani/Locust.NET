@@ -17,6 +17,7 @@ IF "%~1"=="" (
 		./bin/release/Locust.Configuration.dll ^
 		./bin/release/Locust.ConsoleHelper.dll ^
 		./bin/release/Locust.Conversion.dll ^
+		./bin/release/Locust.Date.dll ^
 		./bin/release/Locust.Expressions.dll ^
 		./bin/release/Locust.Extensions.dll ^
 		./bin/release/Locust.Logging.dll ^

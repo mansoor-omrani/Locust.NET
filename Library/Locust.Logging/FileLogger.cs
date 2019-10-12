@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Locust.Extensions;
 using System.Runtime.CompilerServices;
+using Locust.AppPath;
 
 namespace Locust.Logging
 {
     public class FileLogger: BaseLogger
     {
-        public FileLogger(string filename)
+        public FileLogger()
         {
-            FileName = filename;
+            FileName = IOHelper.GetFullPath(Environment.CurrentDirectory, "", "", "logs.log", "");
+        }
+        public FileLogger(string filenameAndPath)
+        {
+            FileName =IOHelper.GetFullPath(Environment.CurrentDirectory, "", "", "logs.log", filenameAndPath);
         }
         public FileLogger(string filename, BaseLogger next) : base(next)
         {

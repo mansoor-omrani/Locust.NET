@@ -12,28 +12,29 @@ namespace Locust.Logging
     {
         public string FileName { get; set; }
         public string Format { get; set; }
-        public FileExceptionLogger(string filename)
+        public FileExceptionLogger()
         {
-            Init(filename);
+            Init("");
         }
-        public FileExceptionLogger(string filename, string format)
+        public FileExceptionLogger(string filenameAndPath)
         {
-            Init(filename, format);
+            Init(filenameAndPath);
         }
-        public FileExceptionLogger(string filename, BaseExceptionLogger next) : base(next)
+        public FileExceptionLogger(string filenameAndPath, string format)
         {
-            Init(filename);
+            Init(filenameAndPath, format);
         }
-        public FileExceptionLogger(string filename, string format, BaseExceptionLogger next) : base(next)
+        public FileExceptionLogger(string filenameAndPath, BaseExceptionLogger next) : base(next)
         {
-            Init(filename, format);
+            Init(filenameAndPath);
         }
-        private void Init(string filename, string format = "")
+        public FileExceptionLogger(string filenameAndPath, string format, BaseExceptionLogger next) : base(next)
         {
-            if (string.IsNullOrEmpty(filename))
-                throw new ArgumentNullException(nameof(filename));
-
-            FileName = filename;
+            Init(filenameAndPath, format);
+        }
+        private void Init(string filenameAndPath, string format = "")
+        {
+            FileName = IOHelper.GetFullPath(Environment.CurrentDirectory, "", "", "exceptions.log", filenameAndPath);
 
             if (string.IsNullOrEmpty(format))
             {

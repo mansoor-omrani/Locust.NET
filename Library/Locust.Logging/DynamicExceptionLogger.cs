@@ -42,11 +42,6 @@ namespace Locust.Logging
 
             var filename = ConfigurationManager.AppSettings["ExceptionLogger.File"];
 
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = ApplicationPath.Root + "\\exceptions.log";
-            }
-
             if (next == null)
                 result = new FileExceptionLogger(filename);
             else

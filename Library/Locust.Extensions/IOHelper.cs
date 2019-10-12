@@ -28,7 +28,14 @@ namespace Locust.Extensions
 
             return result;
         }
-        public static string GetFullPath(string defaultRoot, string defaultBasePath, string defaultPath, string defaultFileName, string path, string filename)
+        public static string GetFullPath(string defaultRoot, string defaultBasePath, string defaultPath, string defaultFileName, string pathAndfilename, bool applyFullPath = true)
+        {
+            var path = Path.GetDirectoryName(pathAndfilename);
+            var filename = Path.GetFileName(pathAndfilename);
+
+            return GetFullPath(defaultRoot, defaultBasePath, defaultPath, defaultFileName, path, filename, applyFullPath);
+        }
+        public static string GetFullPath(string defaultRoot, string defaultBasePath, string defaultPath, string defaultFileName, string path, string filename, bool applyFullPath = true)
         {
             var result = "";
             var root = defaultRoot;
@@ -75,7 +82,10 @@ namespace Locust.Extensions
                 result += "\\" + filename;
             }
 
-            result = Path.GetFullPath(result);
+            if (applyFullPath)
+            {
+                result = Path.GetFullPath(result);
+            }
 
             return result;
         }

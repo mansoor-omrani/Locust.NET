@@ -3,6 +3,7 @@ using Locust.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -47,6 +48,19 @@ namespace Locust.Logging
             if (!Enum.TryParse(value, out result))
             {
                 result = LoggerType.Null;
+            }
+
+            return result;
+        }
+        protected virtual LogMode GetLogMode()
+        {
+            var value = ConfigurationManager.AppSettings["Logger.Mode"];
+
+            LogMode result;
+
+            if (!Enum.TryParse(value, out result))
+            {
+                result = LogMode.None;
             }
 
             return result;
@@ -126,6 +140,10 @@ namespace Locust.Logging
                 default:
                     throw new Exception("invalid logger type: " + type);
             }
+
+            var mode = GetLogMode();
+
+            Instance.Mode = mode;
         }
         protected virtual string SqlServerLoggerType
         {
@@ -149,11 +167,6 @@ namespace Locust.Logging
             BaseLogger result;
 
             var filename = ConfigurationManager.AppSettings["Logger.File"];
-
-            if (string.IsNullOrEmpty(filename))
-            {
-                filename = ApplicationPath.Root + "\\logs.log";
-            }
 
             if (next == null)
                 result = new FileLogger(filename);

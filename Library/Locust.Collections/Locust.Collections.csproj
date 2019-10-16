@@ -49,6 +49,8 @@
     <Compile Include="CaseInsensitiveDictionary.cs" />
     <Compile Include="CaseInsensitiveList.cs" />
     <Compile Include="CaseInsensitiveStringDictionary.cs" />
+    <Compile Include="CaseSensitiveDictionary.cs" />
+    <Compile Include="CaseSensitiveStringDictionary.cs" />
     <Compile Include="CharBuffer.cs" />
     <Compile Include="IListDictionary.cs" />
     <Compile Include="ISafeDictionary.cs" />

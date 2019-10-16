@@ -11,6 +11,7 @@ namespace @Model.Namespace
 {
 	public partial interface I@(Model.Service)
     {
+		object this[string action] { get; }
         @(Model.Service)Config Config { get; }
 
 @foreach (var action in Model.Actions)

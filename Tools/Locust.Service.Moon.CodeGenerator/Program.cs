@@ -140,7 +140,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0.1";
+        static string ConfigVersion => "1.0.2";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }

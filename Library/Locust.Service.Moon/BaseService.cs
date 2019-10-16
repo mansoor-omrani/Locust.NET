@@ -129,11 +129,18 @@ namespace Locust.Service.Moon
         public BaseActionBasedService(TConfig config)
         {
             Config = config ?? throw new ArgumentNullException(nameof(config));
-            Actions = new CaseInsensitiveDictionary<object>(true);
+            Actions = new CaseSensitiveDictionary<object>(true);
             Logger = Config.Logger;
             ExceptionLogger = Config.ExceptionLogger;
             Db = Config.Db;
             Cache = Config.Cache;
+        }
+        public object this[string action]
+        {
+            get
+            {
+                return Actions[action];
+            }
         }
     }
     public abstract class BaseServiceAction<TBaseService, TRequest, TResponse> : ServiceAction<TRequest, TResponse>

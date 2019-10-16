@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace Locust.Collections
 {
-    public enum ChangeStatus
-    {
-        NotChange,
-        KeyNotFound,
-        ValueNotFound,
-        Added,
-        Updated
-    };
-    public class CaseInsensitiveChangeArgs
+    public class CaseSensitiveChangeArgs
     {
         public string DefaultValue { get; set; }
         public StringComparison ValueComparison { get; set; }
@@ -22,17 +14,17 @@ namespace Locust.Collections
         public bool AllowReplace { get; set; }
         public ChangeStatus Status { get; set; }
         public string Result { get; set; }
-        public CaseInsensitiveChangeArgs()
+        public CaseSensitiveChangeArgs()
         {
-            ValueComparison = StringComparison.OrdinalIgnoreCase;
+            ValueComparison = StringComparison.Ordinal;
         }
     }
-    public class CaseInsensitiveStringDictionary: CaseInsensitiveDictionary<string>
+    public class CaseSensitiveStringDictionary : CaseSensitiveDictionary<string>
     {
-        public CaseInsensitiveStringDictionary(bool ignoreNotExistingKeys):base(ignoreNotExistingKeys)
+        public CaseSensitiveStringDictionary(bool ignoreNotExistingKeys) : base(ignoreNotExistingKeys)
         {
         }
-        public CaseInsensitiveStringDictionary()
+        public CaseSensitiveStringDictionary()
         {
         }
         public override string Get(string key, string defaultValue = null)
@@ -52,7 +44,7 @@ namespace Locust.Collections
             return result;
         }
 
-        public string Change(string key, CaseInsensitiveChangeArgs lookup)
+        public string Change(string key, CaseSensitiveChangeArgs lookup)
         {
             var result = lookup.DefaultValue;
             var keyNotFound = true;
@@ -80,7 +72,7 @@ namespace Locust.Collections
                         result = lookup.DefaultValue;
                     }
                 }
-                
+
                 if (string.IsNullOrEmpty(result) || string.IsNullOrWhiteSpace(result))
                 {
                     result = lookup.DefaultValue;
@@ -145,11 +137,11 @@ namespace Locust.Collections
         }
     }
 
-    public class CaseInsensitiveStringDictionaryEqualityComparer : IEqualityComparer<CaseInsensitiveStringDictionary>
+    public class CaseSensitiveStringDictionaryEqualityComparer : IEqualityComparer<CaseSensitiveStringDictionary>
     {
-        public CaseInsensitiveStringDictionaryEqualityComparer()
+        public CaseSensitiveStringDictionaryEqualityComparer()
         { }
-        public bool Equals(CaseInsensitiveStringDictionary x, CaseInsensitiveStringDictionary y)
+        public bool Equals(CaseSensitiveStringDictionary x, CaseSensitiveStringDictionary y)
         {
             if (x == null && y == null)
                 return true;
@@ -163,7 +155,7 @@ namespace Locust.Collections
                 {
                     return false;
                 }
-                if (string.Compare(item.Value, y[item.Key], StringComparison.OrdinalIgnoreCase) != 0)
+                if (string.Compare(item.Value, y[item.Key], StringComparison.Ordinal) != 0)
                 {
                     return false;
                 }
@@ -172,7 +164,7 @@ namespace Locust.Collections
             return true;
         }
 
-        public int GetHashCode(CaseInsensitiveStringDictionary obj)
+        public int GetHashCode(CaseSensitiveStringDictionary obj)
         {
             throw new NotImplementedException();
         }

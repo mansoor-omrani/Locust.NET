@@ -32,6 +32,7 @@ namespace Locust.Logging
         DebugTraceApp = 7,
         TraceDebugApp = 7,
         TraceAppDebug = 7,
+        AllButSys = 7,
 
         AppSys = 9,
         SysApp = 9,
@@ -45,6 +46,7 @@ namespace Locust.Logging
         DebugSysApp = 11,
         SysDebugApp = 11,
         SysAppDebug = 11,
+        AllButTrace = 11,
 
         TraceSys = 12,
         SysTrace = 12,
@@ -55,6 +57,7 @@ namespace Locust.Logging
         TraceSysApp = 13,
         SysTraceApp = 13,
         SysAppTrace = 13,
+        AllButDebug = 13,
 
         DebugTraceSys = 14,
         DebugSysTrace = 14,

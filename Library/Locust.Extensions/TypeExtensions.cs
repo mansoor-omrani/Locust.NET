@@ -187,7 +187,7 @@ namespace Locust.Extensions
 
         public static bool IsEnumerable(this Type type)
         {
-            return type.DescendsFrom(TypeHelper.TypeOfIEnumerable);
+            return type.Implements(TypeHelper.TypeOfIEnumerable);
         }
         public static bool Implements(this Type type, Type interfaceType)
         {

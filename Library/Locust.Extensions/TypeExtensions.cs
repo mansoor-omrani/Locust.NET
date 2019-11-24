@@ -53,7 +53,7 @@ namespace Locust.Extensions
         
         public static bool IsBasicType(this Type type)
         {
-            return type.IsPrimitive || type.IsEnum || type == TypeHelper.TypeOfDateTime || type == TypeHelper.TypeOfTimeSpan || type == TypeHelper.TypeOfString;
+            return type.IsPrimitive || type.IsEnum || type == TypeHelper.TypeOfDecimal || type == TypeHelper.TypeOfDateTime || type == TypeHelper.TypeOfTimeSpan || type == TypeHelper.TypeOfString;
         }
         
         public static bool IsByteArray(this Type type)

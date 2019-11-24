@@ -22,6 +22,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string Suffix { get; set; }
         public string ActionSuffix { get; set; }
         public bool Partial { get; set; }
+        public bool Default { get; set; }
     }
     public class GeneratorTemplates
     {
@@ -43,6 +44,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string RequestPartialTemplate { get; set; }
         public string ResponseTemplate { get; set; }
         public string ResponsePartialTemplate { get; set; }
+        public string RegistrationTemplate { get; set; }
     }
     public class GeneratorOptions
     {
@@ -66,6 +68,8 @@ namespace Locust.Service.Moon.CodeGenerator
             Skips = new List<int>();
             InvalidSkips = new List<string>();
             Templates = new GeneratorTemplates();
+            TemplateExtension = ".txt";
+            Extension = ".cs";
         }
         public void SetRows(string rows)
         {
@@ -140,7 +144,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0.2";
+        static string ConfigVersion => "1.0.4";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -239,30 +243,37 @@ namespace Locust.Service.Moon.CodeGenerator
 
             Action<string> generateTemplate = name =>
             {
-                var template = ReadTemplate($"{name}.txt");
-
                 try
                 {
-                    var filepath = $"{dir}\\{name}{Options.TemplateExtension}";
+                    var template = ReadTemplate($"{name}.txt");
 
-                    if (!File.Exists(filepath))
+                    try
                     {
-                        File.WriteAllText(filepath, template);
-                        logger.Log($"Template {name} generated.");
+                        var filepath = $"{dir}\\{name}{Options.TemplateExtension}";
+
+                        if (!File.Exists(filepath))
+                        {
+                            File.WriteAllText(filepath, template);
+                            logger.Log($"Template {name} generated.");
+                        }
+                        else
+                        {
+                            logger.Log($"Template {name}{Options.TemplateExtension} already exists in templates folder");
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        logger.Log($"Template {name}{Options.TemplateExtension} already exists in templates folder");
+                        logger.Log($"Creating template {name}{Options.TemplateExtension} failed");
+                        exceptionLogger.LogException(e, $"name: {name}{Options.TemplateExtension}");
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    logger.Log($"Creating template {name}{Options.TemplateExtension} failed");
-                    exceptionLogger.LogException(e, $"name: {name}{Options.TemplateExtension}");
+                    logger.Log($"Reading template {name}{Options.TemplateExtension} failed");
                 }
             };
 
-            
+
 
             logger.Log($"Generating templates ...");
 
@@ -277,6 +288,7 @@ namespace Locust.Service.Moon.CodeGenerator
             generateTemplate("Response");
             generateTemplate("Response.Partial");
             generateTemplate("BaseAction");
+            generateTemplate("Registration");
             generateTemplate("BaseAction.Partial");
             generateTemplate("Action");
             generateTemplate("Action.Partial");
@@ -292,11 +304,10 @@ namespace Locust.Service.Moon.CodeGenerator
             try
             {
                 var result = a.GetResourceString("Locust.Service.Moon.CodeGenerator", $"config.sample.json");
+                var filepath = Environment.CurrentDirectory + $"\\{name}";
 
                 try
                 {
-                    var filepath = Environment.CurrentDirectory + $"\\{name}";
-
                     if (!File.Exists(filepath))
                     {
                         File.WriteAllText(filepath, result);
@@ -304,13 +315,13 @@ namespace Locust.Service.Moon.CodeGenerator
                     }
                     else
                     {
-                        logger.Log($"config.sample.json already exists.");
+                        logger.Log($"{name} already exists at {Path.GetDirectoryName(filepath)}.");
                     }
                 }
                 catch (Exception e)
                 {
                     logger.Log($"generating sample config failed. see error logs.");
-                    exceptionLogger.LogException(e, $"Writing config.sample.json failed");
+                    exceptionLogger.LogException(e, $"Writing {filepath} failed");
                 }
             }
             catch (Exception e)
@@ -330,7 +341,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             var result = new ServiceResponse<GeneratorOptions>();
 
-            result.Data = new GeneratorOptions();
+            Options = result.Data = new GeneratorOptions();
 
             var cap = new ConsoleArgParser(
                 new ConsoleArgParserConfig
@@ -416,13 +427,14 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
 
                         gt = _args.FirstOrDefault(ca => string.Compare(ca.Command, "templates", true) == 0);
+
                         if (gt != null)
                         {
-                            result.Data.TemplateFolder = gt.Arg;
+                            Options.TemplateFolder = result.Data.TemplateFolder = gt.Arg;
                         }
                         else
                         {
-                            result.Data.TemplateFolder = "templates";
+                            Options.TemplateFolder = result.Data.TemplateFolder = "templates";
                         }
 
                         var config = _args.FirstOrDefault(ca => ca.Command == "config")?.Arg;
@@ -470,7 +482,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (string.IsNullOrEmpty(ea.Arg))
                             {
                                 logger.Log("no extension is specified. used default (.cs)");
-                                result.Data.Extension = ".cs";
+                                Options.Extension = result.Data.Extension = ".cs";
                             }
                             else
                             {
@@ -487,13 +499,13 @@ namespace Locust.Service.Moon.CodeGenerator
                                 }
                                 else
                                 {
-                                    result.Data.Extension = ea.Arg.ToLower();
+                                    Options.Extension = result.Data.Extension = ea.Arg.ToLower();
                                 }
                             }
                         }
                         else
                         {
-                            result.Data.Extension = ".cs";
+                            Options.Extension = result.Data.Extension = ".cs";
                         }
 
                         var ta = _args.FirstOrDefault(ca => ca.Command == "templateextension");
@@ -503,7 +515,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (string.IsNullOrEmpty(ta.Arg))
                             {
                                 logger.Log("no extension is specified for external templates. used default (.txt)");
-                                result.Data.Extension = ".txt";
+                                Options.Extension = result.Data.Extension = ".txt";
                             }
                             else
                             {
@@ -514,33 +526,42 @@ namespace Locust.Service.Moon.CodeGenerator
                                 }
                                 else
                                 {
-                                    result.Data.TemplateExtension = ta.Arg.ToLower();
+                                    Options.TemplateExtension = result.Data.TemplateExtension = ta.Arg.ToLower();
                                 }
                             }
                         }
                         else
                         {
-                            result.Data.TemplateExtension = ".txt";
+                            Options.TemplateExtension = result.Data.TemplateExtension = ".txt";
                         }
 
-                        result.Data.OutputDir = outputDir;
-                        result.Data.Config = gcr.Data;
+                        Options.OutputDir = result.Data.OutputDir = outputDir;
+                        Options.Config = result.Data.Config = gcr.Data;
+
                         var oa = _args.FirstOrDefault(ca => ca.Command == "overwrite");
+
                         if (oa != null)
                         {
-                            result.Data.Overwrite = string.IsNullOrEmpty(oa.Arg) || SafeClrConvert.ToBoolean(oa.Arg);
+                            Options.Overwrite = result.Data.Overwrite = string.IsNullOrEmpty(oa.Arg) || SafeClrConvert.ToBoolean(oa.Arg);
                         }
+
                         var cpa = _args.FirstOrDefault(ca => ca.Command == "generatepartials");
+
                         if (cpa != null)
                         {
-                            result.Data.GeneratePartials = string.IsNullOrEmpty(cpa.Arg) || SafeClrConvert.ToBoolean(cpa.Arg);
+                            Options.GeneratePartials = result.Data.GeneratePartials = string.IsNullOrEmpty(cpa.Arg) || SafeClrConvert.ToBoolean(cpa.Arg);
                         }
-                        result.Data.All = string.Compare(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg, "all") == 0;
+
+                        Options.All = result.Data.All = string.Compare(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg, "all") == 0;
+
                         if (!result.Data.All)
                         {
                             result.Data.SetRows(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg);
+                            Options.SetRows(_args.FirstOrDefault(ca => ca.Command == "rows")?.Arg);
                         }
+
                         result.Data.SetSkips(_args.FirstOrDefault(ca => ca.Command == "skips")?.Arg);
+                        Options.SetSkips(_args.FirstOrDefault(ca => ca.Command == "skips")?.Arg);
 
                         logger.Debug("Final generator options:");
                         logger.Debug(result.Data);
@@ -644,7 +665,7 @@ namespace Locust.Service.Moon.CodeGenerator
 
             if (File.Exists(outputPath) && !overwrite)
             {
-                logger.Log($"{logPrefix}: file {name}.{ext} exists. writing skipped.");
+                logger.Log($"{logPrefix}: file {name}{ext} exists. writing skipped.");
 
                 warning++;
 
@@ -808,6 +829,16 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Templates.BaseServiceTemplate,
                              config,
                              $"{serviceDir}\\BaseService{options.Extension}",
+                             options.Overwrite,
+                             ref warnings[row]);
+
+                GenerateCode(logPrefix,
+                             config.Service,
+                             "Registration",
+                             options.Extension,
+                             options.Templates.RegistrationTemplate,
+                             config,
+                             $"{serviceDir}\\Registration{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
@@ -1008,7 +1039,8 @@ namespace Locust.Service.Moon.CodeGenerator
             logger.Log($"Failed: {failures}");
             logger.Log($"Warnings:");
 
-            warnings.ForEach((i, n) => {
+            warnings.ForEach((i, n) =>
+            {
                 if (n > 0)
                 {
                     logger.Log($"    {i}. warnings: {n}");
@@ -1043,6 +1075,8 @@ namespace Locust.Service.Moon.CodeGenerator
             {
                 logger.Log($"Error reading template resource {name}");
                 exceptionLogger.LogException(e, $"template resource error: {name}");
+
+                throw;
             }
             return result;
         }
@@ -1075,7 +1109,7 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static void InitTemplates(GeneratorOptions options)
         {
-            var templatePath = Path.IsPathRooted(options.TemplateFolder) ? options.TemplateFolder: Environment.CurrentDirectory + "\\" + options.TemplateFolder;
+            var templatePath = Path.IsPathRooted(options.TemplateFolder) ? options.TemplateFolder : Environment.CurrentDirectory + "\\" + options.TemplateFolder;
 
             if (Directory.Exists(templatePath))
             {
@@ -1093,6 +1127,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.RequestPartialTemplate = ReadTemplateFileOrResource(templatePath, "Request.Partial");
                 options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response");
                 options.Templates.ResponsePartialTemplate = ReadTemplateFileOrResource(templatePath, "Response.Partial");
+                options.Templates.RegistrationTemplate = ReadTemplateFileOrResource(templatePath, "Registration");
                 options.Templates.ServiceTemplate = ReadTemplateFileOrResource(templatePath, "Service");
                 options.Templates.ServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "Service.Partial");
                 options.Templates.TestActionTemplate = ReadTemplateFileOrResource(templatePath, "TestAction");
@@ -1114,6 +1149,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.RequestPartialTemplate = ReadTemplate("Request.Partial.txt");
                 options.Templates.ResponseTemplate = ReadTemplate("Response.txt");
                 options.Templates.ResponsePartialTemplate = ReadTemplate("Response.Partial.txt");
+                options.Templates.RegistrationTemplate = ReadTemplate("Registration.txt");
                 options.Templates.ServiceTemplate = ReadTemplate("Service.txt");
                 options.Templates.ServicePartialTemplate = ReadTemplate("Service.Partial.txt");
                 options.Templates.TestActionTemplate = ReadTemplate("TestAction.txt");

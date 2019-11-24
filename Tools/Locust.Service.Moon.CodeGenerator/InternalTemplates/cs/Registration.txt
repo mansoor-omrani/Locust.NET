@@ -1,0 +1,44 @@
+﻿using Locust.Service;
+@foreach (var _using in Model.Usings)
+{
+<text>using @(_using);</text>
+}
+
+namespace @Model.Namespace
+{
+	public class @(Model.Service)Registration : ServiceRegistery
+    {
+        public @(Model.Service)Registration()
+        {
+@{
+	var suffix = "";
+	var actionSuffix = "";
+
+	foreach (var c in Model.Concretes)
+	{
+		if (c.Default)
+		{
+			suffix = c.Suffix;
+			actionSuffix = c.ActionSuffix;
+			break;
+		}
+	}
+	if (!string.IsNullOrEmpty(suffix))
+	{
+			<text>Add(typeof(I@(Model.Service)), typeof(@(Model.Service + suffix)));</text>
+	}
+}
+			
+@if (!string.IsNullOrEmpty(actionSuffix))
+{
+	foreach (var action in Model.Actions)
+	{
+		if (!string.IsNullOrEmpty(action.Name))
+		{
+            <text>Add(typeof(@(Model.Service + action.Name)BaseAction), typeof(@(Model.Service + actionSuffix + action.Name)Action));</text>
+		}
+	}
+}
+		}
+	}
+}

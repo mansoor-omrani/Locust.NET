@@ -45,6 +45,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string ResponseTemplate { get; set; }
         public string ResponsePartialTemplate { get; set; }
         public string RegistrationTemplate { get; set; }
+        public string RegistrationPartialTemplate { get; set; }
     }
     public class GeneratorOptions
     {
@@ -113,6 +114,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string Name { get; set; }
         public string RequestModel { get; set; }
         public Dictionary<string, string> RequestProps { get; set; }
+        public string ResponseType { get; set; }
         public string ResponseData { get; set; }
         public Dictionary<string, string> ResponseProps { get; set; }
         public bool? DefaultAsync { get; set; }
@@ -122,13 +124,29 @@ namespace Locust.Service.Moon.CodeGenerator
         public string[] Concretes { get; set; }
         public string[] Usings { get; set; }
     }
+    public class GeneratorConfigServiceConcreteItem
+    {
+        public string Namespace { get; set; }
+        public List<Dictionary<string, string>> Constructors { get; set; }
+        public List<List<string>> ParentConstructors { get; set; }
+        public List<GeneratorConfigItemActionItem> Actions { get; set; }
+        public string Service { get; set; }
+        public string Suffix { get; set; }
+        public string ActionSuffix { get; set; }
+        public List<GeneratorConcreteItem> Concretes { get; set; }
+        public string[] Usings { get; set; }
+    }
     public class GeneratorConfigServiceItem
     {
         public string Folder { get; set; }
         public string Namespace { get; set; }
         public bool PartialConfig { get; set; }
+        public List<Dictionary<string, string>> Constructors { get; set; }
+        public List<List<string>> ParentConstructors { get; set; }
         public Dictionary<string, string> ConfigProps { get; set; }
+        public string ParentService { get; set; }
         public bool PartialInterface { get; set; }
+        public bool PartialRegistration { get; set; }
         public bool PartialService { get; set; }
         public bool PartialServiceBase { get; set; }
         public string Service { get; set; }
@@ -174,6 +192,62 @@ namespace Locust.Service.Moon.CodeGenerator
                         if (service.ConfigProps == null)
                         {
                             service.ConfigProps = new Dictionary<string, string>();
+                        }
+                        if (string.IsNullOrEmpty(service.ParentService))
+                        {
+                            service.ParentService = $"BaseActionBasedService<{service.Service}Config>";
+                        }
+                        if (service.ParentConstructors == null)
+                        {
+                            service.ParentConstructors = new List<List<string>>();
+
+                            #region public BaseActionBasedService(TConfig config)
+                            var d = new List<string>();
+
+                            d.Add($"{service.Service}Config");
+
+                            service.ParentConstructors.Add(d);
+                            #endregion
+                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger)
+                            d = new List<string>();
+
+                            d.Add($"{service.Service}Config");
+                            d.Add($"ILogger");
+                            d.Add($"IExceptionLogger");
+
+                            service.ParentConstructors.Add(d);
+                            #endregion
+                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db)
+                            d = new List<string>();
+
+                            d.Add($"{service.Service}Config");
+                            d.Add($"ILogger");
+                            d.Add($"IExceptionLogger");
+                            d.Add($"IDbHelper");
+
+                            service.ParentConstructors.Add(d);
+                            #endregion
+                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache)
+                            d = new List<string>();
+
+                            d.Add($"{service.Service}Config");
+                            d.Add($"ILogger");
+                            d.Add($"IExceptionLogger");
+                            d.Add($"IDbHelper");
+                            d.Add($"ICacheManager");
+
+                            service.ParentConstructors.Add(d);
+                            #endregion
+                        }
+                        if (service.Constructors == null)
+                        {
+                            service.Constructors = new List<Dictionary<string, string>>();
+                            
+                            var d = new Dictionary<string, string>();
+
+                            d.Add("config", $"{service.Service}Config");
+
+                            service.Constructors.Add(d);
                         }
                         if (service.Actions == null)
                         {
@@ -278,6 +352,7 @@ namespace Locust.Service.Moon.CodeGenerator
             logger.Log($"Generating templates ...");
 
             generateTemplate("Config");
+            generateTemplate("Config.Partial");
             generateTemplate("Interface");
             generateTemplate("BaseService");
             generateTemplate("BaseService.Partial");
@@ -289,6 +364,7 @@ namespace Locust.Service.Moon.CodeGenerator
             generateTemplate("Response.Partial");
             generateTemplate("BaseAction");
             generateTemplate("Registration");
+            generateTemplate("Registration.Partial");
             generateTemplate("BaseAction.Partial");
             generateTemplate("Action");
             generateTemplate("Action.Partial");
@@ -793,7 +869,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              "Config.Partial",
                              options.Extension,
                              options.Templates.ConfigPartialTemplate,
-                             new { config.Namespace, config.Service },
+                             new { config.Namespace, config.Service, config.Usings },
                              $"{serviceDir}\\Config.Partial{options.Extension}",
                              false,
                              ref temp);
@@ -842,6 +918,19 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Overwrite,
                              ref warnings[row]);
 
+                if (config.PartialRegistration && options.GeneratePartials)
+                {
+                    GenerateCode(logPrefix,
+                                 config.Service,
+                                 "Registration.Partial",
+                                 options.Extension,
+                                 options.Templates.RegistrationPartialTemplate,
+                                 config,
+                                 $"{serviceDir}\\Registration.Partial{options.Extension}",
+                                 false,
+                                 ref temp);
+                }
+
                 if (config.PartialServiceBase && options.GeneratePartials)
                 {
                     GenerateCode(logPrefix,
@@ -875,7 +964,17 @@ namespace Locust.Service.Moon.CodeGenerator
                                  $"{concrete.Suffix}Service",
                                  options.Extension,
                                  options.Templates.ServiceTemplate,
-                                 new { config.Usings, config.Namespace, config.Service, config.Actions, concrete.Suffix, concrete.ActionSuffix },
+                                 new GeneratorConfigServiceConcreteItem
+                                 {
+                                     Usings = config.Usings,
+                                     Namespace = config.Namespace,
+                                     Service = config.Service,
+                                     Actions = config.Actions,
+                                     Suffix = concrete.Suffix,
+                                     ActionSuffix = concrete.ActionSuffix,
+                                     Constructors = config.Constructors,
+                                     ParentConstructors = config.ParentConstructors
+                                 },
                                  serviceDir + $"\\{concrete.Suffix}Service{options.Extension}",
                                  options.Overwrite,
                                  ref warnings[row]);
@@ -939,7 +1038,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "Response",
                                      options.Extension,
                                      options.Templates.ResponseTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.Usings, Props = action.ResponseProps },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.ResponseType, action.Usings, Props = action.ResponseProps },
                                      $"{actionDir}\\Response{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
@@ -951,7 +1050,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "Response.Partial",
                                      options.Extension,
                                      options.Templates.ResponsePartialTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.Usings },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.ResponseData, action.ResponseType, action.Usings },
                                      $"{actionDir}\\Response.Partial{options.Extension}",
                                      false,
                                      ref warnings[row]);
@@ -1128,6 +1227,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.ResponseTemplate = ReadTemplateFileOrResource(templatePath, "Response");
                 options.Templates.ResponsePartialTemplate = ReadTemplateFileOrResource(templatePath, "Response.Partial");
                 options.Templates.RegistrationTemplate = ReadTemplateFileOrResource(templatePath, "Registration");
+                options.Templates.RegistrationPartialTemplate = ReadTemplateFileOrResource(templatePath, "Registration.Partial");
                 options.Templates.ServiceTemplate = ReadTemplateFileOrResource(templatePath, "Service");
                 options.Templates.ServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "Service.Partial");
                 options.Templates.TestActionTemplate = ReadTemplateFileOrResource(templatePath, "TestAction");
@@ -1150,6 +1250,7 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.ResponseTemplate = ReadTemplate("Response.txt");
                 options.Templates.ResponsePartialTemplate = ReadTemplate("Response.Partial.txt");
                 options.Templates.RegistrationTemplate = ReadTemplate("Registration.txt");
+                options.Templates.RegistrationPartialTemplate = ReadTemplate("Registration.Partial.txt");
                 options.Templates.ServiceTemplate = ReadTemplate("Service.txt");
                 options.Templates.ServicePartialTemplate = ReadTemplate("Service.Partial.txt");
                 options.Templates.TestActionTemplate = ReadTemplate("TestAction.txt");
@@ -1195,10 +1296,22 @@ namespace Locust.Service.Moon.CodeGenerator
                 }
             }
         }
+        static void testRazor()
+        {
+            var output = Engine.Razor.RunCompile($@"
+@test(Model.Name)
+@helper test(string n)
+{{
+    <div>@n</div>
+}}
+", "foo1", null, new { Name = "Ali" });
+            Console.WriteLine(output);
+        }
         static void Main(string[] args)
         {
             Start(args);
             //test1(args);
+            //testRazor();
 #if DEBUG
             System.Console.ReadKey();
 #endif

@@ -53,6 +53,10 @@
     <Compile Include="ServiceResponse.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
+      <Project>{809D809C-2FA3-4E8A-9CE6-8BCDDEA3E061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.Serialization\Locust.Serialization.csproj">
       <Project>{80414F68-3640-4ED7-A48F-5877101CB3AD}</Project>
       <Name>Locust.Serialization</Name>

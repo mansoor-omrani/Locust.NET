@@ -22,17 +22,85 @@ namespace @Model.Namespace
         <text>public override @(Model.Service + action.Name)BaseAction @action.Name { get; protected set; }</text>
 	}
 }
+@if (Model.Constructors == null || Model.Constructors.Count == 0)
+{
+	@GenerateConstructor(Model.ParentConstructors, null);
+}
+else
+{
+	foreach (var dependencies in Model.Constructors)
+	{
+        @GenerateConstructor(Model.ParentConstructors, dependencies);
+	}
+}        
+    }
+}
 
-        public @(Model.Service + Model.Suffix)(@(Model.Service)Config config): base(config)
+@helper GenerateConstructor(List<List<string>> parentConstructors, IDictionary<string, string> dependencies)
+{
+	var dependencyList = "";
+	var dependencyArgs = "";
+	var parent = "";
+
+	if (dependencies != null && dependencies.Count > 0)
+	{
+		foreach (var dependency in dependencies)
+		{
+			dependencyList += (string.IsNullOrEmpty(dependencyList) ? "" : ", ") + dependency.Value + " " + dependency.Key;
+			dependencyArgs += (string.IsNullOrEmpty(dependencyArgs) ? "" : ", ") + dependency.Key;
+		}
+		
+		foreach (var _ctor in parentConstructors.OrderByDescending(ctor => ctor.Count))
         {
-@foreach (var action in Model.Actions)
+            var found = true;
+
+            parent = "";
+			
+            foreach (var param in _ctor)
+            {
+                var dependencyFound = false;
+                var dependencyIndex = 0;
+
+                for (var i = 0; i < dependencies.Count; i++)
+                {
+                    if (dependencies.ElementAt(i).Value == param)
+                    {
+                        dependencyFound = true;
+                        dependencyIndex = i;
+                        break;
+                    }
+                }
+
+                if (dependencyFound)
+                {
+                    parent += (string.IsNullOrEmpty(parent) ? "": ",") + " " + dependencies.ElementAt(dependencyIndex).Key;
+                }
+                else
+                {
+                    found = false;
+                    break;
+                }
+            }
+
+            if (found)
+            {
+                parent = ": base(" + parent.Trim() + ")";
+                break;
+            }
+        }
+	}
+	
+		<text>public @(Model.Service + Model.Suffix)(@dependencyList) @parent</text>
+		<text>{</text>
+foreach (var action in Model.Actions)
 {
 	if (!string.IsNullOrEmpty(action.Name))
 	{
-            <text>@action.Name = new @(Model.Service + Model.ActionSuffix + action.Name)Action(this);</text>
-            <text>Actions.Add("@action.Name", @action.Name);</text>
+        <text>	@action.Name = new @(Model.Service + Model.ActionSuffix + action.Name)Action(this);</text>
+        <text>	Actions.Add("@action.Name", @action.Name);</text>
 	}
 }
-        }
-    }
+		<text>	Init(@dependencyArgs);</text>
+        <text>}</text>
+		<text>partial void Init(@dependencyList);</text>
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Locust.Base;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,22 +23,28 @@ namespace Locust.Service
         public LifeTime LifeTime { get; set; }
         public object Data { get; set; }
     }
+    
     public abstract class ServiceRegistery
     {
         public List<RegisteryEntry> Registery { get; set; }
+        public IEqualityComparer DataComparer { get; set; }
         public ServiceRegistery()
         {
             Registery = new List<RegisteryEntry>();
+            DataComparer = new DefaultObjectEqualityComparer();
         }
         public void Add(Type asbtraction, Type concretion, LifeTime life = LifeTime.Transient, object data = null)
         {
-            Registery.Add(new RegisteryEntry
+            if (Registery.FindIndex(r => r.Abstraction == asbtraction && r.Concretion == concretion && r.LifeTime == life && DataComparer.Equals(r.Data, data)) < 0)
             {
-                Abstraction = asbtraction,
-                Concretion = concretion,
-                LifeTime = life,
-                Data = data
-            });
+                Registery.Add(new RegisteryEntry
+                {
+                    Abstraction = asbtraction,
+                    Concretion = concretion,
+                    LifeTime = life,
+                    Data = data
+                });
+            }
         }
     }
 }

@@ -10,6 +10,18 @@
         "UseCache": "bool",
         "PageSize": "int"
       },
+      "ParentService": "CustomParentService",
+      "ParentConstructors": [
+        [ "ParamType1", "ParamType2", "ParamType3" ]
+      ],
+      "Constructors": [
+        {
+          "paramName1": "ParamType1",
+          "paramName2": "ParamType2",
+          "paramName3": "ParamType3"
+        }
+      ],
+      "PartialRegistration": true,
       "PartialConfig": true,
       "PartialServiceBase": false,
       "PartialInterface": false,
@@ -18,7 +30,7 @@
           "Suffix": "Default",
           "ActionSuffix": "Default",
           "Partial": true,
-          "Default":  false
+          "Default": false
         }
       ],
       "Actions": [
@@ -39,6 +51,7 @@
             "SearchKey": "string",
             "Ascending": "bool"
           },
+          "ResponseType": "MyServiceResponse",
           "ResponseData": "List<MyModel>",
           "Concretes": [ "Default" ],
           "PartialBase": false,

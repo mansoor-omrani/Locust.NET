@@ -128,12 +128,29 @@ namespace Locust.Service.Moon
         }
         public BaseActionBasedService(TConfig config)
         {
-            Config = config ?? throw new ArgumentNullException(nameof(config));
-            Actions = new CaseSensitiveDictionary<object>(true);
+            Init(config);
+
             Logger = Config.Logger;
             ExceptionLogger = Config.ExceptionLogger;
             Db = Config.Db;
             Cache = Config.Cache;
+        }
+        public BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger): base(logger, exceptionLogger)
+        {
+            Init(config);
+        }
+        public BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db): base(logger, exceptionLogger, db)
+        {
+            Init(config);
+        }
+        public BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache) : base(logger, exceptionLogger, db, cache)
+        {
+            Init(config);
+        }
+        private void Init(TConfig config)
+        {
+            Config = config ?? throw new ArgumentNullException(nameof(config));
+            Actions = new CaseSensitiveDictionary<object>(true);
         }
         public object this[string action]
         {

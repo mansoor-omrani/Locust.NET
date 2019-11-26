@@ -1,0 +1,12 @@
+﻿using Locust.Service;
+@foreach (var _using in Model.Usings)
+{
+<text>using @(_using);</text>
+}
+
+namespace @Model.Namespace
+{
+	public partial class @(Model.Service)Registration : ServiceRegistery
+    {
+	}
+}

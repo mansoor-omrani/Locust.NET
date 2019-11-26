@@ -6,7 +6,7 @@
 
 namespace @Model.Namespace
 {
-	public class @(Model.Service)Registration : ServiceRegistery
+	public partial class @(Model.Service)Registration : ServiceRegistery
     {
         public @(Model.Service)Registration()
         {
@@ -23,6 +23,7 @@ namespace @Model.Namespace
 			break;
 		}
 	}
+			<text>Add(typeof(@(Model.Service)Config), typeof(@(Model.Service)Config));</text>
 	if (!string.IsNullOrEmpty(suffix))
 	{
 			<text>Add(typeof(I@(Model.Service)), typeof(@(Model.Service + suffix)));</text>

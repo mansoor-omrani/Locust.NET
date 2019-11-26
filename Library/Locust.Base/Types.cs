@@ -9,10 +9,10 @@ using System.Web;
 
 namespace Locust.Base
 {
-    public static class TypeHelper
+    public static partial class TypeHelper
     {
         public static Type TypeOfInt16 { get; private set; }
-        public static Type TypeOfShort { get { return TypeOfInt16; }}
+        public static Type TypeOfShort { get { return TypeOfInt16; } }
         public static Type TypeOfInt32 { get; private set; }
         public static Type TypeOfInt { get { return TypeOfInt32; } }
         public static Type TypeOfInt64 { get; private set; }
@@ -34,6 +34,7 @@ namespace Locust.Base
         public static Type TypeOfBool { get; private set; }
         public static Type TypeOfGuid { get; private set; }
         public static Type TypeOfDateTime { get; private set; }
+        public static Type TypeOfDateTimeOffset { get; private set; }
         public static Type TypeOfTimeSpan { get; private set; }
         public static Type TypeOfByteArray { get; private set; }
         public static Type TypeOfNullable { get; private set; }
@@ -42,7 +43,7 @@ namespace Locust.Base
         public static Type TypeOfIEnumerableOfT { get; private set; }
         public static Type TypeOfIEnumerable { get; private set; }
         public static Type TypeOfException { get; private set; }
-        
+
         public static Type TypeOfNullableInt16 { get; private set; }
         public static Type TypeOfNullableShort { get { return TypeOfNullableInt16; } }
         public static Type TypeOfNullableInt32 { get; private set; }
@@ -60,11 +61,12 @@ namespace Locust.Base
         public static Type TypeOfNullableDouble { get; private set; }
         public static Type TypeOfNullableDecimal { get; private set; }
         public static Type TypeOfNullableByte { get; private set; }
+        public static Type TypeOfNullableChar { get; private set; }
         public static Type TypeOfNullableSByte { get; private set; }
         public static Type TypeOfNullableBool { get; private set; }
         public static Type TypeOfNullableDateTime { get; private set; }
+        public static Type TypeOfNullableDateTimeOffset { get; private set; }
         public static Type TypeOfNullableTimeSpan { get; private set; }
-
         static TypeHelper()
         {
             TypeOfInt16 = typeof(System.Int16);
@@ -84,6 +86,7 @@ namespace Locust.Base
             TypeOfString = typeof(System.String);
             TypeOfGuid = typeof(System.Guid);
             TypeOfDateTime = typeof(System.DateTime);
+            TypeOfDateTimeOffset = typeof(System.DateTimeOffset);
             TypeOfTimeSpan = typeof(System.TimeSpan);
             TypeOfByteArray = typeof(System.Byte[]);
             TypeOfNullable = typeof(System.Nullable<>);
@@ -106,10 +109,15 @@ namespace Locust.Base
             TypeOfNullableByte = typeof(System.Nullable<System.Byte>);
             TypeOfNullableSByte = typeof(System.Nullable<System.SByte>);
             TypeOfNullableBool = typeof(System.Nullable<System.Boolean>);
+            TypeOfNullableChar = typeof(System.Nullable<System.Char>);
             TypeOfNullableDateTime = typeof(System.Nullable<System.DateTime>);
+            TypeOfNullableDateTimeOffset = typeof(System.Nullable<System.DateTimeOffset>);
             TypeOfNullableTimeSpan = typeof(System.Nullable<System.TimeSpan>);
         }
 
+    }
+    public static partial class TypeHelper
+    {
         //public static bool IsNumeric(object x)
         //{
         //    var result = false;

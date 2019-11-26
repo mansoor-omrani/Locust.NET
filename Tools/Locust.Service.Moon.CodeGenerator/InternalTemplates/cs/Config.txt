@@ -11,9 +11,12 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service)Config: BaseConfig
     {
-@foreach (var prop in Model.Props)
+@if (Model.Props != null && Model.Props.Count > 0)
 {
+	foreach (var prop in Model.Props)
+	{
 	<text>	public @Raw(prop.Value) @Raw(prop.Key) { get; set; }</text>
+	}
 }
     }
 }

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace @Model.Namespace
 {
-	public partial class @(Model.Service + Model.Suffix)Config: @(Model.Service)BaseConfig
+	public partial class @(Model.Service)BaseConfig: BaseConfig
     {
 @if (Model.Props != null && Model.Props.Count > 0)
 {

@@ -15,6 +15,10 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service + Model.Suffix) : @(Model.Service)Base
     {
+        public @(Model.Service + Model.Suffix)Config StrongConfig
+        {
+            get { return Config as @(Model.Service + Model.Suffix)Config; }
+        }
 @foreach (var action in Model.Actions)
 {
 	if (!string.IsNullOrEmpty(action.Name))
@@ -46,7 +50,19 @@ else
 	{
 		foreach (var dependency in dependencies)
 		{
-			dependencyList += (string.IsNullOrEmpty(dependencyList) ? "" : ", ") + dependency.Value + " " + dependency.Key;
+            var colonIndex = dependency.Value.IndexOf(':');
+            var dependencyType = "";
+
+            if (colonIndex == -1)
+            {
+                dependencyType = dependency.Value;
+            }
+            else
+            {
+                dependencyType = dependency.Value.Substring(0, colonIndex);
+            }
+
+			dependencyList += (string.IsNullOrEmpty(dependencyList) ? "" : ", ") + dependencyType + " " + dependency.Key;
 			dependencyArgs += (string.IsNullOrEmpty(dependencyArgs) ? "" : ", ") + dependency.Key;
 		}
 		
@@ -59,11 +75,26 @@ else
             foreach (var param in _ctor)
             {
                 var dependencyFound = false;
-                var dependencyIndex = 0;
+                var dependencyIndex = -1;
 
                 for (var i = 0; i < dependencies.Count; i++)
                 {
-                    if (dependencies.ElementAt(i).Value == param)
+                    var dependencyValue = dependencies.ElementAt(i).Value;
+                    var colonIndex = dependencyValue.IndexOf(':');
+                    var dependencyType = "";
+                    var dependencyParentType = "";
+
+                    if (colonIndex == -1)
+                    {
+                        dependencyType = dependencyValue;
+                    }
+                    else
+                    {
+                        dependencyType = dependencyValue.Substring(0, colonIndex);
+                        dependencyParentType = dependencyValue.Substring(colonIndex + 1);
+                    }
+
+                    if (dependencyType == param || dependencyParentType == param)
                     {
                         dependencyFound = true;
                         dependencyIndex = i;

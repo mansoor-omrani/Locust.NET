@@ -8,7 +8,7 @@ using System;
 
 namespace @Model.Namespace
 {
-	public partial class @(Model.Service + Model.Suffix)Config: @(Model.Service)BaseConfig
+	public partial class @(Model.Service)BaseConfig: BaseConfig
     {
     }
 }

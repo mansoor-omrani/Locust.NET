@@ -23,11 +23,15 @@ namespace Locust.Service.Moon.CodeGenerator
         public string ActionSuffix { get; set; }
         public bool Partial { get; set; }
         public bool Default { get; set; }
+        public Dictionary<string, string> ConfigProps { get; set; }
+        public List<Dictionary<string, string>> Constructors { get; set; }
     }
     public class GeneratorTemplates
     {
         public string ConfigTemplate { get; set; }
         public string ConfigPartialTemplate { get; set; }
+        public string BaseConfigTemplate { get; set; }
+        public string BaseConfigPartialTemplate { get; set; }
         public string InterfaceTemplate { get; set; }
         public string InterfacePartialTemplate { get; set; }
         public string BaseServiceTemplate { get; set; }
@@ -162,7 +166,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0.4";
+        static string ConfigVersion => "1.0.5";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -185,6 +189,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         {
                             service.Concretes = new List<GeneratorConcreteItem> { new GeneratorConcreteItem { Suffix = "Default", ActionSuffix = "Default" } };
                         }
+
                         if (service.Usings == null)
                         {
                             service.Usings = new string[0];
@@ -195,7 +200,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
                         if (string.IsNullOrEmpty(service.ParentService))
                         {
-                            service.ParentService = $"BaseActionBasedService<{service.Service}Config>";
+                            service.ParentService = $"BaseActionBasedService<{service.Service}BaseConfig>";
                         }
                         if (service.ParentConstructors == null)
                         {
@@ -204,14 +209,14 @@ namespace Locust.Service.Moon.CodeGenerator
                             #region public BaseActionBasedService(TConfig config)
                             var d = new List<string>();
 
-                            d.Add($"{service.Service}Config");
+                            d.Add($"{service.Service}BaseConfig");
 
                             service.ParentConstructors.Add(d);
                             #endregion
                             #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}Config");
+                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
 
@@ -220,7 +225,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}Config");
+                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
                             d.Add($"IDbHelper");
@@ -230,7 +235,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}Config");
+                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
                             d.Add($"IDbHelper");
@@ -241,14 +246,47 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
                         if (service.Constructors == null)
                         {
-                            service.Constructors = new List<Dictionary<string, string>>();
-                            
-                            var d = new Dictionary<string, string>();
-
-                            d.Add("config", $"{service.Service}Config");
-
-                            service.Constructors.Add(d);
+                            service.Constructors = new List<Dictionary<string, string>>
+                                {
+                                    new Dictionary<string, string> { ["config"] = $":{service.Service}BaseConfig" }
+                                };
                         }
+                        foreach (var concrete in service.Concretes)
+                        {
+                            if (concrete.Constructors == null || concrete.Constructors.Count == 0)
+                            {
+                                concrete.Constructors = new List<Dictionary<string, string>>();
+                                
+                                foreach (var _ctor in service.Constructors)
+                                {
+                                    var d = new Dictionary<string, string>();
+
+                                    foreach (var arg in _ctor)
+                                    {
+                                        var colonIndex = arg.Value.IndexOf(':');
+                                        
+                                        if (colonIndex != -1)
+                                        {
+                                            if (arg.Value.Substring(colonIndex + 1) == $"{service.Service}BaseConfig")
+                                            {
+                                                d.Add(arg.Key, $"{service.Service}{concrete.Suffix}Config:{arg.Value.Substring(colonIndex + 1)}");
+                                            }
+                                            else
+                                            {
+                                                d.Add(arg.Key, arg.Value);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            d.Add(arg.Key, arg.Value);
+                                        }
+                                    }
+
+                                    concrete.Constructors.Add(d);
+                                }
+                            }
+                        }
+
                         if (service.Actions == null)
                         {
                             service.Actions = new List<GeneratorConfigItemActionItem>();
@@ -347,12 +385,12 @@ namespace Locust.Service.Moon.CodeGenerator
                 }
             };
 
-
-
             logger.Log($"Generating templates ...");
 
             generateTemplate("Config");
             generateTemplate("Config.Partial");
+            generateTemplate("BaseConfig");
+            generateTemplate("BaseConfig.Partial");
             generateTemplate("Interface");
             generateTemplate("BaseService");
             generateTemplate("BaseService.Partial");
@@ -854,11 +892,11 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 GenerateCode(logPrefix,
                              config.Service,
-                             "Config",
+                             "BaseConfig",
                              options.Extension,
-                             options.Templates.ConfigTemplate,
+                             options.Templates.BaseConfigTemplate,
                              new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps },
-                             $"{serviceDir}\\Config{options.Extension}",
+                             $"{serviceDir}\\BaseConfig{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
@@ -866,11 +904,11 @@ namespace Locust.Service.Moon.CodeGenerator
                 {
                     GenerateCode(logPrefix,
                              config.Service,
-                             "Config.Partial",
+                             "BaseConfig.Partial",
                              options.Extension,
-                             options.Templates.ConfigPartialTemplate,
+                             options.Templates.BaseConfigPartialTemplate,
                              new { config.Namespace, config.Service, config.Usings },
-                             $"{serviceDir}\\Config.Partial{options.Extension}",
+                             $"{serviceDir}\\BaseConfig.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -960,6 +998,29 @@ namespace Locust.Service.Moon.CodeGenerator
                     }
 
                     GenerateCode(logPrefix,
+                             config.Service,
+                             "Config",
+                             options.Extension,
+                             options.Templates.ConfigTemplate,
+                             new { config.Namespace, config.Service, config.Usings, concrete.Suffix, Props = concrete.ConfigProps },
+                             $"{serviceDir}\\Config{options.Extension}",
+                             options.Overwrite,
+                             ref warnings[row]);
+
+                    if (config.PartialConfig && options.GeneratePartials)
+                    {
+                        GenerateCode(logPrefix,
+                                 config.Service,
+                                 "Config.Partial",
+                                 options.Extension,
+                                 options.Templates.ConfigPartialTemplate,
+                                 new { config.Namespace, config.Service, config.Usings, concrete.Suffix },
+                                 $"{serviceDir}\\Config.Partial{options.Extension}",
+                                 false,
+                                 ref temp);
+                    }
+
+                    GenerateCode(logPrefix,
                                  config.Service,
                                  $"{concrete.Suffix}Service",
                                  options.Extension,
@@ -972,7 +1033,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      Actions = config.Actions,
                                      Suffix = concrete.Suffix,
                                      ActionSuffix = concrete.ActionSuffix,
-                                     Constructors = config.Constructors,
+                                     Constructors = concrete.Constructors,
                                      ParentConstructors = config.ParentConstructors
                                  },
                                  serviceDir + $"\\{concrete.Suffix}Service{options.Extension}",
@@ -1220,6 +1281,8 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.Partial");
                 options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config");
                 options.Templates.ConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "Config.Partial");
+                options.Templates.BaseConfigTemplate = ReadTemplateFileOrResource(templatePath, "BaseConfig");
+                options.Templates.BaseConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseConfig.Partial");
                 options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface");
                 options.Templates.InterfacePartialTemplate = ReadTemplateFileOrResource(templatePath, "Interface.Partial");
                 options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request");
@@ -1243,6 +1306,8 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseServicePartialTemplate = ReadTemplate("BaseService.Partial.txt");
                 options.Templates.ConfigTemplate = ReadTemplate("Config.txt");
                 options.Templates.ConfigPartialTemplate = ReadTemplate("Config.Partial.txt");
+                options.Templates.BaseConfigTemplate = ReadTemplate("BaseConfig.txt");
+                options.Templates.BaseConfigPartialTemplate = ReadTemplate("BaseConfig.Partial.txt");
                 options.Templates.InterfaceTemplate = ReadTemplate("Interface.txt");
                 options.Templates.InterfacePartialTemplate = ReadTemplate("Interface.Partial.txt");
                 options.Templates.RequestTemplate = ReadTemplate("Request.txt");

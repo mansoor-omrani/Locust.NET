@@ -14,7 +14,7 @@
       "ParentConstructors": [
         [ "ParamType1", "ParamType2", "ParamType3" ]
       ],
-      "Constructors": [
+      "Constructors": [ // default constructors for all concrete services
         {
           "paramName1": "ParamType1",
           "paramName2": "ParamType2",
@@ -30,7 +30,16 @@
           "Suffix": "Default",
           "ActionSuffix": "Default",
           "Partial": true,
-          "Default": false
+          "Default": false,
+          "ConfigProps": { // customized config props for each concrete service
+            "BasePath": "string",
+            "MaxSize": "int"
+          },
+          "Constructors": [ // customized constructor for each concrete service
+            {
+              "paramName1": "ParamType1"
+            }
+          ]
         }
       ],
       "Actions": [

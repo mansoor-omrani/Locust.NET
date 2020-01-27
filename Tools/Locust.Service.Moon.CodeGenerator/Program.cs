@@ -999,11 +999,11 @@ namespace Locust.Service.Moon.CodeGenerator
 
                     GenerateCode(logPrefix,
                              config.Service,
-                             "Config",
+                             $"{concrete.Suffix}Config",
                              options.Extension,
                              options.Templates.ConfigTemplate,
                              new { config.Namespace, config.Service, config.Usings, concrete.Suffix, Props = concrete.ConfigProps },
-                             $"{serviceDir}\\Config{options.Extension}",
+                             $"{serviceDir}\\{concrete.Suffix}Config{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
@@ -1011,11 +1011,11 @@ namespace Locust.Service.Moon.CodeGenerator
                     {
                         GenerateCode(logPrefix,
                                  config.Service,
-                                 "Config.Partial",
+                                 $"{concrete.Suffix}Config.Partial",
                                  options.Extension,
                                  options.Templates.ConfigPartialTemplate,
                                  new { config.Namespace, config.Service, config.Usings, concrete.Suffix },
-                                 $"{serviceDir}\\Config.Partial{options.Extension}",
+                                 $"{serviceDir}\\{concrete.Suffix}Config.Partial{options.Extension}",
                                  false,
                                  ref temp);
                     }

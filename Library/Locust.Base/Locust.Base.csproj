@@ -47,7 +47,9 @@
     <Compile Include="DefaultObjectEqualityComparer.cs" />
     <Compile Include="EnumDefaultAttribute.cs" />
     <Compile Include="EnumHelper.cs" />
+    <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SizeAttribute.cs" />
     <Compile Include="Types.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

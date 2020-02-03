@@ -73,7 +73,7 @@ namespace Locust.Db
 
             return CreateCommand(con, text, type, GetCommandParameterEnumeratorFromObject(parameters));
         }
-        public static DbCommand CreateCommand(this DbConnection con, string text, CommandType type, IEnumerator<CommandArgument> parameters, bool autoNullEmptyStrings = false)
+        internal static DbCommand CreateCommand(this DbConnection con, string text, CommandType type, IEnumerator<CommandArgument> parameters, bool autoNullEmptyStrings = false)
         {
             var result = con.CreateCommand();
 

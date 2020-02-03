@@ -47,11 +47,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandParameter.cs" />
     <Compile Include="DA.cs" />
+    <Compile Include="DataReaderExtensions.cs" />
+    <Compile Include="DbCommandExtensions.cs" />
+    <Compile Include="DbConnectionExtensions.cs" />
+    <Compile Include="DbExecuteExtensions1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DbExecuteExtensions.tt</DependentUpon>
+    </Compile>
     <Compile Include="DbHelper.cs" />
     <Compile Include="DbResult.cs" />
     <Compile Include="FakeDbHelper.cs" />
     <Compile Include="IContextInfoProvider.cs" />
+    <Compile Include="IDb.cs" />
     <Compile Include="IDbHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -80,6 +90,15 @@
       <Project>{7FBC21DB-2402-45DB-A154-A77483CE3FAF}</Project>
       <Name>Locust.Reflection</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DbExecuteExtensions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DbExecuteExtensions1.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

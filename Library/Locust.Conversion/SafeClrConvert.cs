@@ -909,6 +909,22 @@ namespace Locust.Conversion
             return (Math.PI / 180) * degrees;
         }
         //https://stackoverflow.com/questions/18015425/invalid-cast-from-system-int32-to-system-nullable1system-int32-mscorlib/18015612
+        public static object ChangeType(object value, Type type)
+        {
+            var t = type;
+
+            if (t.IsGenericType && t.GetGenericTypeDefinition().Equals(typeof(Nullable<>)))
+            {
+                if (value == null)
+                {
+                    return null;
+                }
+
+                t = Nullable.GetUnderlyingType(t);
+            }
+
+            return System.Convert.ChangeType(value, t);
+        }
         public static T ChangeType<T>(object value)
         {
             var t = typeof(T);

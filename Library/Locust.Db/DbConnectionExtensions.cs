@@ -9,7 +9,7 @@ using System.Reflection;
 using Locust.Extensions;
 using Locust.Base;
 
-namespace Avira.Data
+namespace Locust.Db
 {
     internal class CommandArgument
     {

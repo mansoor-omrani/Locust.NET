@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 
-namespace Locust.Data
+namespace Locust.Db
 {
     /// <summary>
     /// Data reader extensions

@@ -1,3 +1,5 @@
+using System.Data.Common;
+
 public interface IDb
     {
         DbConnection GetConnection();

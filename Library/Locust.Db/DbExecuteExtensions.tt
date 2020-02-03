@@ -1,0 +1,154 @@
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+<#
+	var execTypes		= new string[] { "", "Async" };
+	var execKinds		= new string[] { "Command", "Sql" };
+	var paramTypes		= new string[] { "IDictionary<string, object>", "object" };
+	var transformTypes	= new string[] { ", Func<IDataReader, T> fn", "" };
+	var applyTypes		= new string[] { "", "Safe" };
+#>
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Locust.Db
+{
+    public static class DbExecuteExtensions
+    {
+<#
+foreach (var execType in execTypes)
+{
+	foreach (var execKind in execKinds)
+	{
+		foreach (var paramType in paramTypes)
+		{
+			foreach (var applyType in applyTypes)
+			{
+				foreach (var transformType in transformTypes)
+				{
+#>
+		public static <#=(execType == "Async" ? "async Task<List<T>>": "List<T>")#> <#=applyType#>ExecuteReader<#=execKind#><#=execType#><T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters<#=(execType == "Async" ? ", CancellationToken cancellation": (paramType == "object" ? " = null": ""))#>)
+        {
+            var result = new List<T>();
+            var con = db.GetConnection();
+
+            if (con != null)
+            {
+                var cmd = con.CreateCommand(<#=(execKind == "Command" ? "sproc": "sql")#>, CommandType.<#=(execKind == "Command" ? "StoredProcedure": "Text")#>, parameters, db.AutoNullEmptyStrings);
+
+                <#=(execType == "Async" ? "await ": "")#>cmd.Execute<#=execType#>(result<#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#><#=(execType == "Async" ? ", cancellation": "")#>);
+
+                cmd.<#=applyType#>ApplyOutputs(parameters);
+                
+				if (!db.PersistConnection)
+				{
+					con.Dispose();
+				}
+            }
+
+            return result;
+        }
+        public static <#=(execType == "Async" ? "async Task<T>": "T")#> <#=applyType#>ExecuteSingle<#=execKind#><#=execType#><T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters<#=(execType == "Async" ? ", CancellationToken cancellation": (paramType == "object" ? " = null": ""))#>)
+        {
+            var result = new List<T>();
+            var con = db.GetConnection();
+
+            if (con != null)
+            {
+                var cmd = con.CreateCommand(<#=(execKind == "Command" ? "sproc": "sql")#>, CommandType.<#=(execKind == "Command" ? "StoredProcedure": "Text")#>, parameters, db.AutoNullEmptyStrings);
+
+                <#=(execType == "Async" ? "await ": "")#>cmd.Execute<#=execType#>(result<#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#><#=(execType == "Async" ? ", cancellation": "")#>);
+
+                cmd.<#=applyType#>ApplyOutputs(parameters);
+                
+				if (!db.PersistConnection)
+				{
+					con.Dispose();
+				}
+            }
+
+            return result.Count > 0 ? result[0]: default(T);
+        }
+		public static <#=(execType == "Async" ? "async Task<T>": "T")#> <#=applyType#>ExecuteScaler<#=execKind#><#=execType#><T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters<#=(execType == "Async" ? ", CancellationToken cancellation": (paramType == "object" ? " = null": ""))#>)
+        {
+            var data = new List<T>();
+            var con = db.GetConnection();
+
+            if (con != null)
+            {
+                var cmd = con.CreateCommand(<#=(execKind == "Command" ? "sproc": "sql")#>, CommandType.<#=(execKind == "Command" ? "StoredProcedure": "Text")#>, parameters, db.AutoNullEmptyStrings);
+
+                <#=(execType == "Async" ? "await ": "")#>cmd.Execute<#=execType#>(data<#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#><#=(execType == "Async" ? ", cancellation": "")#>);
+
+                cmd.<#=applyType#>ApplyOutputs(parameters);
+
+				if (!db.PersistConnection)
+				{
+					con.Dispose();
+				}
+            }
+
+            return data == null || data.Count == 0 ? default(T) : data[0];
+        }
+<#					
+					if (execType == "Async")
+					{
+#>
+		public static Task<List<T>> <#=applyType#>ExecuteReader<#=execKind#>Async<T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters = null)
+        {
+            return db.<#=applyType#>ExecuteReader<#=execKind#>Async<T>(<#=(execKind == "Command" ? "sproc": "sql")#><#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#>, parameters, CancellationToken.None);
+        }
+        public static Task<T> <#=applyType#>ExecuteSingle<#=execKind#>Async<T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters = null)
+        {
+            return db.<#=applyType#>ExecuteSingle<#=execKind#>Async<T>(<#=(execKind == "Command" ? "sproc": "sql")#><#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#>, parameters, CancellationToken.None);
+        }
+		public static Task<T> <#=applyType#>ExecuteScaler<#=execKind#>Async<T>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#><#=transformType#>, <#=paramType#> parameters = null)
+        {
+            return db.<#=applyType#>ExecuteScaler<#=execKind#>Async<T>(<#=(execKind == "Command" ? "sproc": "sql")#><#=(string.IsNullOrEmpty(transformType) ? "": ", fn")#>, parameters, CancellationToken.None);
+        }
+<#					}
+				} #>
+		public static <#=(execType == "Async" ? "async Task<int>": "int")#> <#=applyType#>ExecuteNonQuery<#=execKind#><#=execType#>(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#>, <#=paramType#> parameters<#=(execType == "Async" ? ", CancellationToken cancellation": (paramType == "object" ? " = null": ""))#>)
+        {
+            var result = -1;
+            var con = db.GetConnection();
+
+            if (con != null)
+            {
+                var cmd = con.CreateCommand(<#=(execKind == "Command" ? "sproc": "sql")#>, CommandType.<#=(execKind == "Command" ? "StoredProcedure": "Text")#>, parameters, db.AutoNullEmptyStrings);
+
+                result = <#=(execType == "Async" ? "await ": "")#>cmd.Execute<#=execType#>(<#=(execType == "Async" ? "cancellation": "")#>);
+
+                cmd.<#=applyType#>ApplyOutputs(parameters);
+                
+				if (!db.PersistConnection)
+				{
+					con.Dispose();
+				}
+            }
+
+            return result;
+        }
+<#				if (execType == "Async")
+				{ #>
+		public static Task<int> <#=applyType#>ExecuteNonQuery<#=execKind#>Async(this IDb db, string <#=(execKind == "Command" ? "sproc": "sql")#>, <#=paramType#> parameters = null)
+        {
+            return db.<#=applyType#>ExecuteNonQuery<#=execKind#>Async(<#=(execKind == "Command" ? "sproc": "sql")#>, parameters, CancellationToken.None);
+        }
+<#
+				}
+			}
+		}
+	}
+}
+#>
+	}
+}

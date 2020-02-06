@@ -11,6 +11,7 @@
         "PageSize": "int"
       },
       "ParentService": "CustomParentService",
+      "ParentConfig": "BaseConfig",
       "ParentConstructors": [
         [ "ParamType1", "ParamType2", "ParamType3" ]
       ],

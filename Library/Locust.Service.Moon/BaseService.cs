@@ -160,14 +160,12 @@ namespace Locust.Service.Moon
             }
         }
     }
-    public abstract class BaseServiceAction<TBaseService, TRequest, TResponse> : ServiceAction<TRequest, TResponse>
+    public abstract class BaseServiceAction<TBaseService, TRequest, TResponse> : ServiceAction<TBaseService, TRequest, TResponse>
         where TBaseService: BaseService
         where TRequest : ServiceRequest
         where TResponse : ServiceResponse, new()
     {
         #region Props
-        public TBaseService Owner { get; private set; }
-        public virtual string Name { get { return this.GetType().Name; } }
         private ILogger _logger;
         public ILogger Logger
         {
@@ -217,9 +215,8 @@ namespace Locust.Service.Moon
             set { _cache = value; }
         }
         #endregion
-        public BaseServiceAction(TBaseService owner)
+        public BaseServiceAction(TBaseService owner): base(owner)
         {
-            Owner = owner ?? throw new ArgumentException(nameof(owner));
             Logger = owner.Logger;
             ExceptionLogger = owner.ExceptionLogger;
             Db = owner.Db;

@@ -9,13 +9,15 @@ namespace Locust.Service
 {
     public static class Extensions
     {
-        public static TResponse Run<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action)
+        public static TResponse Run<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {
             return action.Run(new TRequest());
         }
-        public static TResponse Run<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action, object request)
+        public static TResponse Run<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action, object request)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {
@@ -45,25 +47,29 @@ namespace Locust.Service
 
             return action.Run(req);
         }
-        public static Task<TResponse> RunAsync<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action)
+        public static Task<TResponse> RunAsync<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {
             return action.RunAsync(new TRequest(), CancellationToken.None);
         }
-        public static Task<TResponse> RunAsync<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action, CancellationToken cancellation)
+        public static Task<TResponse> RunAsync<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action, CancellationToken cancellation)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {
             return action.RunAsync(new TRequest(), cancellation);
         }
-        public static Task<TResponse> RunAsync<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action, object request)
+        public static Task<TResponse> RunAsync<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action, object request)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {
             return action.RunAsync(request, CancellationToken.None);
         }
-        public static Task<TResponse> RunAsync<TRequest, TResponse>(this ServiceAction<TRequest, TResponse> action, object request, CancellationToken cancellation)
+        public static Task<TResponse> RunAsync<TService, TRequest, TResponse>(this ServiceAction<TService, TRequest, TResponse> action, object request, CancellationToken cancellation)
+            where TService: class
             where TRequest : ServiceRequest, new()
             where TResponse : ServiceResponse, new()
         {

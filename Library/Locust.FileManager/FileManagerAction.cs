@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Locust.FileManager
 {
-    public abstract class FileManagerAction<TRequest, TResponse>: ServiceAction<TRequest, TResponse>
+    public abstract class FileManagerAction<TRequest, TResponse>: ServiceAction<IFileManager, TRequest, TResponse>
         where TRequest: ServiceRequest
         where TResponse: ServiceResponse, new()
     {
@@ -21,7 +21,7 @@ namespace Locust.FileManager
             serverType = ((string)Config.AppSettings.ServerType).ToLower();
         }
         public IFileManager FileManager { get; set; }
-        public FileManagerAction(IFileManager filemanager)
+        public FileManagerAction(IFileManager filemanager): base(filemanager)
         {
             FileManager = filemanager;
         }

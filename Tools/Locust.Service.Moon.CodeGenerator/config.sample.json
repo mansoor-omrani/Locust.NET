@@ -47,6 +47,7 @@
         {
           "Name": "SaveAction",
           "Usings": [ "MyProgram.Services.MyService.ViewModels" ],
+          "BaseParentAction": "MyBaseAction",
           "RequestModel": "MyViewModel",
           "Concretes": [ "Default" ],
           "DefaultAsync": true,

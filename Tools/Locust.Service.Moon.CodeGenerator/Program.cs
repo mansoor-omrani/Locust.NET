@@ -118,6 +118,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string Name { get; set; }
         public string RequestModel { get; set; }
         public Dictionary<string, string> RequestProps { get; set; }
+        public string BaseParentAction { get; set; }
         public string ResponseType { get; set; }
         public string RequestType { get; set; }
         public string ResponseData { get; set; }
@@ -318,6 +319,10 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (string.IsNullOrEmpty(action.RequestType))
                             {
                                 action.RequestType = "ServiceRequest";
+                            }
+                            if (string.IsNullOrEmpty(action.BaseParentAction))
+                            {
+                                action.BaseParentAction = "ServiceAction";
                             }
                         }
                     }
@@ -905,7 +910,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              "BaseConfig",
                              options.Extension,
                              options.Templates.BaseConfigTemplate,
-                             new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps, ParentConfig = config.ParentConfig },
+                             new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps, config.ParentConfig },
                              $"{serviceDir}\\BaseConfig{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
@@ -917,7 +922,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              "BaseConfig.Partial",
                              options.Extension,
                              options.Templates.BaseConfigPartialTemplate,
-                             new { config.Namespace, config.Service, config.Usings, ParentConfig = config.ParentConfig },
+                             new { config.Namespace, config.Service, config.Usings, config.ParentConfig },
                              $"{serviceDir}\\BaseConfig.Partial{options.Extension}",
                              false,
                              ref temp);
@@ -1132,7 +1137,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "BaseAction",
                                      options.Extension,
                                      options.Templates.BaseActionTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.BaseParentAction },
                                      $"{actionDir}\\BaseAction{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
@@ -1144,7 +1149,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "BaseAction.Partial",
                                      options.Extension,
                                      options.Templates.BaseActionPartialTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.BaseParentAction },
                                      $"{actionDir}\\BaseAction.Partial{options.Extension}",
                                      false,
                                      ref temp);

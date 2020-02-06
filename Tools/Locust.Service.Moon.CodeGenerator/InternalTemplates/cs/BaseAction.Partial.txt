@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace @Model.Namespace
 {
 	public abstract partial class @(Model.Service + Model.Action)BaseAction:
-        BaseServiceAction<@(Model.Service)Base, @(Model.Service + Model.Action)Request, @(Model.Service + Model.Action)Response>
+        @(Model.BaseParentAction)<@(Model.Service)Base, @(Model.Service + Model.Action)Request, @(Model.Service + Model.Action)Response>
     {
     }
 }

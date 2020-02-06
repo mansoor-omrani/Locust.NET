@@ -28,7 +28,7 @@ namespace Locust.Service
         public PK2 Key2 { get; set; }
         public PK3 Key3 { get; set; }
     }
-    public class ServiceFilteringRequest
+    public class ServiceFilteringRequest: ServiceRequest
     {
         public string Filter { get; set; }
         public string[] OrderBy { get; set; }

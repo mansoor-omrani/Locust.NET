@@ -206,7 +206,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
                         if (string.IsNullOrEmpty(service.ParentConfig))
                         {
-                            service.ParentConfig = $"BaseConfig";
+                            service.ParentConfig = $"ServiceConfig";
                         }
                         if (service.ParentConstructors == null)
                         {

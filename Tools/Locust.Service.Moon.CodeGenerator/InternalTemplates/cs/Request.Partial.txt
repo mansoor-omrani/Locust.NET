@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace @Model.Namespace
 {
-	public partial class @(Model.Service + Model.Action)Request : @(string.IsNullOrEmpty(Model.RequestModel) ? Model.RequestType: Raw(Model.RequestType + "<" + Model.RequestModel + ">"))
+	public partial class @(Model.Service + Model.Action)Request : @(string.IsNullOrEmpty(Model.RequestModel) ? Raw(Model.RequestType): Raw(Model.RequestType + "<" + Model.RequestModel + ">"))
     {
 	}
 }

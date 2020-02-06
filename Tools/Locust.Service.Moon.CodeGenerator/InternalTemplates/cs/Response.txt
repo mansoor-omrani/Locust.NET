@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace @Model.Namespace
 {
-    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.ResponseData) ? (string.IsNullOrEmpty(Model.ResponseType) ? "ServiceResponse": Model.ResponseType): Raw((string.IsNullOrEmpty(Model.ResponseType) ? "ServiceResponse": Model.ResponseType) + "<" + Model.ResponseData + ">"))
+    public partial class @(Model.Service + Model.Action)Response : @(string.IsNullOrEmpty(Model.ResponseData) ? (string.IsNullOrEmpty(Model.ResponseType) ? "ServiceResponse": Raw(Model.ResponseType)): Raw((string.IsNullOrEmpty(Model.ResponseType) ? "ServiceResponse": Model.ResponseType) + "<" + Model.ResponseData + ">"))
     {
 @foreach (var prop in Model.Props)
 {

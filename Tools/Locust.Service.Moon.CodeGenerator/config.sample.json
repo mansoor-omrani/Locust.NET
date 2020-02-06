@@ -61,6 +61,8 @@
             "SearchKey": "string",
             "Ascending": "bool"
           },
+          "RequestType": "MyServiceRequest",
+          "RequestModel": "MyViewModel",
           "ResponseType": "MyServiceResponse",
           "ResponseData": "List<MyModel>",
           "Concretes": [ "Default" ],

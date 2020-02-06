@@ -119,6 +119,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public string RequestModel { get; set; }
         public Dictionary<string, string> RequestProps { get; set; }
         public string ResponseType { get; set; }
+        public string RequestType { get; set; }
         public string ResponseData { get; set; }
         public Dictionary<string, string> ResponseProps { get; set; }
         public bool? DefaultAsync { get; set; }
@@ -313,6 +314,10 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (action.ResponseProps == null)
                             {
                                 action.ResponseProps = new Dictionary<string, string>();
+                            }
+                            if (string.IsNullOrEmpty(action.RequestType))
+                            {
+                                action.RequestType = "ServiceRequest";
                             }
                         }
                     }
@@ -1081,7 +1086,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "Request",
                                      options.Extension,
                                      options.Templates.RequestTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings, Props = action.RequestProps },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings, Props = action.RequestProps, action.RequestType },
                                      $"{actionDir}\\Request{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
@@ -1093,7 +1098,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "Request.Partial",
                                      options.Extension,
                                      options.Templates.RequestPartialTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.RequestModel, action.Usings, action.RequestType },
                                      $"{actionDir}\\Request.Partial{options.Extension}",
                                      false,
                                      ref temp);

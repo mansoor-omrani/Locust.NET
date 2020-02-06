@@ -259,5 +259,36 @@ namespace Locust.Base
 
             return result;
         }
+        public static TAbstraction Initialize<TAbstraction, TConcretion>(ref TAbstraction value, bool threadSafe = false)
+            where TConcretion : TAbstraction, new()
+        {
+            if (value == null)
+            {
+                if (threadSafe)
+                    Monitor.Enter(AppDomain.CurrentDomain);
+                
+                value = new TConcretion();
+                
+                if (threadSafe)
+                    Monitor.Exit(AppDomain.CurrentDomain);
+            }
+
+            return value;
+        }
+        public static TAbstraction Initialize<TAbstraction>(ref TAbstraction value, Func<TAbstraction> fnCreate, bool threadSafe = false)
+        {
+            if (value == null)
+            {
+                if (threadSafe)
+                    Monitor.Enter(AppDomain.CurrentDomain);
+
+                value = fnCreate();
+
+                if (threadSafe)
+                    Monitor.Exit(AppDomain.CurrentDomain);
+            }
+
+            return value;
+        }
     }
 }

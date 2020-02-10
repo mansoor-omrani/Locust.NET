@@ -174,7 +174,7 @@ begin
 		[StackTrace] [nvarchar](max) NULL,
 		[Data] [nvarchar](max) NULL,
 		[Info] [nvarchar](max) NULL,
-	 CONSTRAINT [@pkConstraintName] PRIMARY KEY CLUSTERED 
+	 CONSTRAINT [PK_ExceptionLog] PRIMARY KEY CLUSTERED 
 	(
 		[Id] ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

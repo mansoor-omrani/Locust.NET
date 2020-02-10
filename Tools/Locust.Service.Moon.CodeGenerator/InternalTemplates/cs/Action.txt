@@ -15,7 +15,7 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service + Model.Suffix + Model.Action)Action : @(Model.Service + Model.Action)BaseAction
     {
-        public @(Model.Service + Model.Suffix + Model.Action)Action(@(Model.Service)Base owner) : base(owner)
+        public @(Model.Service + Model.Suffix + Model.Action)Action(@(Model.Service + (Model.SameServiceSuffix ? Model.Suffix : "Base")) owner) : base(owner)
         {
         }
 	}

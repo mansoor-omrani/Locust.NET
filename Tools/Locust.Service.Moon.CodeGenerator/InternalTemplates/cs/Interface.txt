@@ -9,11 +9,13 @@ using System.Threading.Tasks;
 
 namespace @Model.Namespace
 {
-	public partial interface I@(Model.Service)
-    {
-		object this[string action] { get; }
-        @(Model.Service)BaseConfig Config { get; }
-
+	public partial interface I@(Model.Service) @Raw(string.IsNullOrEmpty(Model.ParentInterface)? "": ":" + Model.ParentInterface)
+	{
+	@if (string.IsNullOrEmpty(Model.ParentInterface))
+	{
+		<text>object this[string action] { get; }</text>
+        <text>@(Model.Service)BaseConfig Config { get; }</text>
+	}
 @foreach (var action in Model.Actions)
 {
 	if (!string.IsNullOrEmpty(action.Name))

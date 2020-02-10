@@ -31,10 +31,11 @@ namespace @Model.Namespace
 			<text>Add(typeof(@(Model.Service)BaseConfig), typeof(@(Model.Service)BaseConfig));</text>
 	if (!string.IsNullOrEmpty(suffix))
 	{
+			<text>Add(typeof(@(Model.Service)Base), typeof(@(Model.Service + suffix)));</text>
 			<text>Add(typeof(I@(Model.Service)), typeof(@(Model.Service + suffix)));</text>
+			<text>Add(typeof(@(Model.Service + suffix)), typeof(@(Model.Service + suffix)));</text>
 	}
 }
-			
 @if (!string.IsNullOrEmpty(actionSuffix))
 {
 	foreach (var action in Model.Actions)

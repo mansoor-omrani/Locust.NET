@@ -14,7 +14,14 @@ using System.Threading.Tasks;
 namespace @Model.Namespace
 {
 	public abstract partial class @(Model.Service + Model.Action)BaseAction:
-        @(Model.BaseParentAction)<@(Model.Service)Base, @(Model.Service + Model.Action)Request, @(Model.Service + Model.Action)Response>
+    @if (Model.ConfigBasedService)
+    {
+        <text>@(Model.ParentAction)<@(Model.Service)Base, @(Model.Service)BaseConfig, @(Model.Service + Model.Action)Request, @(Model.Service + Model.Action)Response></text>
+    }
+    else
+    {
+        <text>@(Model.ParentAction)<@(Model.Service)Base, @(Model.Service + Model.Action)Request, @(Model.Service + Model.Action)Response></text>
+    }
     {
     }
 }

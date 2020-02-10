@@ -1,5 +1,9 @@
 {
   "Namespace": "MyProgram",
+  "BaseParentService": "CustomBaseParentService",
+  "BaseParentAction": "CustomBaseBaseConfig",
+  "BaseParentConfig": "CustomBaseParentAction",
+  "ConfigBasedService": true,
   "Services": [
     {
       "Folder": "MyService",
@@ -11,6 +15,8 @@
         "PageSize": "int"
       },
       "ParentService": "CustomParentService",
+      "ParentInterface": "ICustomParentInterface",
+      "ParentAction": "CustomParentAction",
       "ParentConfig": "BaseConfig",
       "ParentConstructors": [
         [ "ParamType1", "ParamType2", "ParamType3" ]
@@ -22,6 +28,7 @@
           "paramName3": "ParamType3"
         }
       ],
+      "ConfigBasedService": null,
       "PartialRegistration": true,
       "PartialConfig": true,
       "PartialServiceBase": false,
@@ -47,7 +54,7 @@
         {
           "Name": "SaveAction",
           "Usings": [ "MyProgram.Services.MyService.ViewModels" ],
-          "BaseParentAction": "MyBaseAction",
+          "ParentAction": "MyParentAction",
           "RequestModel": "MyViewModel",
           "Concretes": [ "Default" ],
           "DefaultAsync": true,
@@ -62,6 +69,7 @@
             "SearchKey": "string",
             "Ascending": "bool"
           },
+          "ConfigBasedService": true,
           "RequestType": "MyServiceRequest",
           "RequestModel": "MyViewModel",
           "ResponseType": "MyServiceResponse",

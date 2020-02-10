@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace @Model.Namespace
 {
-	public partial interface I@(Model.Service)
+	public partial interface I@(Model.Service) @Raw(string.IsNullOrEmpty(Model.ParentInterface)? "": ":" + Model.ParentInterface)
     {
     }
 }

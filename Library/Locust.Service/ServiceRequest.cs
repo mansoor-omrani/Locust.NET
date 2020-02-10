@@ -36,7 +36,7 @@ namespace Locust.Service
     }
     public class ServicePagingRequest : ServiceFilteringRequest
     {
-        public int CurrentPage { get; set; }
+        public int Page { get; set; }
         public int PageSize { get; set; }
     }
 }

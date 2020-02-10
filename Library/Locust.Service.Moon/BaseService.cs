@@ -152,6 +152,10 @@ namespace Locust.Service.Moon
             Config = config ?? throw new ArgumentNullException(nameof(config));
             Actions = new CaseSensitiveDictionary<object>(true);
         }
+        public virtual object GetAction(string name)
+        {
+            return Actions[name];
+        }
         public object this[string action]
         {
             get

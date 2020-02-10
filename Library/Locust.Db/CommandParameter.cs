@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Locust.Db
 {
-    public class CommandParameter
+    public class CommandParam
     {
         public string Name { get; set; }
         private object _value;
@@ -63,25 +63,25 @@ namespace Locust.Db
         public byte? Precision { get; set; }
         public ParameterDirection Direction { get; set; }
         public int? Size { get; set; }
-        public CommandParameter()
+        public CommandParam()
         {
             ListSeparator = ",";
         }
-        public static CommandParameter Output(dynamic type, int? size = null)
+        public static CommandParam Output(dynamic type, int? size = null)
         {
-            return new CommandParameter { Type = type, Size = size, Direction = ParameterDirection.Output };
+            return new CommandParam { Type = type, Size = size, Direction = ParameterDirection.Output };
         }
-        public static CommandParameter Output(string name, dynamic type, int? size = null)
+        public static CommandParam Output(string name, dynamic type, int? size = null)
         {
-            return new CommandParameter { Name = name, Type = type, Size = size, Direction = ParameterDirection.Output };
+            return new CommandParam { Name = name, Type = type, Size = size, Direction = ParameterDirection.Output };
         }
-        public static CommandParameter Output(dynamic type, string typeProp, int? size = null)
+        public static CommandParam Output(dynamic type, string typeProp, int? size = null)
         {
-            return new CommandParameter { Type = type, TypeProp = typeProp, Size = size, Direction = ParameterDirection.Output };
+            return new CommandParam { Type = type, TypeProp = typeProp, Size = size, Direction = ParameterDirection.Output };
         }
-        public static CommandParameter Output(string name, string typeProp, dynamic type, int? size = null)
+        public static CommandParam Output(string name, string typeProp, dynamic type, int? size = null)
         {
-            return new CommandParameter { Name = name, TypeProp = typeProp, Type = type, Size = size, Direction = ParameterDirection.Output };
+            return new CommandParam { Name = name, TypeProp = typeProp, Type = type, Size = size, Direction = ParameterDirection.Output };
         }
         public override string ToString()
         {

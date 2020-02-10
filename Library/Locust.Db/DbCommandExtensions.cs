@@ -164,9 +164,9 @@ namespace Locust.Db
         {
             cmd.ApplyOutputs(parameters, (obj, prop, value) =>
             {
-                if (prop.PropertyType == typeof(CommandParameter))
+                if (prop.PropertyType == typeof(CommandParam))
                 {
-                    var cp = prop.GetValue(obj) as CommandParameter;
+                    var cp = prop.GetValue(obj) as CommandParam;
 
                     if (cp != null)
                     {
@@ -195,9 +195,9 @@ namespace Locust.Db
                 }
                 else
                 {
-                    if (prop.PropertyType == typeof(CommandParameter))
+                    if (prop.PropertyType == typeof(CommandParam))
                     {
-                        var cp = prop.GetValue(obj) as CommandParameter;
+                        var cp = prop.GetValue(obj) as CommandParam;
 
                         if (cp != null)
                         {

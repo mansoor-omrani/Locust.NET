@@ -20,21 +20,21 @@ namespace Locust.Db
     }
     public static class DbConnectionExtensions
     {
-        private static IEnumerator<CommandArgument> GetCommandParameterEnumeratorFromDictionary(IDictionary<string, object> data)
+        private static IEnumerator<CommandArgument> GetCommandParamEnumeratorFromDictionary(IDictionary<string, object> data)
         {
             foreach (var item in data)
             {
                 yield return new CommandArgument { Name = item.Key, Value = item.Value, Type = item.Value?.GetType() };
             }
         }
-        private static IEnumerator<CommandArgument> GetCommandParameterEnumeratorFromEnumerable(System.Collections.IEnumerable data)
+        private static IEnumerator<CommandArgument> GetCommandParamEnumeratorFromEnumerable(System.Collections.IEnumerable data)
         {
             foreach (var item in data)
             {
                 yield return new CommandArgument { Value = item, Type = item?.GetType() };
             }
         }
-        private static IEnumerator<CommandArgument> GetCommandParameterEnumeratorFromObject(object data)
+        private static IEnumerator<CommandArgument> GetCommandParamEnumeratorFromObject(object data)
         {
             var props = data?.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
@@ -61,17 +61,17 @@ namespace Locust.Db
 
             if (dictionaryParams != null)
             {
-                return CreateCommand(con, text, type, GetCommandParameterEnumeratorFromDictionary(dictionaryParams), autoNullEmptyStrings);
+                return CreateCommand(con, text, type, GetCommandParamEnumeratorFromDictionary(dictionaryParams), autoNullEmptyStrings);
             }
 
             var enumerable = parameters as System.Collections.IEnumerable;
 
             if (enumerable != null)
             {
-                return CreateCommand(con, text, type, GetCommandParameterEnumeratorFromEnumerable(enumerable), autoNullEmptyStrings);
+                return CreateCommand(con, text, type, GetCommandParamEnumeratorFromEnumerable(enumerable), autoNullEmptyStrings);
             }
 
-            return CreateCommand(con, text, type, GetCommandParameterEnumeratorFromObject(parameters));
+            return CreateCommand(con, text, type, GetCommandParamEnumeratorFromObject(parameters));
         }
         internal static DbCommand CreateCommand(this DbConnection con, string text, CommandType type, IEnumerator<CommandArgument> parameters, bool autoNullEmptyStrings = false)
         {
@@ -120,7 +120,7 @@ namespace Locust.Db
                             break;
                         }
 
-                        var _param = value as CommandParameter;
+                        var _param = value as CommandParam;
 
                         if (_param != null)
                         {

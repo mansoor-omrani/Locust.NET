@@ -260,7 +260,7 @@ namespace Locust.Base
 
             return result;
         }
-        public static TAbstraction Initialize<TAbstraction, TConcretion>(ref TAbstraction value, bool threadSafe = false)
+        public static TAbstraction EnsureInitialized<TAbstraction, TConcretion>(ref TAbstraction value, bool threadSafe = false)
             where TConcretion : TAbstraction, new()
         {
             if (value == null)
@@ -276,7 +276,7 @@ namespace Locust.Base
 
             return value;
         }
-        public static TAbstraction Initialize<TAbstraction>(ref TAbstraction value, Func<TAbstraction> fnCreate, bool threadSafe = false)
+        public static TAbstraction EnsureInitialized<TAbstraction>(ref TAbstraction value, Func<TAbstraction> fnCreate, bool threadSafe = false)
         {
             if (value == null)
             {

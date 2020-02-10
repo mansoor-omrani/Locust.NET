@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AltNamesAttribute.cs" />
+    <Compile Include="BaseService.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ServiceAction.cs" />
     <Compile Include="ServiceConfig.cs" />
@@ -57,6 +58,10 @@
     <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
       <Project>{809D809C-2FA3-4E8A-9CE6-8BCDDEA3E061}</Project>
       <Name>Locust.Base</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Locust.Collections\Locust.Collections.csproj">
+      <Project>{37D5C9C8-F5FA-486F-B129-48D5F859AF66}</Project>
+      <Name>Locust.Collections</Name>
     </ProjectReference>
     <ProjectReference Include="..\Locust.Serialization\Locust.Serialization.csproj">
       <Project>{80414F68-3640-4ED7-A48F-5877101CB3AD}</Project>

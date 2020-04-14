@@ -117,9 +117,9 @@ else
         }
 	}
 	
-		<text>public @(Model.Service)Base(@dependencyList) @parent</text>
+		<text>public @(Model.Service)Base(@Raw(dependencyList)) @parent</text>
 		<text>{</text>
 		<text>	Init(@dependencyArgs);</text>
         <text>}</text>
-		<text>partial void Init(@dependencyList);</text>
+		<text>partial void Init(@Raw(dependencyList));</text>
 }

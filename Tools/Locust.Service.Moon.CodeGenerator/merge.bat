@@ -8,7 +8,7 @@ IF "%~1"=="" (
 
 	ECHO Merging ...
 
-	ilmerge /log:merge.log /out:lsmcg.exe ^
+	ilmerge /log:merge.log /targetplatform:v4,C:\Windows\Microsoft.NET\Framework\v4.0.30319 /out:lsmcg.exe ^
 		./bin/release/Locust.Service.Moon.CodeGenerator.exe ^
 		./bin/release/INIFileParser.dll ^
 		./bin/release/Locust.AppPath.dll ^

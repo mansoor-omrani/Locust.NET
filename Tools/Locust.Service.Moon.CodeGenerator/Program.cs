@@ -608,7 +608,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             outputDir = "output";
                         }
 
-                        var configPath = Environment.CurrentDirectory + "\\" + config;
+                        var configPath = Path.IsPathRooted(config) ? config: Environment.CurrentDirectory + "\\" + config;
 
                         if (!File.Exists(configPath))
                         {
@@ -1064,6 +1064,18 @@ namespace Locust.Service.Moon.CodeGenerator
                                  ref temp);
                     }
 
+                    var ctors = new List<List<string>>();
+
+                    foreach (var item in config.Constructors)
+                    {
+                        var _ctor = new List<string>();
+                        foreach (var pair in item)
+                        {
+                            _ctor.Add(pair.Value);
+                        }
+                        ctors.Add(_ctor);
+                    }
+
                     GenerateCode(logPrefix,
                                  config.Service,
                                  $"{concrete.Suffix}Service",
@@ -1078,7 +1090,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      Suffix = concrete.Suffix,
                                      ActionSuffix = concrete.ActionSuffix,
                                      Constructors = concrete.Constructors,
-                                     ParentConstructors = config.ParentConstructors
+                                     ParentConstructors = ctors
                                  },
                                  serviceDir + $"\\{concrete.Suffix}Service{options.Extension}",
                                  options.Overwrite,

@@ -94,7 +94,7 @@ else
                         dependencyParentType = dependencyValue.Substring(colonIndex + 1);
                     }
 
-                    if (dependencyType == param || dependencyParentType == param)
+                    if (dependencyType == param || dependencyParentType == param || (param.IndexOf(':') >= 0 && dependencyParentType == param.Substring(param.IndexOf(':') + 1)))
                     {
                         dependencyFound = true;
                         dependencyIndex = i;
@@ -121,7 +121,7 @@ else
         }
 	}
 	
-		<text>public @(Model.Service + Model.Suffix)(@dependencyList) @parent</text>
+		<text>public @(Model.Service + Model.Suffix)(@Raw(dependencyList)) @parent</text>
 		<text>{</text>
 foreach (var action in Model.Actions)
 {
@@ -133,5 +133,5 @@ foreach (var action in Model.Actions)
 }
 		<text>	Init(@dependencyArgs);</text>
         <text>}</text>
-		<text>partial void Init(@dependencyList);</text>
+		<text>partial void Init(@Raw(dependencyList));</text>
 }

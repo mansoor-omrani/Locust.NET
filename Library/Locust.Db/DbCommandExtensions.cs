@@ -30,12 +30,21 @@ namespace Locust.Db
                 }
             }
         }
-        public static int Execute(this DbCommand cmd)
+        public static object Execute(this DbCommand cmd, bool scaler = false)
         {
             if (cmd.Connection.State == ConnectionState.Closed || cmd.Connection.State == ConnectionState.Broken)
                 cmd.Connection.Open();
 
-            var result = cmd.ExecuteNonQuery();
+            object result = null;
+
+            if (scaler)
+            {
+                result = cmd.ExecuteScalar();
+            }
+            else
+            {
+                result = cmd.ExecuteNonQuery();
+            }
 
             return result;
         }
@@ -74,12 +83,21 @@ namespace Locust.Db
                 }
             }
         }
-        public static async Task<int> ExecuteAsync(this DbCommand cmd, CancellationToken cancellation)
+        public static async Task<object> ExecuteAsync(this DbCommand cmd, bool scaler, CancellationToken cancellation)
         {
             if (cmd.Connection.State == ConnectionState.Closed || cmd.Connection.State == ConnectionState.Broken)
                 cmd.Connection.Open();
 
-            var result = await cmd.ExecuteNonQueryAsync(cancellation);
+            object result = null;
+
+            if (scaler)
+            {
+                result = await cmd.ExecuteScalarAsync();
+            }
+            else
+            {
+                result = await cmd.ExecuteNonQueryAsync();
+            }
 
             return result;
         }
@@ -88,7 +106,7 @@ namespace Locust.Db
             return cmd.ExecuteAsync(result, reader =>
             {
                 object record;
-                
+
                 if (typeof(T) == TypeHelper.TypeOfString)
                 {
                     record = Activator.CreateInstance(TypeHelper.TypeOfString, "".ToCharArray());
@@ -97,15 +115,15 @@ namespace Locust.Db
                 {
                     record = Activator.CreateInstance(typeof(T));
                 }
-                
+
                 reader.DataReaderToObject(ref record, typeof(T));
 
                 return (T)record;
             }, cancellation);
         }
-        public static Task<int> ExecuteAsync(this DbCommand cmd)
+        public static Task<object> ExecuteAsync(this DbCommand cmd, bool scaler = false)
         {
-            return ExecuteAsync(cmd, CancellationToken.None);
+            return ExecuteAsync(cmd, scaler, CancellationToken.None);
         }
         public static void ApplyOutputs(this DbCommand cmd, IDictionary<string, object> parameters, Action<IDictionary<string, object>, string, object> actApply)
         {
@@ -164,9 +182,9 @@ namespace Locust.Db
         {
             cmd.ApplyOutputs(parameters, (obj, prop, value) =>
             {
-                if (prop.PropertyType == typeof(CommandParam))
+                if (prop.PropertyType == typeof(CommandParameter))
                 {
-                    var cp = prop.GetValue(obj) as CommandParam;
+                    var cp = prop.GetValue(obj) as CommandParameter;
 
                     if (cp != null)
                     {
@@ -195,9 +213,9 @@ namespace Locust.Db
                 }
                 else
                 {
-                    if (prop.PropertyType == typeof(CommandParam))
+                    if (prop.PropertyType == typeof(CommandParameter))
                     {
-                        var cp = prop.GetValue(obj) as CommandParam;
+                        var cp = prop.GetValue(obj) as CommandParameter;
 
                         if (cp != null)
                         {
@@ -208,8 +226,6 @@ namespace Locust.Db
                     {
                         do
                         {
-
-
                             if (prop.PropertyType == TypeHelper.TypeOfInt16 || prop.PropertyType == TypeHelper.TypeOfNullableInt16)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToInt16(value));
@@ -258,13 +274,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfFloat || prop.PropertyType == TypeHelper.TypeOfNullableFloat)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToFloat(value));
                                 break;
                             }
-
 
                             if (prop.PropertyType == TypeHelper.TypeOfDouble || prop.PropertyType == TypeHelper.TypeOfNullableDouble)
                             {
@@ -272,13 +286,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfDecimal || prop.PropertyType == TypeHelper.TypeOfNullableDecimal)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToDecimal(value));
                                 break;
                             }
-
 
                             if (prop.PropertyType == TypeHelper.TypeOfByte || prop.PropertyType == TypeHelper.TypeOfNullableByte)
                             {
@@ -286,13 +298,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfSByte || prop.PropertyType == TypeHelper.TypeOfNullableSByte)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToSByte(value));
                                 break;
                             }
-
 
                             if (prop.PropertyType == TypeHelper.TypeOfChar || prop.PropertyType == TypeHelper.TypeOfNullableChar)
                             {
@@ -300,13 +310,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfString)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToString(value));
                                 break;
                             }
-
 
                             if (prop.PropertyType == TypeHelper.TypeOfBool || prop.PropertyType == TypeHelper.TypeOfNullableBool)
                             {
@@ -314,13 +322,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfDateTime || prop.PropertyType == TypeHelper.TypeOfNullableDateTime)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToDateTime(value));
                                 break;
                             }
-
 
                             if (prop.PropertyType == TypeHelper.TypeOfDateTimeOffset || prop.PropertyType == TypeHelper.TypeOfNullableDateTimeOffset)
                             {
@@ -328,15 +334,11 @@ namespace Locust.Db
                                 break;
                             }
 
-
                             if (prop.PropertyType == TypeHelper.TypeOfTimeSpan || prop.PropertyType == TypeHelper.TypeOfNullableTimeSpan)
                             {
                                 prop.SetValue(obj, SafeClrConvert.ToTimeSpan(value));
                                 break;
                             }
-
-
-
 
                             prop.SetValue(obj, value);
                         }

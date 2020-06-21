@@ -174,6 +174,8 @@ namespace Locust.Service.Moon.CodeGenerator
         public string BaseParentAction { get; set; }
         public string BaseParentConfig { get; set; }
         public List<GeneratorConfigServiceItem> Services { get; set; }
+        public string[] FrameworkUsings { get; set; }
+        public string[] CommonUsings { get; set; }
         public GeneratorConfig()
         {
             ConfigBasedService = true;
@@ -181,7 +183,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0.6";
+        static string ConfigVersion => "1.0.7";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -196,6 +198,28 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 result.Data = JsonConvert.DeserializeObject<GeneratorConfig>(content);
 
+                if (result.Data.FrameworkUsings == null || result.Data.FrameworkUsings.Length == 0)
+                {
+                    result.Data.FrameworkUsings = new string[]
+                    {
+                        "Locust.Service",
+                        "Locust.Service.Moon"
+                    };
+                }
+
+                if (result.Data.CommonUsings == null || result.Data.CommonUsings.Length == 0)
+                {
+                    result.Data.CommonUsings = new string[]
+                    {
+                        "System",
+                        "System.Linq",
+                        "System.Text",
+                        "System.Threading",
+                        "System.Threading.Tasks",
+                        "System.Collections.Generic"
+                    };
+                }
+
                 if (string.IsNullOrEmpty(result.Data.Version) || string.Compare(result.Data.Version, ConfigVersion, true) == 0)
                 {
                     foreach (var service in result.Data.Services)
@@ -207,8 +231,11 @@ namespace Locust.Service.Moon.CodeGenerator
 
                         if (service.Usings == null)
                         {
-                            service.Usings = new string[0];
+                            service.Usings = new string[] { "Locust.Db", "Locust.Logging", "Locust.Caching" };
                         }
+                        
+                        service.Usings = result.Data.FrameworkUsings.MergeWith(result.Data.CommonUsings).MergeWith(service.Usings);
+
                         if (service.ConfigProps == null)
                         {
                             service.ConfigProps = new Dictionary<string, string>();
@@ -322,12 +349,16 @@ namespace Locust.Service.Moon.CodeGenerator
                         {
                             service.Actions = new List<GeneratorConfigItemActionItem>();
                         }
+
                         foreach (var action in service.Actions)
                         {
                             if (action.Usings == null)
                             {
                                 action.Usings = new string[0];
                             }
+
+                            action.Usings = result.Data.FrameworkUsings.MergeWith(result.Data.CommonUsings).MergeWith(action.Usings);
+
                             if (action.Concretes == null || action.Concretes.Length == 0)
                             {
                                 action.Concretes = new string[] { "Default" };

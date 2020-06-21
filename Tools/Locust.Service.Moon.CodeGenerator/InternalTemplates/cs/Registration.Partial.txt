@@ -1,5 +1,4 @@
-﻿using Locust.Service;
-@foreach (var _using in Model.Usings)
+﻿@foreach (var _using in Model.Usings)
 {
 <text>using @(_using);</text>
 }

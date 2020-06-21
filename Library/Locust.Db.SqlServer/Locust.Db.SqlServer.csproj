@@ -82,10 +82,6 @@
       <Project>{D0C79BFD-8D65-41B4-90BB-AD65E2646D4A}</Project>
       <Name>Locust.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Locust.ModelField\Locust.ModelField.csproj">
-      <Project>{8592020E-A9BD-4BB2-8347-62A89518A542}</Project>
-      <Name>Locust.ModelField</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

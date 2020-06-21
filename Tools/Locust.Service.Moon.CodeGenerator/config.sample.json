@@ -4,11 +4,27 @@
   "BaseParentAction": "CustomBaseBaseConfig",
   "BaseParentConfig": "CustomBaseParentAction",
   "ConfigBasedService": true,
+  "FrameworkUsings": [], /* default:
+                              Locust.Service
+                              Locust.Service.Moon
+                        */
+  "CommonUsings": [], /* default:
+                          System
+                          System.Linq
+                          System.Collections.Generic
+                          System.Text
+                          System.Threading
+                          System.Threading.Tasks
+                      */
   "Services": [
     {
       "Folder": "MyService",
       "Namespace": ".MyService",
-      "Usings": [ "Locust.Caching", "Locust.Db" ],
+      "Usings": [], /* default:
+                        Locust.Db
+                        Locust.Logging
+                        Locust.Caching
+                      */
       "Service": "MyProgramMyService",
       "ConfigProps": {
         "UseCache": "bool",

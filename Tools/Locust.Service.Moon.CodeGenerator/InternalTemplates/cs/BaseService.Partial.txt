@@ -1,12 +1,4 @@
-﻿using Locust.Service;
-using Locust.Service.Moon;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-@foreach (var _using in Model.Usings)
+﻿@foreach (var _using in Model.Usings)
 {
 <text>using @(_using);</text>
 }

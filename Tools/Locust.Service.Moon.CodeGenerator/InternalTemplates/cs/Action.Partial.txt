@@ -5,7 +5,7 @@
 
 namespace @Model.Namespace
 {
-	public partial class @(Model.Service + Model.Suffix + Model.Action)Action : @(Model.Service + Model.Action)BaseAction
+	public partial class @(Model.Service + Model.ConcreteService + Model.Action + Model.Suffix)Action : @(Model.Service + Model.Action)BaseAction
     {
 		private async Task DoRun(@(Model.Service + Model.Action)Request request, @(Model.Service + Model.Action)Response response, bool async, CancellationToken cancellation)
 		{

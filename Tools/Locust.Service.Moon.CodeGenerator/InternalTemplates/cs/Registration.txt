@@ -7,7 +7,7 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service)Registration : ServiceRegistery
     {
-        public @(Model.Service)Registration()
+        public void Build()
         {
 @{
 	foreach (var c in Model.Concretes)

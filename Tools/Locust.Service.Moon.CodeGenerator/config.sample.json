@@ -3,6 +3,9 @@
   "BaseParentService": "CustomBaseParentService",
   "BaseParentAction": "CustomBaseBaseConfig",
   "BaseParentConfig": "CustomBaseParentAction",
+  "RegistrationDir": null, // defaut: outputdir
+  "AbstractionDir": null, // defaut: outputdir
+  "ImplementationDir": null, // defaut: outputdir
   "ConfigBasedService": true,
   "FrameworkUsings": [], /* default:
                               Locust.Service
@@ -20,6 +23,9 @@
     {
       "Folder": "MyService",
       "Namespace": ".MyService",
+      "RegistrationDir": null, // defaut: service folder
+      "AbstractionDir": null, // defaut: service folder
+      "ImplementationDir": null, // defaut: service folder
       "Usings": [], /* default:
                         Locust.Db
                         Locust.Logging
@@ -30,6 +36,8 @@
         "UseCache": "bool",
         "PageSize": "int"
       },
+      "Attributes": [], // list of attributes to apply on abstraction service
+      "Interfaces": [], // list of interfaces to apply on abstraction service
       "ParentService": "CustomParentService",
       "ParentInterface": "ICustomParentInterface",
       "ParentAction": "CustomParentAction",
@@ -55,6 +63,8 @@
           "ActionSuffix": "Default",
           "Partial": true,
           "Default": false,
+          "Attributes": [], // list of attributes to apply on concretion service
+          "Interfaces": [], // list of interfaces to apply on concretion service
           "ConfigProps": { // customized config props for each concrete service
             "BasePath": "string",
             "MaxSize": "int"
@@ -81,6 +91,8 @@
         {
           "Name": "SearchAction",
           "Usings": [ "MyProgram.Services.MyService.Models" ],
+          "Attributes": [], // list of attributes to apply on abstraction action
+          "Interfaces": [], // list of interfaces to apply on abstraction action
           "RequestProps": {
             "SearchKey": "string",
             "Ascending": "bool"

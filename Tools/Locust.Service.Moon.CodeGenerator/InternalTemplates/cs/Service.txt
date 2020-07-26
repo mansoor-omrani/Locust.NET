@@ -119,7 +119,7 @@ foreach (var action in Model.Actions)
 {
 	if (!string.IsNullOrEmpty(action.Name))
 	{
-        <text>	@action.Name = new @(Model.Service + Model.ActionSuffix + action.Name)Action(this);</text>
+        <text>	@action.Name = new @(Model.Service + Model.ConcreteService + action.Name + Model.ActionSuffix)Action(this);</text>
         <text>	Actions.Add("@action.Name", @action.Name);</text>
 	}
 }

@@ -7,5 +7,9 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service)Registration : ServiceRegistery
     {
+		public @(Model.Service)Registration()
+		{
+			Build();
+		}
 	}
 }

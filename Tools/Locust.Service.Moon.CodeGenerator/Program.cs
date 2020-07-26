@@ -138,6 +138,7 @@ namespace Locust.Service.Moon.CodeGenerator
         public List<List<string>> ParentConstructors { get; set; }
         public List<GeneratorConfigItemActionItem> Actions { get; set; }
         public string Service { get; set; }
+        public string ConcreteService { get; set; }
         public string Suffix { get; set; }
         public string ActionSuffix { get; set; }
         public List<GeneratorConcreteItem> Concretes { get; set; }
@@ -146,6 +147,9 @@ namespace Locust.Service.Moon.CodeGenerator
     public class GeneratorConfigServiceItem
     {
         public string Folder { get; set; }
+        public string AbstractionDir { get; set; }
+        public string ImplementationDir { get; set; }
+        public string RegistrationDir { get; set; }
         public string Namespace { get; set; }
         public bool PartialConfig { get; set; }
         public List<Dictionary<string, string>> Constructors { get; set; }
@@ -169,10 +173,13 @@ namespace Locust.Service.Moon.CodeGenerator
     {
         public string Version { get; set; }
         public string Namespace { get; set; }
+        public string RegistrationDir { get; set; }
         public bool ConfigBasedService { get; set; }
         public string BaseParentService { get; set; }
         public string BaseParentAction { get; set; }
         public string BaseParentConfig { get; set; }
+        public string AbstractionDir { get; set; }
+        public string ImplementationDir { get; set; }
         public List<GeneratorConfigServiceItem> Services { get; set; }
         public string[] FrameworkUsings { get; set; }
         public string[] CommonUsings { get; set; }
@@ -233,7 +240,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         {
                             service.Usings = new string[] { "Locust.Db", "Locust.Logging", "Locust.Caching" };
                         }
-                        
+
                         service.Usings = result.Data.FrameworkUsings.MergeWith(result.Data.CommonUsings).MergeWith(service.Usings);
 
                         if (service.ConfigProps == null)
@@ -314,7 +321,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (concrete.Constructors == null || concrete.Constructors.Count == 0)
                             {
                                 concrete.Constructors = new List<Dictionary<string, string>>();
-                                
+
                                 foreach (var _ctor in service.Constructors)
                                 {
                                     var d = new Dictionary<string, string>();
@@ -322,7 +329,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                     foreach (var arg in _ctor)
                                     {
                                         var colonIndex = arg.Value.IndexOf(':');
-                                        
+
                                         if (colonIndex != -1)
                                         {
                                             if (arg.Value.Substring(colonIndex + 1) == $"{service.Service}BaseConfig")
@@ -639,7 +646,7 @@ namespace Locust.Service.Moon.CodeGenerator
                             outputDir = "output";
                         }
 
-                        var configPath = Path.IsPathRooted(config) ? config: Environment.CurrentDirectory + "\\" + config;
+                        var configPath = Path.IsPathRooted(config) ? config : Environment.CurrentDirectory + "\\" + config;
 
                         if (!File.Exists(configPath))
                         {
@@ -725,6 +732,7 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
 
                         Options.OutputDir = result.Data.OutputDir = outputDir;
+
                         Options.Config = result.Data.Config = gcr.Data;
 
                         var oa = _args.FirstOrDefault(ca => ca.Command == "overwrite");
@@ -771,20 +779,36 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static string CreateOutputDir(string outputDir)
         {
+            return CreateDir("output", outputDir);
+        }
+        static string CreateRegistrationDir(string registrationDir)
+        {
+            return CreateDir("registration", registrationDir);
+        }
+        static string CreateAbstractionDir(string abstractionDir)
+        {
+            return CreateDir("abstraction", abstractionDir);
+        }
+        static string CreateImplementationDir(string implementationDir)
+        {
+            return CreateDir("implementation", implementationDir);
+        }
+        static string CreateDir(string name, string dir)
+        {
             var result = "";
 
-            if (!Directory.Exists(outputDir))
+            if (!Directory.Exists(dir))
             {
                 try
                 {
-                    Directory.CreateDirectory(outputDir);
+                    Directory.CreateDirectory(dir);
                 }
                 catch (Exception e)
                 {
-                    logger.Log("Cannot create output directory. Code generation aborted.");
+                    logger.Log($"Cannot create {name} directory. Code generation aborted.");
                     exceptionLogger.LogException(e);
 
-                    result = "CreateOutputDirFailed";
+                    result = $"Create {name} Dir Failed";
                 }
             }
 
@@ -901,7 +925,6 @@ namespace Locust.Service.Moon.CodeGenerator
             foreach (var config in options.Config.Services)
             {
                 var logPrefix = $"row = {row}, service = {config.Service}";
-                var serviceDir = outputDir + "\\" + config.Folder;
                 warnings[row] = 0;
 
                 #region Validating Service Config
@@ -922,10 +945,22 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 if (string.IsNullOrEmpty(config.Folder))
                 {
-                    logger.Log($"{logPrefix}: No folder specified");
-                    failures++;
-                    continue;
+                    config.Folder = config.Service;
                 }
+
+                var abstractionDir = string.IsNullOrEmpty(config.AbstractionDir) ? options.Config.AbstractionDir : config.AbstractionDir;
+
+                abstractionDir = string.IsNullOrEmpty(abstractionDir) ? outputDir + "\\" + config.Folder :
+                                    Path.IsPathRooted(abstractionDir) ? abstractionDir + "\\" + config.Folder :
+                                        outputDir + "\\" + abstractionDir + "\\" + config.Folder;
+
+                var implementationDir = string.IsNullOrEmpty(config.ImplementationDir) ? options.Config.ImplementationDir : config.ImplementationDir;
+                var hasImplementationDir = !string.IsNullOrEmpty(implementationDir);
+                implementationDir = string.IsNullOrEmpty(implementationDir) ? outputDir + "\\" + config.Folder :
+                                    Path.IsPathRooted(implementationDir) ? implementationDir + "\\" + config.Folder :
+                                        outputDir + "\\" + implementationDir + "\\" + config.Folder;
+
+                //var serviceDir = outputDir + "\\" + config.Folder;
 
                 if (string.IsNullOrEmpty(config.Namespace))
                 {
@@ -952,11 +987,20 @@ namespace Locust.Service.Moon.CodeGenerator
                     continue;
                 }
 
-                var csr = CreateServiceDir(config.Service, serviceDir);
+                var car = CreateServiceDir(config.Service, abstractionDir);
 
-                if (!string.IsNullOrEmpty(csr))
+                if (!string.IsNullOrEmpty(car))
                 {
-                    result.SetStatus(csr);
+                    result.SetStatus(car);
+                    failures++;
+                    continue;
+                }
+
+                var cir = CreateServiceDir(config.Service, implementationDir);
+
+                if (!string.IsNullOrEmpty(cir))
+                {
+                    result.SetStatus(cir);
                     failures++;
                     continue;
                 }
@@ -971,7 +1015,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.BaseConfigTemplate,
                              new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps, config.ParentConfig },
-                             $"{serviceDir}\\BaseConfig{options.Extension}",
+                             $"{abstractionDir}\\BaseConfig{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
@@ -983,7 +1027,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.BaseConfigPartialTemplate,
                              new { config.Namespace, config.Service, config.Usings, config.ParentConfig },
-                             $"{serviceDir}\\BaseConfig.Partial{options.Extension}",
+                             $"{abstractionDir}\\BaseConfig.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -994,7 +1038,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.InterfaceTemplate,
                              config,
-                             $"{serviceDir}\\Interface{options.Extension}",
+                             $"{abstractionDir}\\Interface{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
@@ -1006,7 +1050,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.InterfacePartialTemplate,
                              config,
-                             $"{serviceDir}\\Interface.Partial{options.Extension}",
+                             $"{abstractionDir}\\Interface.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -1017,9 +1061,23 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.BaseServiceTemplate,
                              config,
-                             $"{serviceDir}\\BaseService{options.Extension}",
+                             $"{abstractionDir}\\BaseService{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
+
+                var registrationDir = string.IsNullOrEmpty(config.RegistrationDir) ? options.Config.RegistrationDir : config.RegistrationDir;
+
+                registrationDir = string.IsNullOrEmpty(registrationDir) ? outputDir + "\\" + config.Folder :
+                                        Path.IsPathRooted(registrationDir) ? registrationDir : Environment.CurrentDirectory + "\\" + registrationDir + "\\" + config.Folder;
+
+                cor = CreateRegistrationDir(registrationDir);
+
+                if (!string.IsNullOrEmpty(cor))
+                {
+                    result.SetStatus(cor);
+
+                    return result;
+                }
 
                 GenerateCode(logPrefix,
                              config.Service,
@@ -1027,22 +1085,19 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.RegistrationTemplate,
                              config,
-                             $"{serviceDir}\\Registration{options.Extension}",
+                             $"{registrationDir}\\Registration{options.Extension}",
                              options.Overwrite,
                              ref warnings[row]);
 
-                if (config.PartialRegistration && options.GeneratePartials)
-                {
-                    GenerateCode(logPrefix,
+                GenerateCode(logPrefix,
                                  config.Service,
                                  "Registration.Partial",
                                  options.Extension,
                                  options.Templates.RegistrationPartialTemplate,
                                  config,
-                                 $"{serviceDir}\\Registration.Partial{options.Extension}",
+                                 $"{registrationDir}\\Registration.Partial{options.Extension}",
                                  false,
                                  ref temp);
-                }
 
                 if (config.PartialServiceBase && options.GeneratePartials)
                 {
@@ -1052,7 +1107,7 @@ namespace Locust.Service.Moon.CodeGenerator
                              options.Extension,
                              options.Templates.BaseServicePartialTemplate,
                              config,
-                             $"{serviceDir}\\BaseService.Partial{options.Extension}",
+                             $"{abstractionDir}\\BaseService.Partial{options.Extension}",
                              false,
                              ref temp);
                 }
@@ -1061,6 +1116,9 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 foreach (var concrete in config.Concretes)
                 {
+                    var serviceDir = implementationDir + $"{(hasImplementationDir ? $"\\{concrete.Suffix}" : "")}";
+                    var csd = CreateDir(concrete.Suffix, serviceDir);
+
                     if (string.IsNullOrWhiteSpace(concrete.Suffix))
                     {
                         logger.Log($"{logPrefix}: concrete {i} has no suffix. skipped.");
@@ -1107,40 +1165,44 @@ namespace Locust.Service.Moon.CodeGenerator
                         ctors.Add(_ctor);
                     }
 
-                    GenerateCode(logPrefix,
-                                 config.Service,
-                                 $"{concrete.Suffix}Service",
-                                 options.Extension,
-                                 options.Templates.ServiceTemplate,
-                                 new GeneratorConfigServiceConcreteItem
-                                 {
-                                     Usings = config.Usings,
-                                     Namespace = config.Namespace,
-                                     Service = config.Service,
-                                     Actions = config.Actions,
-                                     Suffix = concrete.Suffix,
-                                     ActionSuffix = concrete.ActionSuffix,
-                                     Constructors = concrete.Constructors,
-                                     ParentConstructors = ctors
-                                 },
-                                 serviceDir + $"\\{concrete.Suffix}Service{options.Extension}",
-                                 options.Overwrite,
-                                 ref warnings[row]);
-
-                    if (concrete.Partial && options.GeneratePartials)
+                    if (string.IsNullOrEmpty(csd))
                     {
                         GenerateCode(logPrefix,
-                                 config.Service,
-                                 $"{concrete.Suffix}Service.Partial",
-                                 options.Extension,
-                                 options.Templates.ServicePartialTemplate,
-                                 new { config.Usings, config.Namespace, config.Service, concrete.Suffix },
-                                 serviceDir + $"\\{concrete.Suffix}Service.Partial{options.Extension}",
-                                 false,
-                                 ref temp);
-                    }
+                                     config.Service,
+                                     $"{concrete.Suffix}Service",
+                                     options.Extension,
+                                     options.Templates.ServiceTemplate,
+                                     new GeneratorConfigServiceConcreteItem
+                                     {
+                                         Usings = config.Usings,
+                                         Namespace = config.Namespace,
+                                         Service = config.Service,
+                                         ConcreteService = hasImplementationDir ? concrete.Suffix: "",
+                                         Actions = config.Actions,
+                                         Suffix = concrete.Suffix,
+                                         ActionSuffix = concrete.ActionSuffix,
+                                         Constructors = concrete.Constructors,
+                                         ParentConstructors = ctors
+                                     },
+                                     $"{serviceDir}\\{concrete.Suffix}Service{options.Extension}",
+                                     options.Overwrite,
+                                     ref warnings[row]);
 
-                    i++;
+                        if (concrete.Partial && options.GeneratePartials)
+                        {
+                            GenerateCode(logPrefix,
+                                     config.Service,
+                                     $"{concrete.Suffix}Service.Partial",
+                                     options.Extension,
+                                     options.Templates.ServicePartialTemplate,
+                                     new { config.Usings, config.Namespace, config.Service, concrete.Suffix },
+                                     $"{serviceDir}\\{concrete.Suffix}Service.Partial{options.Extension}",
+                                     false,
+                                     ref temp);
+                        }
+
+                        i++;
+                    }
                 }
 
                 i = 0;
@@ -1153,10 +1215,10 @@ namespace Locust.Service.Moon.CodeGenerator
                         continue;
                     }
 
-                    var actionDir = $"{serviceDir}\\{action.Name}";
-                    var car = CreateActionDir(config.Service, action.Name, actionDir);
+                    var actionDir = $"{abstractionDir}\\{action.Name}";
+                    var cacr = CreateActionDir(config.Service, action.Name, actionDir);
 
-                    if (string.IsNullOrEmpty(car))
+                    if (string.IsNullOrEmpty(cacr))
                     {
                         GenerateCode(logPrefix,
                                      config.Service,
@@ -1226,11 +1288,26 @@ namespace Locust.Service.Moon.CodeGenerator
                                      false,
                                      ref temp);
                         }
+                    }
+                }
+
+                foreach (var concreteService in config.Concretes)
+                {
+                    foreach (var action in config.Actions)
+                    {
+                        if (string.IsNullOrEmpty(action.Name))
+                        {
+                            logger.Log($"{logPrefix}: action {i} is empty. skipped.");
+                            continue;
+                        }
 
                         var j = 0;
 
                         foreach (var concrete in action.Concretes)
                         {
+                            var actionDir = $"{implementationDir}{(hasImplementationDir ? $"\\{concreteService.Suffix}" : "")}\\{action.Name}";
+                            var cacr = CreateActionDir(config.Service, action.Name, actionDir);
+
                             if (string.IsNullOrWhiteSpace(concrete))
                             {
                                 logger.Log($"{logPrefix}: concrete {j} in action {action.Name} is empty. skipped.");
@@ -1242,7 +1319,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                          $"{concrete}Action",
                                          options.Extension,
                                          options.Templates.ActionTemplate,
-                                         new { config.Namespace, config.Service, Action = action.Name, action.Usings, Suffix = concrete, SameServiceSuffix = config.Concretes.Exists(_x => _x.ActionSuffix == concrete) },
+                                         new { config.Namespace, config.Service, ConcreteService = (hasImplementationDir ? concreteService.Suffix: ""), Action = action.Name, action.Usings, Suffix = concrete, SameServiceSuffix = false }, // config.Concretes.Exists(_x => _x.ActionSuffix == concrete)
                                          $"{actionDir}\\{concrete}Action{options.Extension}",
                                          options.Overwrite,
                                          ref warnings[row]);
@@ -1254,19 +1331,15 @@ namespace Locust.Service.Moon.CodeGenerator
                                              $"{concrete}Action.Partial",
                                              options.Extension,
                                              options.Templates.ActionPartialTemplate,
-                                             new { config.Namespace, config.Service, Action = action.Name, action.Usings, Suffix = concrete, action.DefaultAsync, SameServiceSuffix = config.Concretes.Exists(_x => _x.ActionSuffix == concrete) },
+                                             new { config.Namespace, config.Service, ConcreteService = (hasImplementationDir ? concreteService.Suffix : ""), Action = action.Name, action.Usings, Suffix = concrete, action.DefaultAsync, SameServiceSuffix = false }, // config.Concretes.Exists(_x => _x.ActionSuffix == concrete)
                                              $"{actionDir}\\{concrete}Action.Partial{options.Extension}",
                                              false,
                                              ref warnings[row]);
                             }
                         }
-                    }
-                    else
-                    {
-                        warnings[row]++;
-                    }
 
-                    i++;
+                        i++;
+                    }
                 }
 
                 if (warnings[row] == 0)

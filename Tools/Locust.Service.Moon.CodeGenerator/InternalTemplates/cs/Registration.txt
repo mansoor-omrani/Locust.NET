@@ -1,4 +1,5 @@
-﻿@foreach (var _using in Model.Usings)
+﻿@using System.Linq;
+@foreach (var _using in Model.Usings)
 {
 <text>using @(_using);</text>
 }
@@ -41,7 +42,7 @@ namespace @Model.Namespace
 	{
 		if (!string.IsNullOrEmpty(action.Name))
 		{
-            <text>Add(typeof(@(Model.Service + action.Name)BaseAction), typeof(@(Model.Service + actionSuffix + action.Name)Action));</text>
+			<text>Add(typeof(@(Model.Service + action.Name)BaseAction), typeof(@(Model.Service + suffix + action.Name + actionSuffix)Action));</text>
 		}
 	}
 }

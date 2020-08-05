@@ -148,7 +148,22 @@ namespace Locust.Collections
 
         public void CopyTo(KeyValuePair<string, T>[] array, int arrayIndex)
         {
-            throw new NotSupportedException();
+            if (array != null && array.Length > 0)
+            {
+                if (arrayIndex < 0 || arrayIndex >= array.Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                else
+                {
+                    var i = arrayIndex;
+
+                    foreach (var item in items)
+                    {
+                        array[i++] = item;
+                    }
+                }
+            }
         }
 
         public int Count

@@ -14,6 +14,7 @@ namespace Locust.Extensions
 {
     public static class DataExtensions
     {
+        // https://stackoverflow.com/questions/373230/check-for-column-name-in-a-sqldatareader-object
         public static bool HasColumn(this IDataRecord dr, string columnName)
         {
             for (int i = 0; i < dr.FieldCount; i++)

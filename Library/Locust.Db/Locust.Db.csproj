@@ -78,6 +78,10 @@
       <Project>{E4622D06-601D-4F35-878A-0A0FB5D271DF}</Project>
       <Name>Locust.Conversion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Locust.Data\Locust.Data.csproj">
+      <Project>{2fd62538-e917-4088-914a-3ce702cb91ee}</Project>
+      <Name>Locust.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.Expressions\Locust.Expressions.csproj">
       <Project>{6DE4C138-BC57-4872-88C7-A2791EBF1D11}</Project>
       <Name>Locust.Expressions</Name>

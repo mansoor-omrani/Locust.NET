@@ -154,5 +154,18 @@ namespace Locust.Cryptography
             RNGCryptoServiceProvider.Create().GetBytes(ba);
             return ba;
         }
+        public string Encrypt(string text, string password)
+        {
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            
+            return Encrypt(text, passwordBytes);
+        }
+
+        public string Decrypt(string decryptedText, string password)
+        {
+            var passwordBytes = Encoding.UTF8.GetBytes(password);
+            
+            return Decrypt(decryptedText, passwordBytes);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Locust.Base;
 using Locust.Conversion;
+using Locust.Data;
 using Locust.Extensions;
 using System;
 using System.Collections.Generic;

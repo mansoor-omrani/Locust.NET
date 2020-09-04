@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Locust.Extensions;
 
 namespace Locust.AppPath
 {
@@ -19,17 +18,26 @@ namespace Locust.AppPath
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    if (string.Compare(path.Left(6), "file:\\", StringComparison.InvariantCultureIgnoreCase) == 0)
+                    if (path.StartsWith("file:\\", StringComparison.InvariantCultureIgnoreCase))
+                    {
                         path = path.Substring(6);
-
+                    }
                     if (path[path.Length - 1] == '\\')
+                    {
                         path = path.Substring(0, path.Length - 1);
-                    if (string.Compare(path.Right(6), "\\debug", StringComparison.InvariantCultureIgnoreCase) == 0)
+                    }
+                    if (path.EndsWith("\\debug", StringComparison.CurrentCultureIgnoreCase))
+                    {
                         path = path.Substring(0, path.Length - 6);
-                    if (string.Compare(path.Right(8), "\\release", StringComparison.InvariantCultureIgnoreCase) == 0)
+                    }
+                    if (path.EndsWith("\\release", StringComparison.CurrentCultureIgnoreCase))
+                    {
                         path = path.Substring(0, path.Length - 8);
-                    if (string.Compare(path.Right(4), "\\bin", StringComparison.InvariantCultureIgnoreCase) == 0)
+                    }
+                    if (path.EndsWith("\\bin", StringComparison.CurrentCultureIgnoreCase))
+                    {
                         path = path.Substring(0, path.Length - 4);
+                    }
                 }
 
                 return path;

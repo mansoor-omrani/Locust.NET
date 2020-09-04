@@ -10,9 +10,13 @@ namespace Locust.Base
     public class SizeAttribute : Attribute
     {
         public int? Value { get; set; }
-        public SizeAttribute(int size)
+        public SizeAttribute(int value)
         {
-            Value = size;
+            Value = value;
+        }
+        public SizeAttribute(string value)
+        {
+            this.Value = string.Compare(value, "max", StringComparison.OrdinalIgnoreCase) == 0 ? -1: System.Convert.ToInt32(value);
         }
     }
 }

@@ -125,24 +125,24 @@ namespace Locust.Extensions
         {
             return list.Join(ch.ToString());
         }
-        public static string Join<TKey, TValue>(this IDictionary<TKey, TValue> list, char ch)
+        public static string Join<TKey, TValue>(this IDictionary<TKey, TValue> list, char ch, char keyValueSeparator = '=')
         {
             var sb = new StringBuilder();
             var i = 0;
             foreach (var item in list)
             {
-                sb.Append(((i == 0) ? "" : ch.ToString()) + string.Format("{0}={1}", item.Key, item.Value));
+                sb.Append(((i == 0) ? "" : ch.ToString()) + string.Format($"{item.Key}{keyValueSeparator}{item.Value}"));
                 i++;
             }
             return sb.ToString();
         }
-        public static string Join<TKey, TValue>(this IDictionary<TKey, TValue> list, string separator)
+        public static string Join<TKey, TValue>(this IDictionary<TKey, TValue> list, string itemSeparator, string keyValueSeparator = "=")
         {
             var sb = new StringBuilder();
             var i = 0;
             foreach (var item in list)
             {
-                sb.Append(((i == 0) ? "" : separator) + string.Format("{0}={1}", item.Key, item.Value));
+                sb.Append(((i == 0) ? "" : itemSeparator) + string.Format($"{item.Key}{keyValueSeparator}{item.Value}"));
                 i++;
             }
             return sb.ToString();
@@ -539,6 +539,24 @@ namespace Locust.Extensions
             object value;
 
             return dictionary.TryGetValue(key, out value) ? (T)value : default(T);
+        }
+        public static int IndexOf<T>(this IEnumerable<T> list, T value, IComparer<T> comparer)
+        {
+            var result = 0;
+            var found = false;
+
+            foreach (var item in list)
+            {
+                if (comparer.Compare(item, value) == 0)
+                {
+                    found = true;
+                    break;
+                }
+
+                result++;
+            }
+
+            return found ? result : -1;
         }
     }
 }

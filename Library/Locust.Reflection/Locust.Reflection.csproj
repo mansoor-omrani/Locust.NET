@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyHelper.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="ReflectionPropertyCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

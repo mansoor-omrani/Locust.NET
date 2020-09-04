@@ -48,12 +48,17 @@
     <Compile Include="BaseConnectionStringProvider.cs" />
     <Compile Include="ConnectionString.cs" />
     <Compile Include="AppConfigConnectionStringProvider.cs" />
+    <Compile Include="ConnectionStringProvider.cs" />
     <Compile Include="IConnectionStringProvider.cs" />
     <Compile Include="ManualConnectionStringProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InMemoryConnectionStringProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Locust.Base\Locust.Base.csproj">
+      <Project>{809d809c-2fa3-4e8a-9ce6-8bcddea3e061}</Project>
+      <Name>Locust.Base</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Locust.Extensions\Locust.Extensions.csproj">
       <Project>{1F214C8E-C72F-4EB3-956A-058C16D3A640}</Project>
       <Name>Locust.Extensions</Name>

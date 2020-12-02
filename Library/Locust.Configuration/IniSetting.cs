@@ -141,7 +141,7 @@ namespace Locust.Configuration
         private string ParseValue(string value)
         {
             var result = "";
-            var state = 1;
+            //var state = 1;
 
             return result;
         }

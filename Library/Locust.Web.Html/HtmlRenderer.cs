@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +19,8 @@ namespace Locust.Web.Html
             if (literal != null)
                 return literal.InnerText;
 
-            var id = string.IsNullOrEmpty(element.Id) ? string.Empty : $" id=\"{HttpUtility.HtmlEncode(element.Id)}\"";
-            var @class = string.IsNullOrEmpty(element.Class) ? string.Empty : $" class=\"{HttpUtility.HtmlEncode(element.Class)}\"";
+            var id = string.IsNullOrEmpty(element.Id) ? string.Empty : $" id=\"{WebUtility.HtmlEncode(element.Id)}\"";
+            var @class = string.IsNullOrEmpty(element.Class) ? string.Empty : $" class=\"{WebUtility.HtmlEncode(element.Class)}\"";
             var attrs = element.GetAttributes();
             var styles = element.GetStyles();
             var selfClose = element.SelfClose ? "/" : string.Empty;

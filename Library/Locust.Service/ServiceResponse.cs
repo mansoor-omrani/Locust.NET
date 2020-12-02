@@ -11,7 +11,7 @@ using System.Web;
 
 namespace Locust.Service
 {
-    public class ServiceResponse:IJsonSerializable
+    public class ServiceResponse : IJsonSerializable
     {
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public object Bag { get; set; }
@@ -63,17 +63,22 @@ namespace Locust.Service
         {
             return string.Compare(Status, "NotFound", true) == 0;
         }
-        public virtual bool IsFailed()
+        public virtual bool IsFailed()  // business error
         {
             return string.Compare(Status, "Failed", true) == 0;
         }
-        public virtual bool IsErrored()
+        public virtual bool IsErrored() // calling sproc or executing sql failed (invalid number of params, invalid args, missing sproc, error in sql, etc.)
         {
             return string.Compare(Status, "Errored", true) == 0;
         }
-        public virtual bool IsFaulted()
+        public virtual bool IsFaulted() // error reported by sql or sproc (an error happened inside sproc, the sproc handled the error and reported it)
+                                        // executing the sproc altogether didn't fail.
         {
             return string.Compare(Status, "Faulted", true) == 0;
+        }
+        public virtual bool IsFlawed() // calling action failed
+        {
+            return string.Compare(Status, "Flawed", true) == 0;
         }
         public virtual bool IsSucceeded()
         {
@@ -84,39 +89,36 @@ namespace Locust.Service
             Success = true;
             Status = "Success";
         }
-        public void Failed(Exception e = null)
+        public virtual void Failed(Exception e = null)
         {
             Success = false;
-            if (e != null)
-            {
-                Exception = e;
-            }
             Status = "Failed";
+            Exception = e;
         }
-        public void Faulted(Exception e = null)
+        public virtual void Faulted(Exception e = null)
         {
             Success = false;
-            if (e != null)
-            {
-                Exception = e;
-            }
             Status = "Faulted";
+            Exception = e;
         }
-        public void NotFound()
+        public virtual void Flawed(Exception e = null)
+        {
+            Success = false;
+            Status = "Flawed";
+            Exception = e;
+        }
+        public virtual void NotFound()
         {
             Success = false;
             Status = "NotFound";
         }
-        public void Errored(Exception e = null)
+        public virtual void Errored(Exception e = null)
         {
             Success = false;
-            if (e != null)
-            {
-                Exception = e;
-            }
             Status = "Errored";
+            Exception = e;
         }
-        public void Deleted()
+        public virtual void Deleted()
         {
             Success = false;
             Status = "Deleted";
@@ -146,25 +148,20 @@ namespace Locust.Service
         }
         public virtual void Copy(ServiceResponse response)
         {
+            this.Bag = response.Bag;
+            this.Date = response.Date;
             this.Success = response.Success;
-            this.Status = response.Status;
-            this.Message = response.Message;
             this.MessageKey = response.MessageKey;
+            this.Status = response.Status;
+            this.Info = response.Info;
+            this.MessageArgs = response.messageArgs;
+            this.Message = response.Message;
             this.Exception = response.Exception;
             this.InnerResponses = response.InnerResponses;
-            this.MessageArgs = response.messageArgs;
-            this.Date = response.Date;
         }
         public virtual void Copy<U>(ServiceResponse<U> response)
         {
-            this.Success = response.Success;
-            this.Status = response.Status;
-            this.Message = response.Message;
-            this.MessageKey = response.MessageKey;
-            this.Exception = response.Exception;
-            this.InnerResponses = response.InnerResponses;
-            this.MessageArgs = response.messageArgs;
-            this.Date = response.Date;
+            Copy(response as ServiceResponse);
         }
         public void AppendMessage(string message)
         {
@@ -220,7 +217,7 @@ namespace Locust.Service
             var prop = this.GetType().GetProperty("Data");
             if (prop != null)
             {
-                var dataValue = prop.GetValue(this);
+                var dataValue = prop.GetValue(this, null);
                 if (dataValue != null)
                 {
                     data = ",\"Data\": " + JsonConvert.SerializeObject(dataValue);
@@ -255,7 +252,7 @@ namespace Locust.Service
         {
             var messages = ExtractMessages();
             var sb = new StringBuilder();
-            
+
             foreach (var msg in messages)
             {
                 if (sb.Length == 0)
@@ -273,7 +270,7 @@ namespace Locust.Service
         private int innerResponseCount;
         public void AddInnerResponse(string status, string key = "", bool useInternalCounter = true)
         {
-            var _key = string.IsNullOrEmpty(key) ? ("InnerResponse-" + innerResponseCount++) : key + (useInternalCounter? "-" + (innerResponseCount++).ToString(): "");
+            var _key = string.IsNullOrEmpty(key) ? ("InnerResponse-" + innerResponseCount++) : key + (useInternalCounter ? "-" + (innerResponseCount++).ToString() : "");
 
             InnerResponses.Add(_key, new ServiceResponse { Status = status });
         }
@@ -281,16 +278,22 @@ namespace Locust.Service
     public class ServiceResponse<T> : ServiceResponse
     {
         private T data;
+        private bool ignoreDefaultData { get; set; }
+        public ServiceResponse()
+        {
+            ignoreDefaultData = true;
+        }
         public T Data
         {
             get
             {
                 var type = typeof(T);
 
-                if (type.IsClass && !type.IsAbstract && !type.IsArray && ((object)data) == null)
+                if (!ignoreDefaultData && type.IsClass && !type.IsAbstract && !type.IsArray && ((object)data) == null)
                 {
                     CreateData();
                 }
+
                 return data;
             }
             set { data = value; }
@@ -298,6 +301,7 @@ namespace Locust.Service
         public override void Copy<U>(ServiceResponse<U> response)
         {
             var x = (object)response.Data;
+
             try
             {
                 this.Data = (T)x;
@@ -323,17 +327,21 @@ namespace Locust.Service
             this.Data = data;
             Succeeded();
         }
+        public void IgnoreDefaultData(bool value)
+        {
+            this.ignoreDefaultData = value;
+        }
     }
-    
+
     public class PagingResult<T>
     {
-        public int CurrentPage { get; set; }
+        public int Page { get; set; }
         public int PageSize { get; set; }
         public int PageCount { get; set; }
         public long RecordCount { get; set; }
         public List<T> Items { get; set; }
     }
-    public class ServicePagingResponse<T>: ServiceResponse<PagingResult<T>>
+    public class ServicePagingResponse<T> : ServiceResponse<PagingResult<T>>
     {
     }
 }

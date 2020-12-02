@@ -7,5 +7,6 @@ namespace Locust.Mapping
     {
         object Map(IDataReader reader, Type type);
         object Map(Type type, object source);
+        void Copy(object source, object target);
     }
 }

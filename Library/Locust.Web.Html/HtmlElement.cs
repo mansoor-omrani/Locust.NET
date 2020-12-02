@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
+using System.Net;
 
 namespace Locust.Web.Html
 {
@@ -60,16 +60,16 @@ namespace Locust.Web.Html
                 {
                     if (",readonly,disabled,novalidate,autofocus,multiple,required,".IndexOf("," + item.Key + ",") >= 0)
                     {
-                        sb.Append($" {HttpUtility.HtmlEncode(item.Key)}");
+                        sb.Append($" {WebUtility.HtmlEncode(item.Key)}");
                     }
                     else
                     {
-                        sb.Append($" {HttpUtility.HtmlEncode(item.Key)}=\"{HttpUtility.HtmlEncode(item.Value)}\"");
+                        sb.Append($" {WebUtility.HtmlEncode(item.Key)}=\"{WebUtility.HtmlEncode(item.Value)}\"");
                     }
                 }
                 else
                 {
-                    sb.Append($" {HttpUtility.HtmlEncode(item.Key)}=\"{HttpUtility.HtmlEncode(item.Value)}\"");
+                    sb.Append($" {WebUtility.HtmlEncode(item.Key)}=\"{WebUtility.HtmlEncode(item.Value)}\"");
                 }
             }
 
@@ -143,7 +143,7 @@ namespace Locust.Web.Html
             {
                 var semicolon = sb.Length == 0 ? string.Empty : ";";
 
-                sb.Append($"{HttpUtility.HtmlEncode(item.Key)}: {HttpUtility.HtmlEncode(item.Value)}{semicolon}");
+                sb.Append($"{WebUtility.HtmlEncode(item.Key)}: {WebUtility.HtmlEncode(item.Value)}{semicolon}");
             }
 
             return " style=\"" + sb.ToString() + "\"";

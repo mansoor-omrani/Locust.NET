@@ -55,7 +55,10 @@ namespace Locust.Extensions
 
             return result;
         }
-
+        public static bool IsUrlForbidden(this char ch, params char[] exclude)
+        {
+            return Char.IsPunctuation(ch) && (exclude == null || !exclude.Contains(ch));
+        }
         public static char SelectFrom(this char ch, char[] chars, CharComparison comparison = CharComparison.IgnoreCase, char defaultValue = default(char))
         {
             var result = ch;

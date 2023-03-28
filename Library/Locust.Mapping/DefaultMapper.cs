@@ -10,7 +10,7 @@ using Locust.Conversion;
 
 namespace Locust.Mapping
 {
-    public class DefaultMapper: IMapper
+    public class DefaultMapper : IMapper
     {
         public object Map(IDataReader reader, Type type)
         {
@@ -120,6 +120,7 @@ namespace Locust.Mapping
                 ReflectionHelper.ForEachPublicInstanceReadableProperty(source.GetType(), prop =>
                 {
                     var targetProp = targetProps.FirstOrDefault(p => string.Compare(p.Name, prop.Name, StringComparison.InvariantCultureIgnoreCase) == 0);
+                    var srcValue = prop.GetValue(source);
 
                     if (targetProp != null && targetProp.CanWrite)
                     {
@@ -127,7 +128,7 @@ namespace Locust.Mapping
 
                         if (targetProp.PropertyType.IsNullableOrBasicType())
                         {
-                            value = prop.GetValue(source);
+                            value = srcValue;
 
                             targetProp.SetValue(result, value);
                         }
@@ -135,17 +136,106 @@ namespace Locust.Mapping
                         {
                             if (!targetProp.PropertyType.IsEnumerable() && !targetProp.PropertyType.IsInterface)
                             {
-                                value = Map(targetProp.PropertyType, prop.GetValue(source));
+                                value = Map(targetProp.PropertyType, srcValue);
 
                                 targetProp.SetValue(result, value);
                             }
                             else
                             {
-                                if (targetProp.PropertyType.IsEnumerable() && !targetProp.PropertyType.IsInterface && targetProp.PropertyType == prop.PropertyType)
+                                if (targetProp.PropertyType.IsEnumerable() && !targetProp.PropertyType.IsInterface)
                                 {
-                                    value = prop.GetValue(source);
+                                    Type targetItemType;
 
-                                    targetProp.SetValue(result, value);
+                                    if (targetProp.PropertyType.TryGetItemType(out targetItemType))
+                                    {
+                                        if (targetProp.PropertyType.DescendsFrom(TypeHelper.TypeOfArray))
+                                        {
+                                            if (prop.PropertyType.DescendsFrom(TypeHelper.TypeOfArray))
+                                            {
+                                                var arrSource = srcValue as Array;
+
+                                                if (arrSource != null)
+                                                {
+                                                    var arrDest = Activator.CreateInstance(targetProp.PropertyType, new object[] { arrSource.Length }) as Array;
+
+                                                    Array.Copy(arrSource, arrDest, arrSource.Length);
+
+                                                    targetProp.SetValue(result, arrDest);
+                                                }
+                                                else
+                                                {
+                                                    targetProp.SetValue(result, null);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var sourceList = srcValue as ICollection;
+
+                                                if (sourceList != null)
+                                                {
+                                                    var arrDest = Activator.CreateInstance(targetProp.PropertyType, new object[] { sourceList.Count }) as Array;
+                                                    var i = 0;
+
+                                                    foreach (var item in sourceList)
+                                                    {
+                                                        var targetItem = Map(targetItemType, item);
+                                                        arrDest.SetValue(targetItem, i++);
+                                                    }
+
+                                                    targetProp.SetValue(result, arrDest);
+                                                }
+                                                else
+                                                {
+                                                    // last resort!
+
+                                                    value = srcValue;
+
+                                                    try
+                                                    {
+                                                        targetProp.SetValue(result, value);
+                                                    }
+                                                    catch { }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            var list = Activator.CreateInstance(targetProp.PropertyType) as IList;
+                                            var sourceList = srcValue as IEnumerable;
+
+                                            if (list != null && sourceList != null)
+                                            {
+                                                foreach (var item in sourceList)
+                                                {
+                                                    var targetItem = Map(targetItemType, item);
+
+                                                    list.Add(targetItem);
+                                                }
+
+                                                targetProp.SetValue(result, list);
+                                            }
+                                            else
+                                            {
+                                                value = srcValue;
+
+                                                try
+                                                {
+                                                    targetProp.SetValue(result, value);
+                                                }
+                                                catch { }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        value = srcValue;
+
+                                        try
+                                        {
+                                            targetProp.SetValue(result, value);
+                                        }
+                                        catch { }
+                                    }
                                 }
                             }
                         }
@@ -154,6 +244,139 @@ namespace Locust.Mapping
             }
 
             return result;
+        }
+        public void Copy(object source, object target)
+        {
+            if (source != null && target != null)
+            {
+                var type = target.GetType();
+                var targetProps = ReflectionHelper.GetProperties(type, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+
+                ReflectionHelper.ForEachPublicInstanceReadableProperty(source.GetType(), prop =>
+                {
+                    var targetProp = targetProps.FirstOrDefault(p => string.Compare(p.Name, prop.Name, StringComparison.InvariantCultureIgnoreCase) == 0);
+                    var srcValue = prop.GetValue(source);
+
+                    if (targetProp != null && targetProp.CanWrite)
+                    {
+                        object value;
+
+                        if (targetProp.PropertyType.IsNullableOrBasicType())
+                        {
+                            value = srcValue;
+
+                            targetProp.SetValue((object)target, value);
+                        }
+                        else
+                        {
+                            if (!targetProp.PropertyType.IsEnumerable() && !targetProp.PropertyType.IsInterface)
+                            {
+                                value = Map(targetProp.PropertyType, srcValue);
+
+                                targetProp.SetValue((object)target, value);
+                            }
+                            else
+                            {
+                                if (targetProp.PropertyType.IsEnumerable() && !targetProp.PropertyType.IsInterface)
+                                {
+                                    Type targetItemType;
+
+                                    if (targetProp.PropertyType.TryGetItemType(out targetItemType))
+                                    {
+                                        if (targetProp.PropertyType.DescendsFrom(TypeHelper.TypeOfArray))
+                                        {
+                                            if (prop.PropertyType.DescendsFrom(TypeHelper.TypeOfArray) && srcValue != null)
+                                            {
+                                                var arrSource = srcValue as Array;
+
+                                                if (arrSource != null)
+                                                {
+                                                    var arrDest = Activator.CreateInstance(targetProp.PropertyType, new object[] { arrSource.Length }) as Array;
+
+                                                    Array.Copy(arrSource, arrDest, arrSource.Length);
+
+                                                    targetProp.SetValue(target, arrDest);
+                                                }
+                                                else
+                                                {
+                                                    targetProp.SetValue(target, null);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                var sourceList = srcValue as ICollection;
+
+                                                if (sourceList != null)
+                                                {
+                                                    var arrDest = Activator.CreateInstance(targetProp.PropertyType, new object[] { sourceList.Count }) as Array;
+                                                    var i = 0;
+
+                                                    foreach (var item in sourceList)
+                                                    {
+                                                        var targetItem = Map(targetItemType, item);
+                                                        arrDest.SetValue(targetItem, i++);
+                                                    }
+
+                                                    targetProp.SetValue(target, arrDest);
+                                                }
+                                                else
+                                                {
+                                                    // last resort!
+
+                                                    value = srcValue;
+
+                                                    try
+                                                    {
+                                                        targetProp.SetValue(target, value);
+                                                    }
+                                                    catch { }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            var list = Activator.CreateInstance(targetProp.PropertyType) as IList;
+                                            var sourceList = srcValue as IEnumerable;
+
+                                            if (list != null && sourceList != null)
+                                            {
+                                                foreach (var item in sourceList)
+                                                {
+                                                    var targetItem = Map(targetItemType, item);
+
+                                                    list.Add(targetItem);
+                                                }
+
+                                                targetProp.SetValue((object)target, list);
+                                            }
+                                            else
+                                            {
+                                                value = srcValue;
+
+                                                try
+                                                {
+                                                    targetProp.SetValue((object)target, value);
+                                                }
+                                                catch { }
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        value = srcValue;
+
+                                        try
+                                        {
+                                            targetProp.SetValue((object)target, value);
+                                        }
+                                        catch { }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
     }
 }

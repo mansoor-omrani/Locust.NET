@@ -44,24 +44,42 @@ namespace Locust.Validation
 
             return result;
         }
-        public static bool IsEmail(string x)
+        public static bool IsEmail(string x, bool ignoreEmpty = true)
         {
             if (string.IsNullOrEmpty(x))
-                return false;
+                return ignoreEmpty;
             else
                 return Regex.IsMatch(x, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
         }
-        public static bool IsMobile(string x)
+        public static bool IsMobile(string x, bool ignoreEmpty = true)
         {
             if (string.IsNullOrEmpty(x))
-                return false;
+                return ignoreEmpty;
             else
                 return Regex.IsMatch(x, @"^(0|(\+?\d{1,5}))?\s?\(?\d{3}\)?(-|\s)?\d{3}(-|\s)?\d{4}$", RegexOptions.IgnoreCase);
         }
-        public static bool IsUserName(string x, byte minLength = 6, byte maxLength = 15)
+        public static bool IsPhone(string x, bool ignoreEmpty = true)
         {
             if (string.IsNullOrEmpty(x))
-                return false;
+                return ignoreEmpty;
+            else
+                return Regex.IsMatch(x, @"^(0|(\+?\d{1,5}))?\s?\(?\d{3}\)?(-|\s)?\d{3}(-|\s)?\d{4}$", RegexOptions.IgnoreCase);
+        }
+        public static bool IsDate(string x, bool ignoreEmpty = true)
+        {
+            if (string.IsNullOrEmpty(x))
+                return ignoreEmpty;
+            else
+            {
+                DateTime d;
+
+                return DateTime.TryParse(x, out d);
+            }
+        }
+        public static bool IsUserName(string x, byte minLength = 6, byte maxLength = 15, bool ignoreEmpty = true)
+        {
+            if (string.IsNullOrEmpty(x))
+                return ignoreEmpty;
             else
                 return Regex.IsMatch(x, $"^[a-zA-Z]\\w{{{minLength},{maxLength}}}$", RegexOptions.IgnoreCase);
         }

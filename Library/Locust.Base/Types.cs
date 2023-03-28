@@ -37,6 +37,7 @@ namespace Locust.Base
         public static Type TypeOfDateTime { get; private set; }
         public static Type TypeOfDateTimeOffset { get; private set; }
         public static Type TypeOfTimeSpan { get; private set; }
+        public static Type TypeOfArray { get; private set; }
         public static Type TypeOfByteArray { get; private set; }
         public static Type TypeOfNullable { get; private set; }
         public static Type TypeOfObject { get; private set; }
@@ -89,6 +90,7 @@ namespace Locust.Base
             TypeOfDateTime = typeof(System.DateTime);
             TypeOfDateTimeOffset = typeof(System.DateTimeOffset);
             TypeOfTimeSpan = typeof(System.TimeSpan);
+            TypeOfArray = typeof(System.Array);
             TypeOfByteArray = typeof(System.Byte[]);
             TypeOfNullable = typeof(System.Nullable<>);
             TypeOfObject = typeof(object);

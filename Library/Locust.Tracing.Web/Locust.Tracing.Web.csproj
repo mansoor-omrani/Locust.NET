@@ -62,6 +62,10 @@
       <Project>{01e76980-9efb-4beb-9e01-7d4ed57e4cb7}</Project>
       <Name>Locust.Tracing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Locust.WebTools\Locust.WebTools.csproj">
+      <Project>{5a65db80-a515-4dcb-831a-7b13d4175054}</Project>
+      <Name>Locust.WebTools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

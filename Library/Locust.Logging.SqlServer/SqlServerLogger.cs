@@ -227,7 +227,7 @@ VALUES
                                 con.Open();
                                 var reader = cmd.ExecuteReader();
 
-                                response.Data.CurrentPage = SafeClrConvert.ToInt(cmd.Parameters[0].Value);
+                                response.Data.Page = SafeClrConvert.ToInt(cmd.Parameters[0].Value);
                                 response.Data.PageSize = SafeClrConvert.ToInt(cmd.Parameters[1].Value);
                                 response.Data.RecordCount = SafeClrConvert.ToLong(cmd.Parameters[2].Value);
                                 response.Data.PageCount = SafeClrConvert.ToInt(cmd.Parameters[3].Value);

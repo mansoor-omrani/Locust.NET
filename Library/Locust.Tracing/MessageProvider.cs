@@ -19,6 +19,7 @@ namespace Locust.Tracing
     }
     public interface IMessageParamValueProvider
     {
+        Lang Lang { get; set; }
         string GetValue(string key, string value, string culture = "");
     }
     public abstract class MessageContentProvider: IMessageTextProvider, IMessageParamValueProvider

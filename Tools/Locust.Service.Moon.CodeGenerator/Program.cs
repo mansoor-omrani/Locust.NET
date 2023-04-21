@@ -147,6 +147,7 @@ namespace Locust.Service.Moon.CodeGenerator
     public class GeneratorConfigServiceItem
     {
         public string Folder { get; set; }
+        public bool SingleService { get; set; }
         public string AbstractionDir { get; set; }
         public string ImplementationDir { get; set; }
         public string RegistrationDir { get; set; }
@@ -190,7 +191,7 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     class Program
     {
-        static string ConfigVersion => "1.0.7";
+        static string ConfigVersion => "1.1.0";
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -943,28 +944,25 @@ namespace Locust.Service.Moon.CodeGenerator
                     continue;
                 }
 
-                if (string.IsNullOrEmpty(config.Folder))
-                {
-                    config.Folder = config.Service;
-                }
-
+                var configFolder = string.IsNullOrEmpty(config.Folder) ? config.Service : config.Folder;
+                
                 var abstractionDir = string.IsNullOrEmpty(config.AbstractionDir) ? options.Config.AbstractionDir : config.AbstractionDir;
+                var hasAbstractionDir = !string.IsNullOrEmpty(abstractionDir);
 
-                abstractionDir = string.IsNullOrEmpty(abstractionDir) ? outputDir + "\\" + config.Folder :
-                                    Path.IsPathRooted(abstractionDir) ? abstractionDir + "\\" + config.Folder :
-                                        outputDir + "\\" + abstractionDir + "\\" + config.Folder;
+                abstractionDir = hasAbstractionDir ? (Path.IsPathRooted(abstractionDir) ? abstractionDir + "\\" + (config.SingleService ? "" : configFolder) :
+                                        outputDir + "\\" + abstractionDir + "\\" + (config.SingleService ? "": configFolder)): outputDir + "\\" + configFolder;
 
                 var implementationDir = string.IsNullOrEmpty(config.ImplementationDir) ? options.Config.ImplementationDir : config.ImplementationDir;
                 var hasImplementationDir = !string.IsNullOrEmpty(implementationDir);
-                implementationDir = string.IsNullOrEmpty(implementationDir) ? outputDir + "\\" + config.Folder :
-                                    Path.IsPathRooted(implementationDir) ? implementationDir + "\\" + config.Folder :
-                                        outputDir + "\\" + implementationDir + "\\" + config.Folder;
+                
+                implementationDir = hasImplementationDir ? (Path.IsPathRooted(implementationDir) ? implementationDir + "\\" + (config.SingleService ? "" : configFolder) :
+                                        outputDir + "\\" + implementationDir + "\\" + (config.SingleService ? "" : configFolder)) : outputDir + "\\" + configFolder;
 
-                //var serviceDir = outputDir + "\\" + config.Folder;
+                //var serviceDir = outputDir + "\\" + configFolder;
 
                 if (string.IsNullOrEmpty(config.Namespace))
                 {
-                    config.Namespace = options.Config.Namespace + "." + config.Folder;
+                    config.Namespace = options.Config.Namespace + "." + configFolder;
                 }
                 else
                 {
@@ -1067,8 +1065,8 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 var registrationDir = string.IsNullOrEmpty(config.RegistrationDir) ? options.Config.RegistrationDir : config.RegistrationDir;
 
-                registrationDir = string.IsNullOrEmpty(registrationDir) ? outputDir + "\\" + config.Folder :
-                                        Path.IsPathRooted(registrationDir) ? registrationDir : Environment.CurrentDirectory + "\\" + registrationDir + "\\" + config.Folder;
+                registrationDir = string.IsNullOrEmpty(registrationDir) ? outputDir + "\\" + configFolder :
+                                        Path.IsPathRooted(registrationDir) ? registrationDir : Environment.CurrentDirectory + "\\" + registrationDir + "\\" + configFolder;
 
                 cor = CreateRegistrationDir(registrationDir);
 

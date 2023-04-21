@@ -8,15 +8,15 @@ namespace Locust.DateTime
 {
     public interface INow
     {
-        DateTime Value { get; }
+        System.DateTime Value { get; }
     }
     public class DateTimeNow : INow
     {
-        public DateTime Value
+        public System.DateTime Value
         {
             get
             {
-                return DateTime.Now;
+                return System.DateTime.Now;
             }
         }
     }

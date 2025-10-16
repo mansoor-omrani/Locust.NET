@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Locust.Compression</RootNamespace>
     <AssemblyName>Locust.Compression</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -55,7 +55,7 @@
     <Compile Include="ZlibCompressionOptions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Research\zlib.NET_104\source\zlib.net.csproj">
+    <ProjectReference Include="..\..\..\MyPtePractice\Research\zlib.NET_104\source\zlib.net.csproj">
       <Project>{0c89b7a2-a218-49e4-b545-5b044a45f977}</Project>
       <Name>zlib.net</Name>
     </ProjectReference>

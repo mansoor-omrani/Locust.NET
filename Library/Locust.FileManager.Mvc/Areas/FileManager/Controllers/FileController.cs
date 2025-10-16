@@ -14,7 +14,7 @@ using System.Web.Mvc;
 
 namespace Locust.FileManager.Mvc.Areas.FileManager.Controllers
 {
-    [RestrictMethod(Name = HttpMethod.Post)]
+    [RestrictMethod(Name = "POST")]
     [RestrictHeader(Name = "fmtoken", Key = "FileManagerRestrictHeaderToken")]
     public class FileController : Controller
     {

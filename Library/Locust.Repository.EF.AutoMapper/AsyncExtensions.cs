@@ -44,7 +44,7 @@ namespace Locust.Repository.EF.AutoMapper
                 return new PageListResult<U>
                 {
                     Items = await query.Skip((page - 1) * pageSize).Take(pageSize).ProjectTo<U>().ToListAsync(),
-                    CurrentPage = page,
+                    Page = page,
                     PageSize = pageSize,
                     PageCount = pageCount,
                     RecordCount = recordCount
@@ -55,7 +55,7 @@ namespace Locust.Repository.EF.AutoMapper
                 return new PageListResult<U>
                 {
                     Items = new List<U>(),
-                    CurrentPage = 1,
+                    Page = 1,
                     PageSize = pageSize,
                     PageCount = 1,
                     RecordCount = 0

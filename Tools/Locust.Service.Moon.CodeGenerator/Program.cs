@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Locust.AppPath;
 using Locust.ConsoleHelper;
 using Locust.Conversion;
 using Locust.Extensions;
 using Locust.Logging;
-using Locust.Service;
 using Newtonsoft.Json;
 using RazorEngine;
 using RazorEngine.Templating;
@@ -28,10 +24,6 @@ namespace Locust.Service.Moon.CodeGenerator
     }
     public class GeneratorTemplates
     {
-        public string ConfigTemplate { get; set; }
-        public string ConfigPartialTemplate { get; set; }
-        public string BaseConfigTemplate { get; set; }
-        public string BaseConfigPartialTemplate { get; set; }
         public string InterfaceTemplate { get; set; }
         public string InterfacePartialTemplate { get; set; }
         public string BaseServiceTemplate { get; set; }
@@ -1009,29 +1001,6 @@ namespace Locust.Service.Moon.CodeGenerator
 
                 GenerateCode(logPrefix,
                              config.Service,
-                             "BaseConfig",
-                             options.Extension,
-                             options.Templates.BaseConfigTemplate,
-                             new { config.Namespace, config.Service, config.Usings, Props = config.ConfigProps, config.ParentConfig },
-                             $"{abstractionDir}\\BaseConfig{options.Extension}",
-                             options.Overwrite,
-                             ref warnings[row]);
-
-                if (config.PartialConfig && options.GeneratePartials)
-                {
-                    GenerateCode(logPrefix,
-                             config.Service,
-                             "BaseConfig.Partial",
-                             options.Extension,
-                             options.Templates.BaseConfigPartialTemplate,
-                             new { config.Namespace, config.Service, config.Usings, config.ParentConfig },
-                             $"{abstractionDir}\\BaseConfig.Partial{options.Extension}",
-                             false,
-                             ref temp);
-                }
-
-                GenerateCode(logPrefix,
-                             config.Service,
                              "Interface",
                              options.Extension,
                              options.Templates.InterfaceTemplate,
@@ -1126,29 +1095,6 @@ namespace Locust.Service.Moon.CodeGenerator
                     if (string.IsNullOrWhiteSpace(concrete.ActionSuffix))
                     {
                         concrete.ActionSuffix = "Default";
-                    }
-
-                    GenerateCode(logPrefix,
-                             config.Service,
-                             $"{concrete.Suffix}Config",
-                             options.Extension,
-                             options.Templates.ConfigTemplate,
-                             new { config.Namespace, config.Service, config.Usings, concrete.Suffix, Props = concrete.ConfigProps },
-                             $"{serviceDir}\\{concrete.Suffix}Config{options.Extension}",
-                             options.Overwrite,
-                             ref warnings[row]);
-
-                    if (config.PartialConfig && options.GeneratePartials)
-                    {
-                        GenerateCode(logPrefix,
-                                 config.Service,
-                                 $"{concrete.Suffix}Config.Partial",
-                                 options.Extension,
-                                 options.Templates.ConfigPartialTemplate,
-                                 new { config.Namespace, config.Service, config.Usings, concrete.Suffix },
-                                 $"{serviceDir}\\{concrete.Suffix}Config.Partial{options.Extension}",
-                                 false,
-                                 ref temp);
                     }
 
                     var ctors = new List<List<string>>();
@@ -1437,10 +1383,6 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseActionPartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseAction.Partial");
                 options.Templates.BaseServiceTemplate = ReadTemplateFileOrResource(templatePath, "BaseService");
                 options.Templates.BaseServicePartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseService.Partial");
-                options.Templates.ConfigTemplate = ReadTemplateFileOrResource(templatePath, "Config");
-                options.Templates.ConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "Config.Partial");
-                options.Templates.BaseConfigTemplate = ReadTemplateFileOrResource(templatePath, "BaseConfig");
-                options.Templates.BaseConfigPartialTemplate = ReadTemplateFileOrResource(templatePath, "BaseConfig.Partial");
                 options.Templates.InterfaceTemplate = ReadTemplateFileOrResource(templatePath, "Interface");
                 options.Templates.InterfacePartialTemplate = ReadTemplateFileOrResource(templatePath, "Interface.Partial");
                 options.Templates.RequestTemplate = ReadTemplateFileOrResource(templatePath, "Request");
@@ -1462,10 +1404,6 @@ namespace Locust.Service.Moon.CodeGenerator
                 options.Templates.BaseActionPartialTemplate = ReadTemplate("BaseAction.Partial.txt");
                 options.Templates.BaseServiceTemplate = ReadTemplate("BaseService.txt");
                 options.Templates.BaseServicePartialTemplate = ReadTemplate("BaseService.Partial.txt");
-                options.Templates.ConfigTemplate = ReadTemplate("Config.txt");
-                options.Templates.ConfigPartialTemplate = ReadTemplate("Config.Partial.txt");
-                options.Templates.BaseConfigTemplate = ReadTemplate("BaseConfig.txt");
-                options.Templates.BaseConfigPartialTemplate = ReadTemplate("BaseConfig.Partial.txt");
                 options.Templates.InterfaceTemplate = ReadTemplate("Interface.txt");
                 options.Templates.InterfacePartialTemplate = ReadTemplate("Interface.Partial.txt");
                 options.Templates.RequestTemplate = ReadTemplate("Request.txt");

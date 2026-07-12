@@ -448,7 +448,7 @@ namespace Locust.Repository.EF
                 return new PageListResult<T>
                 {
                     Items = query.ToList(),
-                    CurrentPage = page,
+                    Page = page,
                     PageSize = pageSize,
                     PageCount = pageCount,
                     RecordCount = recordCount
@@ -459,7 +459,7 @@ namespace Locust.Repository.EF
                 return new PageListResult<T>
                 {
                     Items = new List<T>(),
-                    CurrentPage = 1,
+                    Page = 1,
                     PageSize = pageSize,
                     PageCount = 1,
                     RecordCount = 0
@@ -565,7 +565,7 @@ namespace Locust.Repository.EF
 
             var result = new PageListResult<T>
             {
-                CurrentPage = page,
+                Page = page,
                 PageSize = pageSize,
                 PageCount = pageCount,
                 RecordCount = recordCount

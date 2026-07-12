@@ -2,7 +2,7 @@
 <#@ assembly name="EnvDTE" #>
 <#@ import namespace="EnvDTE" #>
 <#@ assembly name="System.Core" #>
-<#@ assembly name="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\Microsoft.CSharp.dll" #>
+<#@ assembly name="C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\Microsoft.CSharp.dll" #>
 <#@ assembly name="$(ProjectDir)bin\Debug\Newtonsoft.Json.dll" #>
 <#@ import namespace="System.Dynamic" #>
 <#@ import namespace="System.Linq" #>

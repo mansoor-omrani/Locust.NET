@@ -12,7 +12,7 @@ namespace Locust.MvcAttributes
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
     public class RestrictMethodAttribute : ActionFilterAttribute, IActionFilter
     {
-        public HttpMethod Name { get; set; }
+        public string Name { get; set; }
         void IActionFilter.OnActionExecuting(ActionExecutingContext filterContext)
         {
             if (string.Compare(filterContext.HttpContext.Request.HttpMethod, Name.ToString(), true) != 0)

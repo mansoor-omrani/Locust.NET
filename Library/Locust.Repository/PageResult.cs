@@ -7,7 +7,7 @@ namespace Locust.Repository
 {
     public class PageResult<T>
     {
-        public int CurrentPage { get; set; }
+        public int Page { get; set; }
         public int PageSize { get; set; }
         public int PageCount { get; set; }
         public long RecordCount { get; set; }

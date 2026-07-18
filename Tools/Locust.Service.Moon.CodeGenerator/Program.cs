@@ -110,7 +110,6 @@ namespace Locust.Service.Moon.CodeGenerator
         public string Name { get; set; }
         public string RequestModel { get; set; }
         public Dictionary<string, string> RequestProps { get; set; }
-        public bool? ConfigBasedService { get; set; }
         public string ParentAction { get; set; }
         public string ResponseType { get; set; }
         public string RequestType { get; set; }
@@ -144,12 +143,9 @@ namespace Locust.Service.Moon.CodeGenerator
         public string ImplementationDir { get; set; }
         public string RegistrationDir { get; set; }
         public string Namespace { get; set; }
-        public bool PartialConfig { get; set; }
         public List<Dictionary<string, string>> Constructors { get; set; }
         public List<List<string>> ParentConstructors { get; set; }
         public Dictionary<string, string> ConfigProps { get; set; }
-        public bool? ConfigBasedService { get; set; }
-        public string ParentConfig { get; set; }
         public string ParentService { get; set; }
         public string ParentInterface { get; set; }
         public string ParentAction { get; set; }
@@ -167,23 +163,25 @@ namespace Locust.Service.Moon.CodeGenerator
         public string Version { get; set; }
         public string Namespace { get; set; }
         public string RegistrationDir { get; set; }
-        public bool ConfigBasedService { get; set; }
         public string BaseParentService { get; set; }
         public string BaseParentAction { get; set; }
-        public string BaseParentConfig { get; set; }
         public string AbstractionDir { get; set; }
         public string ImplementationDir { get; set; }
         public List<GeneratorConfigServiceItem> Services { get; set; }
         public string[] FrameworkUsings { get; set; }
         public string[] CommonUsings { get; set; }
-        public GeneratorConfig()
-        {
-            ConfigBasedService = true;
-        }
     }
     class Program
     {
-        static string ConfigVersion => "1.1.0";
+        static string Version
+        {
+            get
+            {
+                var asm = Assembly.GetExecutingAssembly();
+
+                return asm?.GetName().Version.ToString();
+            }
+        }
         static ILogger logger;
         static IExceptionLogger exceptionLogger;
         static GeneratorOptions Options { get; set; }
@@ -220,7 +218,7 @@ namespace Locust.Service.Moon.CodeGenerator
                     };
                 }
 
-                if (string.IsNullOrEmpty(result.Data.Version) || string.Compare(result.Data.Version, ConfigVersion, true) == 0)
+                if (string.IsNullOrEmpty(result.Data.Version) || string.Compare(result.Data.Version, Version, true) == 0)
                 {
                     foreach (var service in result.Data.Services)
                     {
@@ -242,58 +240,41 @@ namespace Locust.Service.Moon.CodeGenerator
                         }
                         if (string.IsNullOrEmpty(service.ParentService))
                         {
-                            service.ParentService = $"BaseActionBasedService<{service.Service}BaseConfig>";
+                            service.ParentService = $"BaseActionBasedService";
                         }
                         if (string.IsNullOrEmpty(service.ParentInterface))
                         {
-                            service.ParentInterface = $"IService<{service.Service}BaseConfig>";
-                        }
-                        if (string.IsNullOrEmpty(service.ParentConfig))
-                        {
-                            service.ParentConfig = $"ServiceConfig";
+                            service.ParentInterface = $"IService";
                         }
                         if (string.IsNullOrEmpty(service.ParentAction))
                         {
                             service.ParentAction = $"ServiceAction";
                         }
-                        if (!service.ConfigBasedService.HasValue)
-                        {
-                            service.ConfigBasedService = result.Data.ConfigBasedService;
-                        }
                         if (service.ParentConstructors == null)
                         {
                             service.ParentConstructors = new List<List<string>>();
 
-                            #region public BaseActionBasedService(TConfig config)
                             var d = new List<string>();
-
-                            d.Add($"{service.Service}BaseConfig");
-
-                            service.ParentConstructors.Add(d);
-                            #endregion
-                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger)
+                            #region BaseActionBasedService(ILogger logger, IExceptionLogger exceptionLogger)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
 
                             service.ParentConstructors.Add(d);
                             #endregion
-                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db)
+                            #region BaseActionBasedService(ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
                             d.Add($"IDbHelper");
 
                             service.ParentConstructors.Add(d);
                             #endregion
-                            #region BaseActionBasedService(TConfig config, ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache)
+                            #region BaseActionBasedService(ILogger logger, IExceptionLogger exceptionLogger, IDbHelper db, ICacheManager cache)
                             d = new List<string>();
 
-                            d.Add($"{service.Service}BaseConfig");
                             d.Add($"ILogger");
                             d.Add($"IExceptionLogger");
                             d.Add($"IDbHelper");
@@ -378,10 +359,6 @@ namespace Locust.Service.Moon.CodeGenerator
                             if (string.IsNullOrEmpty(action.ParentAction))
                             {
                                 action.ParentAction = service.ParentAction;
-                            }
-                            if (!action.ConfigBasedService.HasValue)
-                            {
-                                action.ConfigBasedService = service.ConfigBasedService;
                             }
                         }
                     }
@@ -1215,7 +1192,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "BaseAction",
                                      options.Extension,
                                      options.Templates.BaseActionTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.ParentAction, action.ConfigBasedService },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.ParentAction },
                                      $"{actionDir}\\BaseAction{options.Extension}",
                                      options.Overwrite,
                                      ref warnings[row]);
@@ -1227,7 +1204,7 @@ namespace Locust.Service.Moon.CodeGenerator
                                      "BaseAction.Partial",
                                      options.Extension,
                                      options.Templates.BaseActionPartialTemplate,
-                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.ParentAction, action.ConfigBasedService },
+                                     new { config.Namespace, config.Service, Action = action.Name, action.Usings, action.ParentAction },
                                      $"{actionDir}\\BaseAction.Partial{options.Extension}",
                                      false,
                                      ref temp);
@@ -1420,7 +1397,7 @@ namespace Locust.Service.Moon.CodeGenerator
         }
         static void Start(string[] args)
         {
-            logger.Log($"Locust Service Moon Code Generator v{ConfigVersion}");
+            logger.Log($"Locust Service Moon Code Generator v{Version}");
 
             var gor = GetOptions(args);
 

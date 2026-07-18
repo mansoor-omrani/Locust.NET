@@ -7,10 +7,6 @@ namespace @Model.Namespace
 {
 	public partial class @(Model.Service + Model.Suffix) : @(Model.Service)Base
     {
-        public @(Model.Service + Model.Suffix)Config StrongConfig
-        {
-            get { return Config as @(Model.Service + Model.Suffix)Config; }
-        }
 @foreach (var action in Model.Actions)
 {
 	if (!string.IsNullOrEmpty(action.Name))

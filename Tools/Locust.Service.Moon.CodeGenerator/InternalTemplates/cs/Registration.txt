@@ -11,11 +11,6 @@ namespace @Model.Namespace
         public void Build()
         {
 @{
-	foreach (var c in Model.Concretes)
-	{
-			<text>Add(typeof(@(Model.Service + c.Suffix)Config), typeof(@(Model.Service + c.Suffix)Config));</text>
-	}
-
 	var suffix = "";
 	var actionSuffix = "";
 
@@ -28,7 +23,6 @@ namespace @Model.Namespace
 			break;
 		}
 	}
-			<text>Add(typeof(@(Model.Service)BaseConfig), typeof(@(Model.Service)BaseConfig));</text>
 	if (!string.IsNullOrEmpty(suffix))
 	{
 			<text>Add(typeof(@(Model.Service)Base), typeof(@(Model.Service + suffix)));</text>

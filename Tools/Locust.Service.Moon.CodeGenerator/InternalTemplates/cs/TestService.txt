@@ -15,7 +15,7 @@ namespace @Model.Namespace
 	}
 }
 
-        public @(Model.Service + Model.Suffix)(@(Model.Service)Config config): base(config)
+        public @(Model.Service + Model.Suffix)
         {
 @foreach (var action in Model.Actions)
 {

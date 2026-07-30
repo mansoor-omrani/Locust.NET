@@ -10,6 +10,12 @@ using Locust.Logging;
 using Newtonsoft.Json;
 using RazorEngine;
 using RazorEngine.Templating;
+using Scriban;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Locust.Service.Moon.CodeGenerator
 {
@@ -1445,11 +1451,51 @@ namespace Locust.Service.Moon.CodeGenerator
 ", "foo1", null, new { Name = "Ali" });
             Console.WriteLine(output);
         }
+        public class Product
+        {
+            public string Name { get; set; }
+            public decimal Price { get; set; }
+            public int Stock { get; set; }
+        }
+        static void test_scriban1()
+        {
+            // 1. تعریف قالب (Template) با foreach و if/else
+            string templateText = @"
+لیست محصولات:
+{{ for product in products }}
+    - {{ product.Name }}:
+      {{ if product.Stock > 0 }}
+        قیمت: {{ product.Price }} تومان (موجودی: {{ product.Stock }} عدد)
+      {{ else }}
+        وضعیت: ناموجود
+      {{ end }}
+{{ end }}
+
+تعداد کل محصولات: {{ products.size }}
+";
+
+            // 2. ایجاد داده (مدل)
+            var products = new List<Product>
+            {
+                new Product { Name = "Laptop", Price = 35000000, Stock = 5 },
+                new Product { Name = "Mouse", Price = 250000, Stock = 0 },
+                new Product { Name = "Keyboard", Price = 850000, Stock = 12 },
+                new Product { Name = "Monitor", Price = 0, Stock = 0 } // قیمت صفر و موجودی صفر
+            };
+
+            // 3. پارس و رندر کردن قالب
+            var template = Template.Parse(templateText);
+            var result = template.Render(new { products });
+
+            // 4. چاپ خروجی
+            Console.WriteLine(result);
+        }
         static void Main(string[] args)
         {
-            Start(args);
+            //Start(args);
             //test1(args);
             //testRazor();
+            test_scriban1();
 #if DEBUG
             System.Console.ReadKey();
 #endif

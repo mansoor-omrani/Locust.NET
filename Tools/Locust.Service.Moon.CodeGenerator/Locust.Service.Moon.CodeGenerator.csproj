@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\Scriban.7.2.5\build\Scriban.props" Condition="Exists('..\..\packages\Scriban.7.2.5\build\Scriban.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -51,14 +52,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.AsyncInterfaces.10.0.8\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>g:\nuget\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine, Version=3.10.0.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
       <HintPath>g:\nuget\packages\RazorEngine.3.10.0\lib\net45\RazorEngine.dll</HintPath>
     </Reference>
+    <Reference Include="Scriban, Version=7.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Scriban.7.2.5\lib\netstandard2.0\Scriban.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Pipelines, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Pipelines.10.0.8\lib\net462\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Text.Encodings.Web.10.0.8\lib\net462\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Text.Json.10.0.8\lib\net462\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple" />
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>g:\nuget\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
     </Reference>
@@ -129,35 +162,19 @@
   <ItemGroup>
     <EmbeddedResource Include="InternalTemplates\cs\Registration.Partial.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Library\Locust.AppPath\Locust.AppPath.csproj">
-      <Project>{2b5a6741-635a-406d-8af9-fd74ff54b1d4}</Project>
-      <Name>Locust.AppPath</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.ConsoleHelper\Locust.ConsoleHelper.csproj">
-      <Project>{572501dc-d5c2-49d3-8e7f-3f92acd8e381}</Project>
-      <Name>Locust.ConsoleHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.Conversion\Locust.Conversion.csproj">
-      <Project>{e4622d06-601d-4f35-878a-0a0fb5d271df}</Project>
-      <Name>Locust.Conversion</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.Extensions\Locust.Extensions.csproj">
-      <Project>{1f214c8e-c72f-4eb3-956a-058c16d3a640}</Project>
-      <Name>Locust.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.Logging\Locust.Logging.csproj">
-      <Project>{d0c79bfd-8d65-41b4-90bb-ad65e2646d4a}</Project>
-      <Name>Locust.Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Library\Locust.Service\Locust.Service.csproj">
-      <Project>{e40a0cc9-4224-452d-b2ab-c62ff9b0f9c8}</Project>
-      <Name>Locust.Service</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Scriban.7.2.5\build\Scriban.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Scriban.7.2.5\build\Scriban.props'))" />
+    <Error Condition="!Exists('..\..\packages\Scriban.7.2.5\build\Scriban.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Scriban.7.2.5\build\Scriban.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Scriban.7.2.5\build\Scriban.targets" Condition="Exists('..\..\packages\Scriban.7.2.5\build\Scriban.targets')" />
 </Project>
